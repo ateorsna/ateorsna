@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ATE ORSNA – Organización y Trabajo</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f4f4f4;
+    }
+
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 60vh;
+      overflow: hidden;
+    }
+
+    .hero iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.45);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+      text-shadow: 1px 1px 4px #000;
+    }
+
+    .sub {
+      font-size: 1.2rem;
+      max-width: 700px;
+      text-shadow: 1px 1px 3px #000;
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO con el clip -->
+<div class="hero">
+  <iframe 
+    src="https://www.youtube.com/embed/ID_DEL_VIDEO?start=SEGUNDOS&autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&loop=1&playlist=ID_DEL_VIDEO">
+  </iframe>
+
+  <div class="overlay">
+    <h1>ATE ORSNA</h1>
+    <div class="sub">Organización, representación sindical y defensa de los derechos de las trabajadoras y trabajadores del ORSNA.</div>
+  </div>
+</div>
+
+</body>
+</html>
