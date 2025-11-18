@@ -160,14 +160,44 @@
       border-radius: 10px;
       overflow: hidden;
       box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+      background: #000;
+      padding-bottom: 10px;
     }
 
-    /* 👇 Necesario para el video embebido dinámico */
+    /* iframe generado por la API de YouTube */
     #player iframe {
       width: 100%;
       height: 360px;
       border: none;
       display: block;
+    }
+
+    .video-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 8px;
+    }
+
+    .video-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: "Roboto", sans-serif;
+    }
+
+    .video-btn--primary {
+      background: var(--verde-ate);
+      color: #fff;
+    }
+
+    .video-btn--secondary {
+      background: #fff;
+      color: var(--verde-oscuro);
+      border: 1px solid var(--verde-ate);
     }
 
     section {
@@ -276,7 +306,7 @@
       .content {
         padding: 20px;
       }
-      .hero-video iframe {
+      #player iframe {
         height: 220px;
       }
     }
@@ -287,6 +317,7 @@
   <!-- BARRA LATERAL -->
   <aside class="sidebar">
     <div class="brand">
+      <!-- Cambiá el src por la ruta real de tu logo -->
       <img src="ateorsna.png" alt="ATE ORSNA" class="brand-logo">
       <div>
         <div class="brand-text-main">ATE ORSNA</div>
@@ -319,9 +350,18 @@
         Un espacio para organizar, informar y defender nuestros derechos como trabajadoras y trabajadores del Organismo.
       </p>
 
-      <!-- Clip reemplazado por reproductor con loop -->
+      <!-- Reproductor con controles personalizados -->
       <div class="hero-video">
         <div id="player"></div>
+        <div class="video-actions">
+          <button id="play-button" class="video-btn video-btn--primary">Reproducir video</button>
+          <button id="watch-youtube" class="video-btn video-btn--secondary" style="display:none;">
+            Ver en YouTube
+          </button>
+          <button id="replay-button" class="video-btn video-btn--primary" style="display:none;">
+            Ver de nuevo
+          </button>
+        </div>
       </div>
     </header>
 
@@ -362,8 +402,7 @@
           <span class="tag">Ejemplo</span>
           <h3>Comunicado 1/2025</h3>
           <p>
-            Comunic
-ó de la Junta Interna. Este espacio se irá
+            Comunicado de la Junta Interna. Este espacio se irá
             actualizando con materiales reales a medida que avance el sitio.
           </p>
         </article>
@@ -382,7 +421,9 @@
     <!-- CONTACTO -->
     <section id="contacto">
       <h2>Contacto</h2>
-      <p>Datos de contacto</p>
+      <p>
+        Datos de contacto
+      </p>
 
       <ul class="contact-list">
         <li><strong>Correo general:</strong> ateorsna@gmail.com (ejemplo)</li>
@@ -390,12 +431,14 @@
         <li><strong>Presencial:</strong> Oficina de la Junta Interna en el ORSNA (6to piso T4 Aeroparque)</li>
       </ul>
 
-      <p class="muted">Esta es una versión inicial de prueba.</p>
+      <p class="muted">
+        Esta es una versión inicial de prueba.
+      </p>
     </section>
   </main>
 
   <!-- ============================
-       SCRIPT DEL LOOP DEL VIDEO
+       SCRIPT DEL VIDEO (2 veces y se detiene)
        ============================ -->
   <script>
     const VIDEO_ID = "GB7A7Iqzd5E";
@@ -408,6 +451,12 @@
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
     let player;
+    let loopCount = 0;
+    let intervalId = null;
+
+    const playButton    = document.getElementById('play-button');
+    const replayButton  = document.getElementById('replay-button');
+    const watchYoutube  = document.getElementById('watch-youtube');
 
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('player', {
@@ -419,23 +468,74 @@
           controls: 0,
           rel: 0,
           modestbranding: 1,
-          autoplay: 1,
-          mute: 1,
+          autoplay: 0,  // no autoplay, espera el clic
+          mute: 0,
           playsinline: 1
         },
-        events: { onStateChange: onPlayerStateChange }
+        events: {
+          onStateChange: onPlayerStateChange
+        }
       });
+    }
+
+    function startIntervalLoopChecker() {
+      // evita múltiples intervalos superpuestos
+      if (intervalId !== null) return;
+      intervalId = setInterval(() => {
+        if (!player || typeof player.getCurrentTime !== "function") return;
+        const t = player.getCurrentTime();
+        if (t >= END) {
+          loopCount++;
+          if (loopCount < 2) {
+            player.seekTo(START);
+          } else {
+            player.stopVideo();
+            clearInterval(intervalId);
+            intervalId = null;
+            playButton.style.display = 'none';
+            replayButton.style.display = 'inline-block';
+            watchYoutube.style.display = 'inline-block';
+          }
+        }
+      }, 500);
     }
 
     function onPlayerStateChange(event) {
       if (event.data === YT.PlayerState.PLAYING) {
-        setInterval(() => {
-          if (player.getCurrentTime() >= END) {
-            player.seekTo(START);
-          }
-        }, 500);
+        startIntervalLoopChecker();
       }
     }
+
+    // Reproducir por primera vez con sonido
+    playButton.addEventListener('click', () => {
+      if (!player) return;
+      loopCount = 0;
+      playButton.style.display = 'none';
+      replayButton.style.display = 'none';
+      watchYoutube.style.display = 'none';
+      player.seekTo(START);
+      player.unMute();
+      player.setVolume(100);
+      player.playVideo();
+    });
+
+    // Ver de nuevo (otras 2 veces)
+    replayButton.addEventListener('click', () => {
+      if (!player) return;
+      loopCount = 0;
+      replayButton.style.display = 'none';
+      watchYoutube.style.display = 'none';
+      player.seekTo(START);
+      player.unMute();
+      player.setVolume(100);
+      player.playVideo();
+    });
+
+    // Ver en YouTube
+    watchYoutube.addEventListener('click', () => {
+      const url = "https://www.youtube.com/watch?v=" + VIDEO_ID + "&t=" + START + "s";
+      window.open(url, "_blank");
+    });
   </script>
 
 </body>
