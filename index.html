@@ -162,7 +162,8 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.18);
     }
 
-    .hero-video iframe {
+    /* 👇 Necesario para el video embebido dinámico */
+    #player iframe {
       width: 100%;
       height: 360px;
       border: none;
@@ -286,7 +287,6 @@
   <!-- BARRA LATERAL -->
   <aside class="sidebar">
     <div class="brand">
-      <!-- Cambiá el src por la ruta real de tu logo -->
       <img src="ateorsna.png" alt="ATE ORSNA" class="brand-logo">
       <div>
         <div class="brand-text-main">ATE ORSNA</div>
@@ -319,12 +319,9 @@
         Un espacio para organizar, informar y defender nuestros derechos como trabajadoras y trabajadores del Organismo.
       </p>
 
-      <!-- Clip de YouTube como apertura -->
+      <!-- Clip reemplazado por reproductor con loop -->
       <div class="hero-video">
-        <iframe
-          src="https://youtube.com/clip/Ugkxh0YpcP7Vk6484N2KE1Hd_LTKZ3-WWTDL?si=LNKcCS0Fv75MGsB_?autoplay=1&mute=1&loop=1"
-          title="Clip ATE ORSNA">
-        </iframe>
+        <div id="player"></div>
       </div>
     </header>
 
@@ -365,7 +362,8 @@
           <span class="tag">Ejemplo</span>
           <h3>Comunicado N°1</h3>
           <p>
-            Comunicación de la Junta Interna. Este espacio se irá
+            Comunic
+ó de la Junta Interna. Este espacio se irá
             actualizando con materiales reales a medida que avance el sitio.
           </p>
         </article>
@@ -384,9 +382,7 @@
     <!-- CONTACTO -->
     <section id="contacto">
       <h2>Contacto</h2>
-      <p>
-        Datos de contacto
-        </p>
+      <p>Datos de contacto</p>
 
       <ul class="contact-list">
         <li><strong>Correo general:</strong> ateorsna@gmail.com (ejemplo)</li>
@@ -394,11 +390,53 @@
         <li><strong>Presencial:</strong> Oficina de la Junta Interna en el ORSNA (6to piso T4 Aeroparque)</li>
       </ul>
 
-      <p class="muted">
-        Esta es una versión inicial de prueba.
-      </p>
+      <p class="muted">Esta es una versión inicial de prueba.</p>
     </section>
   </main>
+
+  <!-- ============================
+       SCRIPT DEL LOOP DEL VIDEO
+       ============================ -->
+  <script>
+    const VIDEO_ID = "GB7A7Iqzd5E";
+    const START = 44 * 60;   // 44:00
+    const END   = 52 * 60;   // 52:00
+
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    let player;
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '360',
+        width: '100%',
+        videoId: VIDEO_ID,
+        playerVars: {
+          start: START,
+          controls: 0,
+          rel: 0,
+          modestbranding: 1,
+          autoplay: 1,
+          mute: 1,
+          playsinline: 1
+        },
+        events: { onStateChange: onPlayerStateChange }
+      });
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.PLAYING) {
+        setInterval(() => {
+          if (player.getCurrentTime() >= END) {
+            player.seekTo(START);
+          }
+        }, 500);
+      }
+    }
+  </script>
 
 </body>
 </html>
