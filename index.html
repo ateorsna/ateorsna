@@ -3,70 +3,405 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ATE ORSNA – Organización y Trabajo</title>
+  <title>ATE ORSNA – Junta Interna</title>
+
+  <!-- Tipografías estilo ATE Capital -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
-    body {
+    :root {
+      --verde-ate: #00923f;
+      --verde-oscuro: #006b2d;
+      --gris-fondo: #f3f4f5;
+      --texto-principal: #222;
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: #f4f4f4;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Roboto", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--gris-fondo);
+      color: var(--texto-principal);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ====== SIDEBAR ====== */
+
+    .sidebar {
+      width: 260px;
+      background: var(--verde-ate);
+      color: #fff;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      margin-bottom: 32px;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 72px;
+      height: auto;
+    }
+
+    .brand-text-main {
+      font-family: "Roboto Condensed", sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+
+    .brand-text-sub {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 4px;
+    }
+
+    nav h2 {
+      font-family: "Roboto Condensed", sans-serif;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      opacity: 0.9;
+      margin-bottom: 10px;
+    }
+
+    .nav-list {
+      list-style: none;
+    }
+
+    .nav-list li {
+      margin-bottom: 6px;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 10px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      color: #fff;
+      font-size: 0.98rem;
+      font-weight: 500;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .nav-link:hover {
+      background: rgba(0, 0, 0, 0.16);
+      transform: translateX(2px);
+    }
+
+    .nav-link--primary {
+      background: var(--verde-oscuro);
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      font-size: 0.8rem;
+      opacity: 0.85;
+      line-height: 1.4;
+    }
+
+    /* ====== CONTENIDO ====== */
+
+    .content {
+      flex: 1;
+      padding: 24px 32px;
+      max-width: 1100px;
+      margin: 0 auto;
     }
 
     .hero {
-      position: relative;
-      width: 100%;
-      height: 60vh;
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .hero-label {
+      font-family: "Roboto Condensed", sans-serif;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--verde-ate);
+      margin-bottom: 8px;
+    }
+
+    .hero-title {
+      font-family: "Roboto Condensed", sans-serif;
+      font-size: 2.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      max-width: 640px;
+      color: #444;
+    }
+
+    .hero-video {
+      margin-top: 20px;
+      border-radius: 10px;
       overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.18);
     }
 
-    .hero iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
+    .hero-video iframe {
       width: 100%;
-      height: 100%;
-      pointer-events: none;
+      height: 360px;
+      border: none;
+      display: block;
     }
 
-    .overlay {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.45);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      color: #fff;
-      text-align: center;
-      padding: 20px;
+    section {
+      margin-bottom: 32px;
     }
 
-    h1 {
-      font-size: 2.8rem;
-      margin-bottom: 15px;
-      text-shadow: 1px 1px 4px #000;
+    section h2 {
+      font-family: "Roboto Condensed", sans-serif;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 10px;
+      color: var(--verde-oscuro);
     }
 
-    .sub {
-      font-size: 1.2rem;
-      max-width: 700px;
-      text-shadow: 1px 1px 3px #000;
+    section p {
+      font-size: 0.98rem;
+      line-height: 1.6;
+      color: #444;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 16px 18px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+
+    .card h3 {
+      font-family: "Roboto Condensed", sans-serif;
+      font-size: 1.05rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(0,146,63,0.12);
+      color: var(--verde-oscuro);
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .contact-list {
+      list-style: none;
+      font-size: 0.96rem;
+      line-height: 1.7;
+    }
+
+    .contact-list strong {
+      font-weight: 600;
+    }
+
+    .muted {
+      font-size: 0.9rem;
+      color: #777;
+      margin-top: 8px;
+    }
+
+    /* ====== RESPONSIVE ====== */
+
+    @media (max-width: 860px) {
+      body {
+        flex-direction: column;
+      }
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        align-items: center;
+        padding: 12px 16px;
+        gap: 16px;
+      }
+      .brand {
+        margin-bottom: 0;
+      }
+      nav h2 {
+        display: none;
+      }
+      .nav-list {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .nav-link {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+      }
+      .sidebar-footer {
+        display: none;
+      }
+      .content {
+        padding: 20px;
+      }
+      .hero-video iframe {
+        height: 220px;
+      }
     }
   </style>
 </head>
 <body>
 
-<!-- HERO con el clip -->
-<div class="hero">
-  <iframe 
-    src="https://www.youtube.com/embed/ID_DEL_VIDEO?start=SEGUNDOS&autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&loop=1&playlist=ID_DEL_VIDEO">
-  </iframe>
+  <!-- BARRA LATERAL -->
+  <aside class="sidebar">
+    <div class="brand">
+      <!-- Cambiá el src por la ruta real de tu logo -->
+      <img src="logo-ate-orsna.png" alt="ATE ORSNA" class="brand-logo">
+      <div>
+        <div class="brand-text-main">ATE ORSNA</div>
+        <div class="brand-text-sub">Junta Interna – Comisión Interna</div>
+      </div>
+    </div>
 
-  <div class="overlay">
-    <h1>ATE ORSNA</h1>
-    <div class="sub">Organización, representación sindical y defensa de los derechos de las trabajadoras y trabajadores del ORSNA.</div>
-  </div>
-</div>
+    <nav>
+      <h2>Secciones</h2>
+      <ul class="nav-list">
+        <li><a class="nav-link nav-link--primary" href="#junta-interna">Junta Interna</a></li>
+        <li><a class="nav-link" href="#publicaciones">Publicaciones</a></li>
+        <li><a class="nav-link" href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+      Sitio de prueba de la Comisión Interna de ATE ORSNA.
+      <br>Próximamente más contenidos, informes y materiales gremiales.
+    </div>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="content">
+    <header class="hero">
+      <div class="hero-label">Sitio en construcción</div>
+      <h1 class="hero-title">Junta Interna ATE ORSNA</h1>
+      <p class="hero-subtitle">
+        Esta es la página de inicio de la Comisión Interna de ATE en el ORSNA.
+        Un espacio para organizar, informar y defender nuestros derechos como
+        trabajadoras y trabajadores del organismo.
+      </p>
+
+      <!-- Clip de YouTube como apertura -->
+      <div class="hero-video">
+        <iframe
+          src="https://www.youtube.com/embed/clip/Ugkxh0YpcP7Vk6484N2KE1Hd_LTKZ3-WWTDL?autoplay=1&mute=1&loop=1"
+          title="Clip ATE ORSNA">
+        </iframe>
+      </div>
+    </header>
+
+    <!-- JUNTA INTERNA -->
+    <section id="junta-interna">
+      <h2>Junta Interna</h2>
+      <p>
+        Acá podés contar quiénes integran la Junta Interna, cómo se organiza la
+        representación gremial dentro del ORSNA, y cuáles son las principales
+        líneas de trabajo: defensa salarial, condiciones de trabajo, convenios,
+        organización por sectores, etc.
+      </p>
+
+      <div class="grid" style="margin-top:14px;">
+        <article class="card">
+          <span class="tag">Representación</span>
+          <h3>Delegadas y delegados</h3>
+          <p>Listado de representantes por área, contacto básico y referencias.</p>
+        </article>
+        <article class="card">
+          <span class="tag">Trabajo</span>
+          <h3>Comisiones y equipos</h3>
+          <p>CyMAT, género y diversidad, formación, comunicación, entre otras comisiones.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- PUBLICACIONES -->
+    <section id="publicaciones">
+      <h2>Publicaciones</h2>
+      <p>
+        En esta sección vas a poder subir comunicados, informes, actas y materiales
+        producidos por la Junta Interna y la Comisión Interna de ATE ORSNA.
+      </p>
+
+      <div class="grid">
+        <article class="card">
+          <span class="tag">Ejemplo</span>
+          <h3>Comunicado N°1</h3>
+          <p>
+            Primer comunicado de prueba de la Junta Interna. Este espacio se irá
+            actualizando con materiales reales a medida que avance el sitio.
+          </p>
+        </article>
+
+        <article class="card">
+          <span class="tag">Informes</span>
+          <h3>Informes y materiales</h3>
+          <p>
+            Enlazá acá informes en PDF, tableros, mapas u otros materiales que
+            quieras compartir con las y los compañeros.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto">
+      <h2>Contacto</h2>
+      <p>
+        Datos de contacto básicos para la Junta Interna / Comisión Interna.
+        Después los ajustamos con los correos y canales reales.
+      </p>
+
+      <ul class="contact-list">
+        <li><strong>Correo general:</strong> junta.interna@orsna.gob.ar (ejemplo)</li>
+        <li><strong>Canal interno:</strong> Lista de correo / grupo de mensajes (a definir)</li>
+        <li><strong>Presencial:</strong> Oficina de la Junta Interna en el ORSNA (piso y sector a definir)</li>
+      </ul>
+
+      <p class="muted">
+        Esta es una versión inicial de prueba. Se puede sumar un formulario de contacto,
+        enlaces a redes y más secciones a medida que el sitio crezca.
+      </p>
+    </section>
+  </main>
 
 </body>
 </html>
