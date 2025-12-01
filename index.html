@@ -345,7 +345,7 @@
       <label for="salarioActual">Tu salario mensual actual (en $ de hoy)</label>
       <input type="number" id="salarioActual" placeholder="Ej: 2.000.000" min="0" step="100">
       <small>
-        Se estima tu salario de diciembre 2015 dividiéndolo por <strong>31,71</strong>.
+        Se estima tu salario de diciembre 2015. No se registra ningún dato personal.
       </small>
     </div>
     <button type="button" id="btnCalcularSalario">Calcular</button>
@@ -412,13 +412,15 @@
   }
 
   /* Fila con input y botón al lado */
-  .salario-row {
-    display: flex;
-    align-items: flex-end;
-    gap: 1rem;
-    margin-bottom: 0.8rem;
-    flex-wrap: wrap;
-  }
+.salario-row {
+  display: flex;
+  justify-content: center;   /* ← CENTRAR todo */
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+  flex-wrap: wrap;
+}
+
 
   .salario-col {
     flex: 1 1 260px;
@@ -432,14 +434,16 @@
     font-weight: 600;
   }
 
-  .salario-col input {
-    padding: 0.45rem 0.55rem;
-    border-radius: 6px;
-    border: 1px solid #64748b;
-    background: #0b1720;
-    color: #f9fafb;
-    font-size: 0.95rem;
-  }
+.salario-col input {
+  width: 180px;          /* ANTES era automático → ahora es chico */
+  padding: 0.3rem 0.4rem;
+  border-radius: 6px;
+  border: 1px solid #64748b;
+  background: #0b1720;
+  color: #f9fafb;
+  font-size: 0.85rem;     /* más chico */
+}
+
 
   .salario-col input:focus {
     outline: 2px solid #38bdf8;
@@ -451,17 +455,18 @@
     color: #94a3b8;
   }
 
-  #btnCalcularSalario {
-    padding: 0.55rem 1.4rem;
-    border-radius: 999px;
-    border: none;
-    cursor: pointer;
-    background: #22c55e;
-    color: #052e16;
-    font-weight: 600;
-    font-size: 0.95rem;
-    white-space: nowrap;
-  }
+#btnCalcularSalario {
+  padding: 0.4rem 1rem;     /* más chico */
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: #22c55e;
+  color: #052e16;
+  font-weight: 600;
+  font-size: 0.85rem;       /* más pequeño */
+  white-space: nowrap;
+}
+
 
   #btnCalcularSalario:hover {
     filter: brightness(1.05);
