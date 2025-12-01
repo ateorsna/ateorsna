@@ -331,12 +331,12 @@
 
 
 
-<!-- ==== GADGET PODER ADQUISITIVO – SALARIO ACTUAL + 3 CONTADORES ==== -->
+<!-- ==== GADGET PODER ADQUISITIVO – SALARIO ACTUAL + 3 CONTADORES + AÑO A AÑO ==== -->
 <section id="gadget-salario-2016" class="salario-card">
   <h2>¿Cuánto perdiste de poder adquisitivo desde diciembre 2016?</h2>
   <p class="salario-subtitulo">
     Ingresá tu salario actual y calculamos cuánto deberías estar ganando hoy
-    y cuánto dejaste de cobrar por la inflación.
+    y cuánta plata dejaste de cobrar por la inflación.
   </p>
 
   <!-- FILA: INPUT + BOTÓN AL LADO -->
@@ -345,13 +345,13 @@
       <label for="salarioActual">Tu salario mensual actual (en $ de hoy)</label>
       <input type="number" id="salarioActual" placeholder="Ej: 2.000.000" min="0" step="100">
       <small>
-        No se guarda ningún dato personal.
+        Se estima tu salario de diciembre 2016 dividiéndolo por <strong>31,71</strong>.
       </small>
     </div>
     <button type="button" id="btnCalcularSalario">Calcular</button>
   </div>
 
-  <!-- SOLO CONTADORES (se muestran luego del cálculo) -->
+  <!-- CONTADORES PRINCIPALES -->
   <div id="bloquePerdidas" class="salario-bloque resultados" style="display:none;">
     <div class="perdidas-header">
       <img src="dineroseva.png" alt="Pesos con alas" class="icono-dinero">
@@ -376,6 +376,14 @@
         <div class="counter counter-neg" id="contadorPerdidaTotal" data-suffix=" acumulado"></div>
       </div>
     </div>
+
+    <!-- PÉRDIDA POR AÑO -->
+    <div class="year-loss-container" id="yearLossContainer" style="display:none;">
+      <div class="year-loss-title">Pérdida acumulada por año</div>
+      <div class="year-loss-grid" id="yearLossGrid">
+        <!-- acá se llenan dinámicamente los contadores por año -->
+      </div>
+    </div>
   </div>
 </section>
 
@@ -384,7 +392,7 @@
   #gadget-salario-2016.salario-card {
     margin: 2rem auto;
     max-width: 960px;              /* más ancho */
-    padding: 1.25rem 1.5rem;       /* un poco más baja */
+    padding: 1.25rem 1.5rem;       /* más baja */
     border-radius: 10px;
     background: #10212f;
     color: #f9fafb;
@@ -482,6 +490,7 @@
     display: grid;
     grid-template-columns: repeat(3, minmax(0,1fr));
     gap: 0.75rem;
+    margin-bottom: 0.6rem;
   }
 
   .loss-item {
@@ -511,7 +520,7 @@
 
   /* Estilo de contadores – más compactos */
   #gadget-salario-2016 .counter {
-    font-size: 2rem;   /* más chico */
+    font-size: 2rem;
     font-weight: 800;
     position: relative;
     display: inline-block;
@@ -545,6 +554,41 @@
     transform: translateX(0);
   }
 
+  /* Pérdida por año */
+  .year-loss-container {
+    margin-top: 0.6rem;
+    padding-top: 0.5rem;
+    border-top: 1px dashed rgba(148,163,184,0.5);
+  }
+
+  .year-loss-title {
+    font-size: 0.85rem;
+    color: #cbd5f5;
+    margin-bottom: 0.35rem;
+    text-align: center;
+  }
+
+  .year-loss-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 0.4rem;
+  }
+
+  .year-loss-item {
+    text-align: center;
+    padding: 0.25rem 0.2rem;
+  }
+
+  .year-label {
+    font-size: 0.78rem;
+    color: #e5e7eb;
+    margin-bottom: 0.1rem;
+  }
+
+  .year-loss-item .counter {
+    font-size: 1.4rem;
+  }
+
   @media (max-width: 600px) {
     #gadget-salario-2016.salario-card {
       margin: 1rem;
@@ -560,6 +604,8 @@
   // IPC_FACTOR se calcula automáticamente leyendo Docs/ipc.csv
   let IPC_FACTOR = 1; // se ajusta al cargar el CSV
   let normalizedIndices = []; // IPC_t / IPC_dic2016 para cada mes
+
+  const CURRENT_YEAR = new Date().getFullYear();
 
   const formatoPesos = new Intl.NumberFormat("es-AR", {
     style: "currency",
@@ -637,6 +683,8 @@
     const salarioActual = parseFloat(String(salarioActualInput.value).replace(",", "."));
 
     const bloquePerdidas = document.getElementById("bloquePerdidas");
+    const yearLossContainer = document.getElementById("yearLossContainer");
+    const yearLossGrid = document.getElementById("yearLossGrid");
 
     const contadorDeberia = document.getElementById("contadorDeberia");
     const contadorPerdidaMensual = document.getElementById("contadorPerdidaMensual");
@@ -644,6 +692,8 @@
 
     // Ocultamos resultados si algo está mal
     bloquePerdidas.style.display = "none";
+    yearLossContainer.style.display = "none";
+    yearLossGrid.innerHTML = "";
 
     if (isNaN(salarioActual) || salarioActual <= 0) {
       alert("Por favor, ingresá tu salario mensual actual.");
@@ -662,21 +712,45 @@
 
     // 4) Pérdida acumulada desde dic-2016 sumando mes a mes (aprox)
     let perdidaTotal = 0;
+    const perYearLoss = {};
+
     if (normalizedIndices.length > 1 && IPC_FACTOR > 0) {
       const k = SALARIO_FACTOR / IPC_FACTOR; // proporción sueldo/precios
 
+      // i = índice de mes en normalizedIndices
+      // i = 0 -> dic 2016 (base)
+      // i = 1 -> ene 2017, etc.
       for (let i = 1; i < normalizedIndices.length; i++) {
         const factorMes = normalizedIndices[i]; // IPC_t / IPC_dic2016
         const salarioIdealMes = salario2016_estimado * factorMes;
         const salarioRealMes = salarioIdealMes * k; // rezagado
-        perdidaTotal += (salarioIdealMes - salarioRealMes);
+        const diff = salarioIdealMes - salarioRealMes;
+
+        perdidaTotal += diff;
+
+        // calcular año aproximado del mes i
+        const monthsSinceJan2017 = i - 1; // i=1 -> 0 (ene 2017)
+        const year = 2017 + Math.floor(monthsSinceJan2017 / 12);
+
+        if (!perYearLoss[year]) perYearLoss[year] = 0;
+        perYearLoss[year] += diff;
       }
     } else {
+      // fallback simple si no hay IPC: aprox = pérdida mensual * 96 meses (~8 años)
       const mesesAprox = 96;
       perdidaTotal = perdidaMensual * mesesAprox;
+
+      // repartir linealmente una pérdida aproximada por año (2017-actual)
+      const yearStart = 2017;
+      const yearEnd = CURRENT_YEAR;
+      const years = yearEnd - yearStart + 1;
+      const approxPerYear = perdidaTotal / years;
+      for (let y = yearStart; y <= yearEnd; y++) {
+        perYearLoss[y] = approxPerYear;
+      }
     }
 
-    // Mostrar contadores animados
+    // Mostrar contadores principales
     bloquePerdidas.style.display = "block";
 
     // 1) Deberías estar ganando hoy (contador principal)
@@ -687,9 +761,42 @@
 
     // 3) Pérdida total acumulada (rojo, con "-")
     animateMoneyCounter(contadorPerdidaTotal, Math.round(perdidaTotal), { negative: true });
+
+    // 5) Pérdida por año: contadores por año desde 2017 hasta año actual
+    const yearStart = 2017;
+    const yearsInData = Object.keys(perYearLoss).map(y => parseInt(y, 10));
+    const maxYearInData = yearsInData.length ? Math.max(...yearsInData) : CURRENT_YEAR;
+    const yearEnd = Math.min(CURRENT_YEAR, maxYearInData);
+
+    if (yearEnd >= yearStart) {
+      for (let y = yearStart; y <= yearEnd; y++) {
+        const lossYear = perYearLoss[y] || 0;
+
+        const item = document.createElement("div");
+        item.className = "year-loss-item";
+
+        const label = document.createElement("div");
+        label.className = "year-label";
+        label.textContent = y;
+
+        const counter = document.createElement("div");
+        counter.className = "counter counter-neg";
+        counter.setAttribute("data-suffix", "");
+        counter.textContent = "- " + formatoPesos.format(0);
+
+        item.appendChild(label);
+        item.appendChild(counter);
+        yearLossGrid.appendChild(item);
+
+        animateMoneyCounter(counter, Math.round(lossYear), { negative: true });
+      }
+
+      yearLossContainer.style.display = "block";
+    }
   });
 </script>
-<!-- ==== FIN GADGET PODER ADQUISITIVO – SALARIO ACTUAL + 3 CONTADORES ==== -->
+<!-- ==== FIN GADGET PODER ADQUISITIVO – SALARIO ACTUAL + 3 CONTADORES + AÑO A AÑO ==== -->
+
 
       <!-- Video: una reproducción, con sonido al darle play, desde el minuto 44 -->
       <div class="hero-video">
