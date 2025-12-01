@@ -340,31 +340,22 @@
       </div>
     </header>
 
-  <!-- ==== GADGET PODER ADQUISITIVO – BASE DIC 2016 + CONTADOR ==== -->
+<!-- ==== GADGET PODER ADQUISITIVO – SALARIO ACTUAL + CONTADORES ==== -->
 <section id="gadget-salario-2016" class="salario-card">
   <h2>¿Cuánto perdiste de poder adquisitivo desde diciembre 2016?</h2>
   <p class="salario-subtitulo">
-    Ingresá tus salarios y mirá cuánto deberías cobrar hoy para mantener
-    el mismo poder de compra que tenías en diciembre de 2016, según el IPC.
+    Ingresá tu salario actual y estimamos cuánto ganabas en diciembre de 2016,
+    cuánto deberías estar ganando hoy para no haber perdido poder adquisitivo
+    y cuánta plata dejaste de cobrar por la inflación.
   </p>
 
   <div class="salario-grid">
     <div class="salario-col">
       <label for="salarioActual">Tu salario mensual actual (en $ de hoy)</label>
-      <input type="number" id="salarioActual" placeholder="Ej: 850000" min="0" step="100">
+      <input type="number" id="salarioActual" placeholder="Ej: 2.000.000" min="0" step="100">
       <small>
-        Con este dato vemos cuánto “valdría” tu sueldo actual medido en precios de diciembre 2016.
-      </small>
-    </div>
-
-    <div class="salario-col">
-      <label for="salario2016">
-        Tu salario mensual en diciembre 2016
-      </label>
-      <input type="number" id="salario2016" placeholder="Ej: 15000" min="0" step="100">
-      <small>
-        Con este dato calculamos cuánto deberías cobrar hoy para mantener
-        el mismo poder de compra que tenías en diciembre 2016.
+        Usamos tu salario actual y lo dividimos por <strong>31,71</strong> para estimar
+        cuánto cobrabas (en promedio) en diciembre de 2016.
       </small>
     </div>
   </div>
@@ -374,41 +365,61 @@
   <div id="resultadoSalario" class="salario-resultado" style="display:none;">
     <h3>Resultados</h3>
 
-    <div id="bloqueDesdeActual" class="salario-bloque" style="display:none;">
-      <h4>A partir de tu salario actual</h4>
+    <div id="bloqueEstimacion2016" class="salario-bloque" style="display:none;">
+      <h4>Estimación de tu salario en diciembre 2016</h4>
       <p>
-        Tu salario actual de <span class="monto" id="mActual"></span><br>
-        equivale aproximadamente a <span class="monto" id="mEquiv2016"></span>
-        <strong>en precios de diciembre 2016</strong>.
+        A partir de tu salario actual de
+        <span class="monto" id="mActual"></span>, estimamos que en
+        <strong>diciembre 2016</strong> cobrabas aproximadamente
+        <span class="monto" id="m2016Estimado"></span>,
+        asumiendo que tu sueldo se multiplicó <strong>31,71 veces</strong> desde entonces.
       </p>
     </div>
 
     <hr>
 
-    <div id="bloqueDesde2016" class="salario-bloque" style="display:none;">
-      <h4>A partir de tu salario en diciembre 2016</h4>
+    <div id="bloqueDeberiaHoy" class="salario-bloque" style="display:none;">
+      <h4>¿Cuánto deberías ganar hoy para no haber perdido poder adquisitivo?</h4>
       <p>
-        Si en diciembre 2016 cobrabas <span class="monto" id="m2016"></span>,<br>
-        para <strong>no haber perdido poder adquisitivo</strong> hoy deberías
-        estar cobrando alrededor de
+        Si tu salario hubiera seguido la inflación (IPC), hoy deberías estar
+        ganando alrededor de
         <span class="monto" id="mNecesarioHoy"></span>.
       </p>
     </div>
 
     <hr>
 
-    <!-- BLOQUE CON CONTADOR ANIMADO DE PÉRDIDA -->
-    <div id="bloquePerdida" class="salario-bloque" style="display:none;">
-      <h4>¿Cuánta plata estás perdiendo por mes?</h4>
-      <p>Según este cálculo, estás dejando de cobrar aproximadamente:</p>
+    <!-- BLOQUE CON CONTADORES ANIMADOS -->
+    <div id="bloquePerdidas" class="salario-bloque" style="display:none;">
+      <h4>Lo que estás dejando de cobrar</h4>
+
+      <p>Según este cálculo, la pérdida de poder adquisitivo implica:</p>
 
       <div class="loss-row">
-        <div class="counter" id="contadorPerdida" data-suffix="/mes">$ 0</div>
+        <div>
+          <div class="counter" id="contadorPerdidaMensual" data-suffix="/mes">$ 0</div>
+          <div class="nota">de menos <strong>todos los meses</strong> hoy.</div>
+        </div>
       </div>
 
-      <p class="nota" id="textoExplicacionPerdida"></p>
+      <div class="loss-row" style="margin-top:1rem;">
+        <div>
+          <div class="counter" id="contadorPerdidaTotal" data-suffix=" acumulado">$ 0</div>
+          <div class="nota">
+            de plata que dejaste de cobrar
+            <strong>desde diciembre 2016 hasta el último mes del IPC</strong>,
+            sumando mes a mes.
+          </div>
+        </div>
+      </div>
+
+      <p class="nota" style="margin-top:0.75rem;">
+        Metodología (simplificada): estimamos tu sueldo de diciembre 2016 a partir de tu sueldo actual,
+        calculamos cómo debería haber evolucionado siguiendo el IPC (sin pérdida de poder adquisitivo)
+        y comparamos contra una trayectoria salarial que crece menos que los precios.
+      </p>
       <p class="nota">
-        Fuente: IPC (base dic-2016 = 100).
+        Fuente: IPC (base dic-2016 = 100) leído automáticamente desde <code>Docs/ipc.csv</code>.
       </p>
     </div>
   </div>
@@ -526,12 +537,13 @@
   .loss-row {
     display: flex;
     justify-content: center;
-    margin: 0.5rem 0 0.8rem;
+    margin: 0.5rem 0 0.3rem;
+    text-align: center;
   }
 
   /* Estilo del contador animado */
   #gadget-salario-2016 .counter {
-    font-size: 2.6rem;
+    font-size: 2.4rem;
     font-weight: 800;
     color: #22c55e;
     position: relative;
@@ -545,7 +557,7 @@
 
   #gadget-salario-2016 .counter::after {
     content: attr(data-suffix);
-    font-size: 0.45em;
+    font-size: 0.5em;
     margin-left: 6px;
     position: static;
     opacity: 0;
@@ -568,9 +580,12 @@
 </style>
 
 <script>
+  // Factor de crecimiento salarial observado (2016 -> hoy) que querés usar
+  const SALARIO_FACTOR = 31.71;
+
   // IPC_FACTOR se calcula automáticamente leyendo Docs/ipc.csv
-  // Valor de respaldo por si la carga falla
-  let IPC_FACTOR = 6.0; // fallback
+  let IPC_FACTOR = 1; // se ajusta al cargar el CSV
+  let normalizedIndices = []; // IPC_t / IPC_dic2016 para cada mes
 
   const formatoPesos = new Intl.NumberFormat("es-AR", {
     style: "currency",
@@ -587,7 +602,6 @@
 
     function tick(now) {
       const t = Math.min(1, (now - start) / DURATION_MS);
-      // easing suave (easeOutCubic)
       const eased = 1 - Math.pow(1 - t, 3);
       const value = Math.round(initial + (target - initial) * eased);
 
@@ -603,144 +617,115 @@
     requestAnimationFrame(tick);
   }
 
-  // Leer Docs/ipc.csv y calcular IPC_FACTOR = último_valor / primer_valor
-  // Suponemos columnas: año ; año-mes ; valor (o separadas por coma)
+  // Leer Docs/ipc.csv y calcular:
+  // - IPC_FACTOR = IPC_último / IPC_dic2016
+  // - normalizedIndices = IPC_t / IPC_dic2016 para cada mes
   (function cargarIPC() {
     fetch("Docs/ipc.csv")
       .then(resp => resp.text())
       .then(texto => {
         const lineas = texto.split(/\r?\n/).filter(l => l.trim().length > 0);
-        if (lineas.length < 2) return; // encabezado + al menos un dato
+        if (lineas.length < 2) return;
 
-        const datos = [];
-        // detectar separador (; o ,) usando la segunda línea
+        const valores = [];
         const ejemplo = lineas[1];
         const sep = ejemplo.includes(";") ? ";" : ",";
 
-        for (let i = 1; i < lineas.length; i++) { // salteamos encabezado
+        for (let i = 1; i < lineas.length; i++) { // saltamos encabezado
           const partes = lineas[i].split(sep).map(p => p.trim());
           if (partes.length < 3) continue;
-
-          const valorStr = partes[2].replace(",", "."); // por si usa coma decimal
-          const valor = parseFloat(valorStr);
-          if (!isNaN(valor)) {
-            datos.push(valor);
-          }
+          const valorStr = partes[2].replace(",", ".");
+          const v = parseFloat(valorStr);
+          if (!isNaN(v)) valores.push(v);
         }
 
-        if (datos.length < 2) return;
+        if (valores.length < 2) return;
 
-        const base = datos[0];                  // primer dato = dic 2016 (=100)
-        const ultimo = datos[datos.length - 1]; // último dato (ej. oct 2025)
+        const base = valores[0]; // dic-2016 = 100
+        normalizedIndices = valores.map(v => v / base);
+        IPC_FACTOR = normalizedIndices[normalizedIndices.length - 1];
 
-        if (base > 0) {
-          IPC_FACTOR = ultimo / base;
-          console.log("IPC_FACTOR calculado desde Docs/ipc.csv:", IPC_FACTOR.toFixed(4));
-        }
+        console.log("IPC_FACTOR:", IPC_FACTOR.toFixed(4),
+                    "meses desde base:", normalizedIndices.length - 1);
       })
       .catch(err => {
-        console.warn("No se pudo leer Docs/ipc.csv, se usa IPC_FACTOR por defecto:", err);
+        console.warn("No se pudo leer Docs/ipc.csv, se usan valores por defecto:", err);
+        IPC_FACTOR = 31.71;  // fallback para que no explote
+        normalizedIndices = [1, IPC_FACTOR]; // base + un punto
       });
   })();
 
   document.getElementById("btnCalcularSalario").addEventListener("click", function () {
     const salarioActualInput = document.getElementById("salarioActual");
-    const salario2016Input = document.getElementById("salario2016");
-
     const salarioActual = parseFloat(String(salarioActualInput.value).replace(",", "."));
-    const salario2016 = parseFloat(String(salario2016Input.value).replace(",", "."));
 
     const resultado = document.getElementById("resultadoSalario");
-    const bloqueDesdeActual = document.getElementById("bloqueDesdeActual");
-    const bloqueDesde2016 = document.getElementById("bloqueDesde2016");
-    const bloquePerdida = document.getElementById("bloquePerdida");
-    const contadorPerdida = document.getElementById("contadorPerdida");
-    const textoExplicacionPerdida = document.getElementById("textoExplicacionPerdida");
+    const bloqueEstimacion2016 = document.getElementById("bloqueEstimacion2016");
+    const bloqueDeberiaHoy = document.getElementById("bloqueDeberiaHoy");
+    const bloquePerdidas = document.getElementById("bloquePerdidas");
 
-    // Reset de visibilidad
-    bloqueDesdeActual.style.display = "none";
-    bloqueDesde2016.style.display = "none";
-    bloquePerdida.style.display = "none";
+    const contadorPerdidaMensual = document.getElementById("contadorPerdidaMensual");
+    const contadorPerdidaTotal = document.getElementById("contadorPerdidaTotal");
+
+    // Reset visibilidad
+    bloqueEstimacion2016.style.display = "none";
+    bloqueDeberiaHoy.style.display = "none";
+    bloquePerdidas.style.display = "none";
     resultado.style.display = "none";
 
-    let hayAlgo = false;
-
-    // 1) Si el usuario ingresa salario actual -> lo pasamos a precios de 2016
-    //    Fórmula: salario_equiv_2016 = salario_actual / IPC_FACTOR
-    if (!isNaN(salarioActual) && salarioActual > 0) {
-      const salarioEquivalente2016 = salarioActual / IPC_FACTOR;
-
-      document.getElementById("mActual").textContent = formatoPesos.format(salarioActual);
-      document.getElementById("mEquiv2016").textContent = formatoPesos.format(salarioEquivalente2016);
-
-      bloqueDesdeActual.style.display = "block";
-      hayAlgo = true;
+    if (isNaN(salarioActual) || salarioActual <= 0) {
+      alert("Por favor, ingresá tu salario mensual actual.");
+      return;
     }
 
-    // 2) Si el usuario ingresa salario de dic-2016 -> cuánto necesitaría hoy
-    //    Fórmula: salario_necesario_hoy = salario_2016 × IPC_FACTOR
-    let salarioNecesarioHoy = null;
-    if (!isNaN(salario2016) && salario2016 > 0) {
-      salarioNecesarioHoy = salario2016 * IPC_FACTOR;
+    // 1) Estimar salario en dic-2016 a partir del salario actual y SALARIO_FACTOR
+    const salario2016_estimado = salarioActual / SALARIO_FACTOR;
 
-      document.getElementById("m2016").textContent = formatoPesos.format(salario2016);
-      document.getElementById("mNecesarioHoy").textContent = formatoPesos.format(salarioNecesarioHoy);
+    document.getElementById("mActual").textContent = formatoPesos.format(salarioActual);
+    document.getElementById("m2016Estimado").textContent = formatoPesos.format(salario2016_estimado);
+    bloqueEstimacion2016.style.display = "block";
 
-      bloqueDesde2016.style.display = "block";
-      hayAlgo = true;
-    }
+    // 2) Calcular cuánto debería ganar hoy para no perder poder adquisitivo
+    //    salario_necesario_hoy = salario_2016_estimado × IPC_FACTOR
+    const salarioNecesarioHoy = salario2016_estimado * IPC_FACTOR;
+    document.getElementById("mNecesarioHoy").textContent = formatoPesos.format(salarioNecesarioHoy);
+    bloqueDeberiaHoy.style.display = "block";
 
-    // 3) Contador animado de pérdida:
-    //    Para calcular la "plata perdida por mes" necesitamos LOS DOS datos:
-    //    salarioActual y salario2016
-    if (!isNaN(salarioActual) && salarioActual > 0 &&
-        !isNaN(salario2016) && salario2016 > 0) {
+    // 3) Pérdida mensual hoy
+    let perdidaMensual = salarioNecesarioHoy - salarioActual;
+    if (perdidaMensual < 0) perdidaMensual = 0; // si dio "ganancia", no mostramos negativo
 
-      if (salarioNecesarioHoy === null) {
-        salarioNecesarioHoy = salario2016 * IPC_FACTOR;
+    // 4) Pérdida acumulada desde dic-2016 sumando mes a mes (aprox)
+    // Supuesto: tu sueldo real se fue quedando atrás de la inflación
+    // de forma más o menos proporcional al desfase final entre
+    // SALARIO_FACTOR (lo que crecieron los sueldos) e IPC_FACTOR (lo que crecieron los precios).
+    let perdidaTotal = 0;
+    if (normalizedIndices.length > 1 && IPC_FACTOR > 0) {
+      const k = SALARIO_FACTOR / IPC_FACTOR; // proporción sueldo/precios (menor que 1 si hubo pérdida)
+
+      for (let i = 1; i < normalizedIndices.length; i++) {
+        const factorMes = normalizedIndices[i]; // IPC_t / IPC_dic2016
+        const salarioIdealMes = salario2016_estimado * factorMes;
+        const salarioRealMes = salarioIdealMes * k; // rezagado respecto de la inflación
+        perdidaTotal += (salarioIdealMes - salarioRealMes);
       }
-
-      let perdida = salarioNecesarioHoy - salarioActual;
-
-      if (perdida <= 0) {
-        perdida = 0;
-        textoExplicacionPerdida.textContent =
-          "Según este índice, tu salario actual no muestra pérdida de poder adquisitivo " +
-          "frente a diciembre 2016 (o incluso está por encima).";
-      } else {
-        textoExplicacionPerdida.textContent =
-          "Es la diferencia entre lo que deberías cobrar hoy (" +
-          formatoPesos.format(salarioNecesarioHoy) +
-          ") y tu salario actual (" +
-          formatoPesos.format(salarioActual) +
-          "), según el IPC";
-      }
-
-      bloquePerdida.style.display = "block";
-      contadorPerdida.setAttribute("data-suffix", "/mes");
-      animateMoneyCounter(contadorPerdida, Math.round(perdida));
-
-      hayAlgo = true;
     } else {
-      // Si llegó hasta acá pero falta uno de los dos, avisamos específicamente
-      if (!isNaN(salarioActual) && salarioActual > 0 &&
-          (isNaN(salario2016) || salario2016 <= 0)) {
-        alert("Para ver cuánto deberías ganar hoy y cuánta plata perdiste, completá también tu salario de diciembre 2016.");
-      } else if (!isNaN(salario2016) && salario2016 > 0 &&
-                 (isNaN(salarioActual) || salarioActual <= 0)) {
-        alert("Para ver la pérdida mensual y el contador animado, completá también tu salario actual.");
-      }
+      // fallback simple: aprox = pérdida mensual * cantidad de meses (ej. 8 años = 96 meses)
+      const mesesAprox = 96;
+      perdidaTotal = perdidaMensual * mesesAprox;
     }
 
-    if (hayAlgo) {
-      resultado.style.display = "block";
-    } else {
-      alert("Por favor, completá al menos uno de los dos salarios para hacer el cálculo.");
-    }
+    // Mostrar contadores animados
+    bloquePerdidas.style.display = "block";
+
+    animateMoneyCounter(contadorPerdidaMensual, Math.round(perdidaMensual));
+    animateMoneyCounter(contadorPerdidaTotal, Math.round(perdidaTotal));
+
+    resultado.style.display = "block";
   });
 </script>
+<!-- ==== FIN GADGET PODER ADQUISITIVO – SALARIO ACTUAL + CONTADORES ==== -->
 
-<!-- ==== FIN GADGET PODER ADQUISITIVO – BASE DIC 2016 + CONTADOR ==== -->
   
     <!-- JUNTA INTERNA -->
     <section id="junta-interna">
