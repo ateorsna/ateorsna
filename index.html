@@ -344,92 +344,56 @@
 <section id="gadget-salario-2016" class="salario-card">
   <h2>¿Cuánto perdiste de poder adquisitivo desde diciembre 2016?</h2>
   <p class="salario-subtitulo">
-    Ingresá tu salario actual y estimamos cuánto ganabas en diciembre de 2016,
-    cuánto deberías estar ganando hoy para no haber perdido poder adquisitivo
-    y cuánta plata dejaste de cobrar por la inflación.
+    Ingresá tu salario actual y calculamos cuánto deberías estar ganando hoy
+    y cuánto dejaste de cobrar por la inflación.
   </p>
 
-  <div class="salario-grid">
+  <!-- FILA: INPUT + BOTÓN AL LADO -->
+  <div class="salario-row">
     <div class="salario-col">
       <label for="salarioActual">Tu salario mensual actual (en $ de hoy)</label>
       <input type="number" id="salarioActual" placeholder="Ej: 2.000.000" min="0" step="100">
       <small>
-        Usamos tu salario actual y lo dividimos por <strong>31,71</strong> para estimar
-        cuánto cobrabas (en promedio) en diciembre de 2016.
+        Se estima tu salario de diciembre 2016 dividiéndolo por <strong>31,71</strong>.
       </small>
     </div>
+    <button type="button" id="btnCalcularSalario">Calcular</button>
   </div>
 
-  <button type="button" id="btnCalcularSalario">Calcular</button>
-
-  <div id="resultadoSalario" class="salario-resultado" style="display:none;">
-    <h3>Resultados</h3>
-
-    <div id="bloqueEstimacion2016" class="salario-bloque" style="display:none;">
-      <h4>Estimación de tu salario en diciembre 2016</h4>
-      <p>
-        A partir de tu salario actual de
-        <span class="monto" id="mActual"></span>, estimamos que en
-        <strong>diciembre 2016</strong> cobrabas aproximadamente
-        <span class="monto" id="m2016Estimado"></span>,
-        asumiendo que tu sueldo se multiplicó <strong>31,71 veces</strong> desde entonces.
-      </p>
+  <!-- SOLO CONTADORES (se muestran luego del cálculo) -->
+  <div id="bloquePerdidas" class="salario-bloque resultados" style="display:none;">
+    <div class="perdidas-header">
+      <img src="dineroseva.png" alt="Pesos con alas" class="icono-dinero">
     </div>
 
-    <hr>
-
-    <div id="bloqueDeberiaHoy" class="salario-bloque" style="display:none;">
-      <h4>¿Cuánto deberías ganar hoy para no haber perdido poder adquisitivo?</h4>
-      <p>
-        Si tu salario hubiera seguido la inflación (IPC), hoy deberías estar ganando
-        aproximadamente el valor que ves en el contador principal.
-      </p>
-    </div>
-
-    <hr>
-
-    <!-- BLOQUE CON 3 CONTADORES ANIMADOS -->
-    <div id="bloquePerdidas" class="salario-bloque" style="display:none;">
-      <h4>Lo que estás dejando de cobrar</h4>
-
-      <div class="loss-grid">
-        <!-- 1) SUELDO IDEAL HOY -->
-        <div class="loss-item principal">
-          <div class="label-contador">Deberías estar ganando hoy</div>
-          <div class="counter counter-main" id="contadorDeberia" data-suffix=""></div>
-        </div>
-
-        <!-- 2) PÉRDIDA MENSUAL -->
-        <div class="loss-item">
-          <div class="label-contador">Perdés todos los meses</div>
-          <div class="counter counter-neg" id="contadorPerdidaMensual" data-suffix="/mes"></div>
-        </div>
-
-        <!-- 3) PÉRDIDA TOTAL ACUMULADA -->
-        <div class="loss-item">
-          <div class="label-contador">Perdiste desde dic-2016</div>
-          <div class="counter counter-neg" id="contadorPerdidaTotal" data-suffix=" acumulado"></div>
-        </div>
+    <div class="loss-grid">
+      <!-- 1) SUELDO IDEAL HOY -->
+      <div class="loss-item principal">
+        <div class="label-contador">Deberías estar ganando hoy</div>
+        <div class="counter counter-main" id="contadorDeberia" data-suffix=""></div>
       </div>
 
-      <p class="nota" style="margin-top:0.75rem;">
-        Metodología (simplificada): estimamos tu sueldo de diciembre 2016 a partir de tu sueldo actual,
-        calculamos cómo debería haber evolucionado siguiendo el IPC (sin pérdida de poder adquisitivo)
-        y comparamos contra una trayectoria salarial que crece menos que los precios.
-      </p>
-      <p class="nota">
-        Fuente: IPC (base dic-2016 = 100) leído automáticamente desde <code>Docs/ipc.csv</code>.
-      </p>
+      <!-- 2) PÉRDIDA MENSUAL -->
+      <div class="loss-item">
+        <div class="label-contador">Perdés todos los meses</div>
+        <div class="counter counter-neg" id="contadorPerdidaMensual" data-suffix="/mes"></div>
+      </div>
+
+      <!-- 3) PÉRDIDA TOTAL ACUMULADA -->
+      <div class="loss-item">
+        <div class="label-contador">Perdiste desde dic-2016</div>
+        <div class="counter counter-neg" id="contadorPerdidaTotal" data-suffix=" acumulado"></div>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  /* === Estilos mínimos del gadget === */
+  /* === Estilos del gadget === */
   #gadget-salario-2016.salario-card {
     margin: 2rem auto;
-    max-width: 720px;
-    padding: 1.5rem 1.75rem;
+    max-width: 960px;              /* más ancho */
+    padding: 1.25rem 1.5rem;       /* un poco más baja */
     border-radius: 10px;
     background: #10212f;
     color: #f9fafb;
@@ -439,24 +403,26 @@
 
   #gadget-salario-2016 h2 {
     font-size: 1.4rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
   }
 
   #gadget-salario-2016 .salario-subtitulo {
     font-size: 0.9rem;
     color: #cbd5f5;
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
   }
 
-  .salario-grid {
+  /* Fila con input y botón al lado */
+  .salario-row {
     display: flex;
-    flex-wrap: wrap;
+    align-items: flex-end;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
+    flex-wrap: wrap;
   }
 
   .salario-col {
-    flex: 1 1 250px;
+    flex: 1 1 260px;
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
@@ -487,8 +453,7 @@
   }
 
   #btnCalcularSalario {
-    margin-top: 0.5rem;
-    padding: 0.5rem 1.2rem;
+    padding: 0.55rem 1.4rem;
     border-radius: 999px;
     border: none;
     cursor: pointer;
@@ -496,69 +461,66 @@
     color: #052e16;
     font-weight: 600;
     font-size: 0.95rem;
+    white-space: nowrap;
   }
 
   #btnCalcularSalario:hover {
     filter: brightness(1.05);
   }
 
-  .salario-resultado {
-    margin-top: 1.5rem;
-    padding-top: 1rem;
+  .salario-bloque.resultados {
+    margin-top: 0.8rem;
+    padding-top: 0.6rem;
     border-top: 1px solid rgba(148,163,184,0.5);
-    font-size: 0.95rem;
   }
 
-  .salario-resultado h3 {
-    margin-bottom: 0.75rem;
-    font-size: 1.1rem;
-  }
-
-  .salario-bloque h4 {
-    margin-bottom: 0.3rem;
-    font-size: 1rem;
-  }
-
-  .salario-bloque p {
+  .perdidas-header {
+    display: flex;
+    justify-content: center;
     margin-bottom: 0.4rem;
-    line-height: 1.4;
   }
 
-  .salario-bloque .nota {
-    font-size: 0.8rem;
-    color: #9ca3af;
+  .icono-dinero {
+    max-width: 70px;
+    height: auto;
+    opacity: 0.9;
   }
 
-  .salario-bloque .monto {
-    font-weight: 700;
-  }
-
-  /* Layout de los 3 contadores */
+  /* Layout de los 3 contadores (caja más chica a lo alto) */
   .loss-grid {
     display: grid;
-    gap: 1rem;
-    margin: 0.5rem 0 0.3rem;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 0.75rem;
   }
 
   .loss-item {
     text-align: center;
+    padding: 0.3rem 0.25rem;
   }
 
   .loss-item.principal {
-    padding-bottom: 0.4rem;
-    border-bottom: 1px solid rgba(148,163,184,0.4);
-    margin-bottom: 0.3rem;
+    border-right: 1px solid rgba(148,163,184,0.4);
+  }
+
+  @media (max-width: 700px) {
+    .loss-grid {
+      grid-template-columns: 1fr;
+    }
+    .loss-item.principal {
+      border-right: none;
+      border-bottom: 1px solid rgba(148,163,184,0.4);
+    }
   }
 
   .label-contador {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: #cbd5f5;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.15rem;
   }
 
-  /* Estilo base del contador animado */
+  /* Estilo de contadores – más compactos */
   #gadget-salario-2016 .counter {
-    font-size: 2.3rem;
+    font-size: 2rem;   /* más chico */
     font-weight: 800;
     position: relative;
     display: inline-block;
@@ -579,7 +541,7 @@
 
   #gadget-salario-2016 .counter::after {
     content: attr(data-suffix);
-    font-size: 0.5em;
+    font-size: 0.45em;
     margin-left: 6px;
     position: static;
     opacity: 0;
@@ -595,7 +557,7 @@
   @media (max-width: 600px) {
     #gadget-salario-2016.salario-card {
       margin: 1rem;
-      padding: 1.25rem 1rem;
+      padding: 1.1rem 1rem;
     }
   }
 </style>
@@ -683,20 +645,14 @@
     const salarioActualInput = document.getElementById("salarioActual");
     const salarioActual = parseFloat(String(salarioActualInput.value).replace(",", "."));
 
-    const resultado = document.getElementById("resultadoSalario");
-    const bloqueEstimacion2016 = document.getElementById("bloqueEstimacion2016");
-    const bloqueDeberiaHoy = document.getElementById("bloqueDeberiaHoy");
     const bloquePerdidas = document.getElementById("bloquePerdidas");
 
     const contadorDeberia = document.getElementById("contadorDeberia");
     const contadorPerdidaMensual = document.getElementById("contadorPerdidaMensual");
     const contadorPerdidaTotal = document.getElementById("contadorPerdidaTotal");
 
-    // Reset visibilidad
-    bloqueEstimacion2016.style.display = "none";
-    bloqueDeberiaHoy.style.display = "none";
+    // Ocultamos resultados si algo está mal
     bloquePerdidas.style.display = "none";
-    resultado.style.display = "none";
 
     if (isNaN(salarioActual) || salarioActual <= 0) {
       alert("Por favor, ingresá tu salario mensual actual.");
@@ -706,18 +662,12 @@
     // 1) Estimar salario en dic-2016 a partir del salario actual y SALARIO_FACTOR
     const salario2016_estimado = salarioActual / SALARIO_FACTOR;
 
-    document.getElementById("mActual").textContent = formatoPesos.format(salarioActual);
-    document.getElementById("m2016Estimado").textContent = formatoPesos.format(salario2016_estimado);
-    bloqueEstimacion2016.style.display = "block";
-
-    // 2) Calcular cuánto deberías ganar hoy para no perder poder adquisitivo
-    //    salario_necesario_hoy = salario_2016_estimado × IPC_FACTOR
+    // 2) Sueldo ideal hoy (sin pérdida de poder adquisitivo)
     const salarioNecesarioHoy = salario2016_estimado * IPC_FACTOR;
-    bloqueDeberiaHoy.style.display = "block";
 
     // 3) Pérdida mensual hoy
     let perdidaMensual = salarioNecesarioHoy - salarioActual;
-    if (perdidaMensual < 0) perdidaMensual = 0; // si dio "ganancia", no mostramos negativo
+    if (perdidaMensual < 0) perdidaMensual = 0;
 
     // 4) Pérdida acumulada desde dic-2016 sumando mes a mes (aprox)
     let perdidaTotal = 0;
@@ -727,11 +677,10 @@
       for (let i = 1; i < normalizedIndices.length; i++) {
         const factorMes = normalizedIndices[i]; // IPC_t / IPC_dic2016
         const salarioIdealMes = salario2016_estimado * factorMes;
-        const salarioRealMes = salarioIdealMes * k; // rezagado respecto de la inflación
+        const salarioRealMes = salarioIdealMes * k; // rezagado
         perdidaTotal += (salarioIdealMes - salarioRealMes);
       }
     } else {
-      // fallback simple: aprox = pérdida mensual * cantidad de meses
       const mesesAprox = 96;
       perdidaTotal = perdidaMensual * mesesAprox;
     }
@@ -742,16 +691,15 @@
     // 1) Deberías estar ganando hoy (contador principal)
     animateMoneyCounter(contadorDeberia, Math.round(salarioNecesarioHoy), { negative: false });
 
-    // 2) Pérdida mensual (en rojo, con "-")
+    // 2) Pérdida mensual (rojo, con "-")
     animateMoneyCounter(contadorPerdidaMensual, Math.round(perdidaMensual), { negative: true });
 
-    // 3) Pérdida total acumulada (en rojo, con "-")
+    // 3) Pérdida total acumulada (rojo, con "-")
     animateMoneyCounter(contadorPerdidaTotal, Math.round(perdidaTotal), { negative: true });
-
-    resultado.style.display = "block";
   });
 </script>
 <!-- ==== FIN GADGET PODER ADQUISITIVO – SALARIO ACTUAL + 3 CONTADORES ==== -->
+
 
 
   
