@@ -340,16 +340,16 @@
   </p>
 
   <!-- FILA: INPUT + BOTÓN AL LADO -->
-  <div class="salario-row">
-    <div class="salario-col">
-      <label for="salarioActual">Tu salario mensual actual (en $ de hoy)</label>
+<div class="salario-row">
+  
+  <div class="input-y-boton">
       <input type="number" id="salarioActual" placeholder="Ej: 2.000.000" min="0" step="100">
-      <small>
-        Se estima tu salario de diciembre 2015. No se registra ningún dato personal.
-      </small>
-    </div>
-    <button type="button" id="btnCalcularSalario">Calcular</button>
+      <button type="button" id="btnCalcularSalario">Calcular</button>
   </div>
+
+  <small class="nota-sueldo">Se estima tu salario de diciembre 2016 dividiéndolo por <strong>31,71</strong>.</small>
+</div>
+
 
   <!-- CONTADORES PRINCIPALES -->
   <div id="bloquePerdidas" class="salario-bloque resultados" style="display:none;">
@@ -414,11 +414,10 @@
   /* Fila con input y botón al lado */
 .salario-row {
   display: flex;
-  justify-content: center;   /* ← CENTRAR todo */
+  flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 0.8rem;
-  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 
@@ -490,6 +489,38 @@
     opacity: 0.9;
   }
 
+  .input-y-boton input {
+  width: 150px;          /* achicado */
+  padding: 0.35rem 0.45rem;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: 1px solid #64748b;
+  background: #0b1720;
+  color: #f9fafb;
+  text-align: right;
+}
+
+#btnCalcularSalario {
+  padding: 0.35rem 0.9rem;
+  font-size: 0.85rem;
+  background: #22c55e;
+  color: #052e16;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#btnCalcularSalario:hover {
+  filter: brightness(1.05);
+}
+
+.nota-sueldo {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  text-align: center;
+  max-width: 280px;
+}
   /* Layout de los 3 contadores (caja más chica a lo alto) */
   .loss-grid {
     display: grid;
