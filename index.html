@@ -568,8 +568,8 @@
 </style>
 
 <script>
-  // IPC_FACTOR se va a calcular automáticamente leyendo Docs/ipc.csv
-  // Dejamos un valor de respaldo por si algo falla en la carga
+  // IPC_FACTOR se calcula automáticamente leyendo Docs/ipc.csv
+  // Valor de respaldo por si la carga falla
   let IPC_FACTOR = 6.0; // fallback
 
   const formatoPesos = new Intl.NumberFormat("es-AR", {
@@ -587,6 +587,7 @@
 
     function tick(now) {
       const t = Math.min(1, (now - start) / DURATION_MS);
+      // easing suave (easeOutCubic)
       const eased = 1 - Math.pow(1 - t, 3);
       const value = Math.round(initial + (target - initial) * eased);
 
@@ -609,15 +610,14 @@
       .then(resp => resp.text())
       .then(texto => {
         const lineas = texto.split(/\r?\n/).filter(l => l.trim().length > 0);
-
-        if (lineas.length < 2) return; // al menos encabezado + un dato
+        if (lineas.length < 2) return; // encabezado + al menos un dato
 
         const datos = [];
-        // detectar separador ( ; o , ) usando la segunda línea
+        // detectar separador (; o ,) usando la segunda línea
         const ejemplo = lineas[1];
         const sep = ejemplo.includes(";") ? ";" : ",";
 
-        for (let i = 1; i < lineas.length; i++) { // saltamos encabezado (i=0)
+        for (let i = 1; i < lineas.length; i++) { // salteamos encabezado
           const partes = lineas[i].split(sep).map(p => p.trim());
           if (partes.length < 3) continue;
 
@@ -630,7 +630,7 @@
 
         if (datos.length < 2) return;
 
-        const base = datos[0]; // primer dato = dic 2016 = 100
+        const base = datos[0];                  // primer dato = dic 2016 (=100)
         const ultimo = datos[datos.length - 1]; // último dato (ej. oct 2025)
 
         if (base > 0) {
@@ -666,6 +666,7 @@
     let hayAlgo = false;
 
     // 1) Si el usuario ingresa salario actual -> lo pasamos a precios de 2016
+    //    Fórmula: salario_equiv_2016 = salario_actual / IPC_FACTOR
     if (!isNaN(salarioActual) && salarioActual > 0) {
       const salarioEquivalente2016 = salarioActual / IPC_FACTOR;
 
@@ -677,6 +678,7 @@
     }
 
     // 2) Si el usuario ingresa salario de dic-2016 -> cuánto necesitaría hoy
+    //    Fórmula: salario_necesario_hoy = salario_2016 × IPC_FACTOR
     let salarioNecesarioHoy = null;
     if (!isNaN(salario2016) && salario2016 > 0) {
       salarioNecesarioHoy = salario2016 * IPC_FACTOR;
@@ -689,7 +691,8 @@
     }
 
     // 3) Contador animado de pérdida:
-    //    para mostrarlo necesitamos LOS DOS datos: salarioActual y salario2016
+    //    Para calcular la "plata perdida por mes" necesitamos LOS DOS datos:
+    //    salarioActual y salario2016
     if (!isNaN(salarioActual) && salarioActual > 0 &&
         !isNaN(salario2016) && salario2016 > 0) {
 
@@ -718,6 +721,15 @@
       animateMoneyCounter(contadorPerdida, Math.round(perdida));
 
       hayAlgo = true;
+    } else {
+      // Si llegó hasta acá pero falta uno de los dos, avisamos específicamente
+      if (!isNaN(salarioActual) && salarioActual > 0 &&
+          (isNaN(salario2016) || salario2016 <= 0)) {
+        alert("Para ver cuánto deberías ganar hoy y cuánta plata perdiste, completá también tu salario de diciembre 2016.");
+      } else if (!isNaN(salario2016) && salario2016 > 0 &&
+                 (isNaN(salarioActual) || salarioActual <= 0)) {
+        alert("Para ver la pérdida mensual y el contador animado, completá también tu salario actual.");
+      }
     }
 
     if (hayAlgo) {
@@ -727,6 +739,7 @@
     }
   });
 </script>
+
 <!-- ==== FIN GADGET PODER ADQUISITIVO – BASE DIC 2016 + CONTADOR ==== -->
   
     <!-- JUNTA INTERNA -->
