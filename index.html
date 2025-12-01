@@ -412,5 +412,251 @@
     </section>
   </main>
 
+<!-- ==== GADGET PODER ADQUISITIVO ATE ORSNA ==== -->
+<section id="gadget-salario-2015" class="salario-card">
+  <h2>Calculá tu salario en términos de 2015</h2>
+  <p class="salario-subtitulo">
+    Ingresá tus salarios y mirá cuánto deberías cobrar hoy para no haber perdido
+    poder adquisitivo respecto de diciembre de 2015.
+  </p>
+
+  <div class="salario-grid">
+    <div class="salario-col">
+      <label for="salarioActual">Tu salario mensual actual (en $ de hoy)</label>
+      <input type="number" id="salarioActual" placeholder="Ej: 850000" min="0" step="100">
+      <small>
+        Con este dato vamos a calcular cuánto “valdría” tu sueldo actual,
+        medido en precios de diciembre 2015.
+      </small>
+    </div>
+
+    <div class="salario-col">
+      <label for="salario2015">
+        Tu salario mensual en diciembre 2015 (si lo recordás)
+      </label>
+      <input type="number" id="salario2015" placeholder="Ej: 15000" min="0" step="100">
+      <small>
+        Con este dato vamos a calcular cuánto deberías cobrar hoy para mantener
+        el mismo poder de compra que tenías en diciembre 2015.
+      </small>
+    </div>
+  </div>
+
+  <button type="button" id="btnCalcularSalario">Calcular</button>
+
+  <div id="resultadoSalario" class="salario-resultado" style="display:none;">
+    <h3>Resultados</h3>
+
+    <div id="bloqueDesdeActual" class="salario-bloque" style="display:none;">
+      <h4>A partir de tu salario actual</h4>
+      <p>
+        Tu salario actual de <span class="monto" id="mActual"></span><br>
+        equivale aproximadamente a <span class="monto" id="mEquiv2015"></span>
+        <strong>en precios de diciembre 2015</strong>.
+      </p>
+      <p class="nota">
+        Esto sirve para ver cuánto se redujo tu poder de compra medido hacia atrás
+        (pasando tu sueldo actual a “pesos 2015”).
+      </p>
+    </div>
+
+    <hr>
+
+    <div id="bloqueDesde2015" class="salario-bloque" style="display:none;">
+      <h4>A partir de tu salario en diciembre 2015</h4>
+      <p>
+        Si en diciembre 2015 cobrabas <span class="monto" id="m2015"></span>,<br>
+        para <strong>no haber perdido poder adquisitivo</strong> hoy deberías
+        estar cobrando alrededor de
+        <span class="monto" id="mNecesarioHoy"></span>.
+      </p>
+      <p class="nota">
+        La diferencia entre ese valor y tu salario actual muestra cuánto se
+        recortó tu poder de compra frente a diciembre 2015.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* === Estilos mínimos del gadget (no tocan el resto de la página) === */
+  #gadget-salario-2015.salario-card {
+    margin: 2rem auto;
+    max-width: 720px;
+    padding: 1.5rem 1.75rem;
+    border-radius: 10px;
+    background: #10212f;
+    color: #f9fafb;
+    border: 1px solid rgba(148,163,184,0.5);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+
+  #gadget-salario-2015 h2 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+  }
+
+  #gadget-salario-2015 .salario-subtitulo {
+    font-size: 0.9rem;
+    color: #cbd5f5;
+    margin-bottom: 1rem;
+  }
+
+  .salario-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .salario-col {
+    flex: 1 1 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .salario-col label {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .salario-col input {
+    padding: 0.45rem 0.55rem;
+    border-radius: 6px;
+    border: 1px solid #64748b;
+    background: #0b1720;
+    color: #f9fafb;
+    font-size: 0.95rem;
+  }
+
+  .salario-col input:focus {
+    outline: 2px solid #38bdf8;
+    outline-offset: 1px;
+  }
+
+  .salario-col small {
+    font-size: 0.75rem;
+    color: #94a3b8;
+  }
+
+  #btnCalcularSalario {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    background: #22c55e;
+    color: #052e16;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  #btnCalcularSalario:hover {
+    filter: brightness(1.05);
+  }
+
+  .salario-resultado {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(148,163,184,0.5);
+    font-size: 0.95rem;
+  }
+
+  .salario-resultado h3 {
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+  }
+
+  .salario-bloque h4 {
+    margin-bottom: 0.3rem;
+    font-size: 1rem;
+  }
+
+  .salario-bloque p {
+    margin-bottom: 0.4rem;
+    line-height: 1.4;
+  }
+
+  .salario-bloque .nota {
+    font-size: 0.8rem;
+    color: #9ca3af;
+  }
+
+  .salario-bloque .monto {
+    font-weight: 700;
+  }
+
+  @media (max-width: 600px) {
+    #gadget-salario-2015.salario-card {
+      margin: 1rem;
+      padding: 1.25rem 1rem;
+    }
+  }
+</style>
+
+<script>
+  // ⚠️ ACÁ DEFINÍS EL FACTOR DE PRECIOS
+  // IPC_FACTOR = cuánto aumentaron los precios desde dic-2015 hasta hoy.
+  // Ejemplo: si el índice pasa de 100 (dic-2015) a 600 (hoy), entonces factor = 6.
+  // >>> REEMPLAZAR ESTE 6.0 POR EL VALOR QUE QUIERAS USAR <<<
+  const IPC_FACTOR = 6.0; // EJEMPLO
+
+  const formatoPesos = new Intl.NumberFormat("es-AR", {
+    style: "currency",
+    currency: "ARS",
+    maximumFractionDigits: 0
+  });
+
+  document.getElementById("btnCalcularSalario").addEventListener("click", function () {
+    const salarioActualInput = document.getElementById("salarioActual");
+    const salario2015Input = document.getElementById("salario2015");
+
+    const salarioActual = parseFloat(salarioActualInput.value.replace(",", "."));
+    const salario2015 = parseFloat(salario2015Input.value.replace(",", "."));
+
+    const resultado = document.getElementById("resultadoSalario");
+    const bloqueDesdeActual = document.getElementById("bloqueDesdeActual");
+    const bloqueDesde2015 = document.getElementById("bloqueDesde2015");
+
+    // Reset de visibilidad
+    bloqueDesdeActual.style.display = "none";
+    bloqueDesde2015.style.display = "none";
+    resultado.style.display = "none";
+
+    let hayAlgo = false;
+
+    // 1) Si el usuario ingresa salario actual -> lo pasamos a precios de 2015
+    if (!isNaN(salarioActual) && salarioActual > 0) {
+      const salarioEquivalente2015 = salarioActual / IPC_FACTOR;
+
+      document.getElementById("mActual").textContent = formatoPesos.format(salarioActual);
+      document.getElementById("mEquiv2015").textContent = formatoPesos.format(salarioEquivalente2015);
+
+      bloqueDesdeActual.style.display = "block";
+      hayAlgo = true;
+    }
+
+    // 2) Si el usuario ingresa salario de dic-2015 -> cuánto necesitaría hoy
+    if (!isNaN(salario2015) && salario2015 > 0) {
+      const salarioNecesarioHoy = salario2015 * IPC_FACTOR;
+
+      document.getElementById("m2015").textContent = formatoPesos.format(salario2015);
+      document.getElementById("mNecesarioHoy").textContent = formatoPesos.format(salarioNecesarioHoy);
+
+      bloqueDesde2015.style.display = "block";
+      hayAlgo = true;
+    }
+
+    if (hayAlgo) {
+      resultado.style.display = "block";
+    } else {
+      alert("Por favor, completá al menos uno de los dos salarios para hacer el cálculo.");
+    }
+  });
+</script>
+<!-- ==== FIN GADGET PODER ADQUISITIVO ATE ORSNA ==== -->
+
+  
 </body>
 </html>
