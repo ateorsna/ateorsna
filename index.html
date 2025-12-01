@@ -340,7 +340,7 @@
       </div>
     </header>
 
-<!-- ==== GADGET PODER ADQUISITIVO – SALARIO ACTUAL + CONTADORES ==== -->
+<!-- ==== GADGET PODER ADQUISITIVO – SALARIO ACTUAL + 3 CONTADORES ==== -->
 <section id="gadget-salario-2016" class="salario-card">
   <h2>¿Cuánto perdiste de poder adquisitivo desde diciembre 2016?</h2>
   <p class="salario-subtitulo">
@@ -381,35 +381,34 @@
     <div id="bloqueDeberiaHoy" class="salario-bloque" style="display:none;">
       <h4>¿Cuánto deberías ganar hoy para no haber perdido poder adquisitivo?</h4>
       <p>
-        Si tu salario hubiera seguido la inflación (IPC), hoy deberías estar
-        ganando alrededor de
-        <span class="monto" id="mNecesarioHoy"></span>.
+        Si tu salario hubiera seguido la inflación (IPC), hoy deberías estar ganando
+        aproximadamente el valor que ves en el contador principal.
       </p>
     </div>
 
     <hr>
 
-    <!-- BLOQUE CON CONTADORES ANIMADOS -->
+    <!-- BLOQUE CON 3 CONTADORES ANIMADOS -->
     <div id="bloquePerdidas" class="salario-bloque" style="display:none;">
       <h4>Lo que estás dejando de cobrar</h4>
 
-      <p>Según este cálculo, la pérdida de poder adquisitivo implica:</p>
-
-      <div class="loss-row">
-        <div>
-          <div class="counter" id="contadorPerdidaMensual" data-suffix="/mes">$ 0</div>
-          <div class="nota">de menos <strong>todos los meses</strong> hoy.</div>
+      <div class="loss-grid">
+        <!-- 1) SUELDO IDEAL HOY -->
+        <div class="loss-item principal">
+          <div class="label-contador">Deberías estar ganando hoy</div>
+          <div class="counter counter-main" id="contadorDeberia" data-suffix=""></div>
         </div>
-      </div>
 
-      <div class="loss-row" style="margin-top:1rem;">
-        <div>
-          <div class="counter" id="contadorPerdidaTotal" data-suffix=" acumulado">$ 0</div>
-          <div class="nota">
-            de plata que dejaste de cobrar
-            <strong>desde diciembre 2016 hasta el último mes del IPC</strong>,
-            sumando mes a mes.
-          </div>
+        <!-- 2) PÉRDIDA MENSUAL -->
+        <div class="loss-item">
+          <div class="label-contador">Perdés todos los meses</div>
+          <div class="counter counter-neg" id="contadorPerdidaMensual" data-suffix="/mes"></div>
+        </div>
+
+        <!-- 3) PÉRDIDA TOTAL ACUMULADA -->
+        <div class="loss-item">
+          <div class="label-contador">Perdiste desde dic-2016</div>
+          <div class="counter counter-neg" id="contadorPerdidaTotal" data-suffix=" acumulado"></div>
         </div>
       </div>
 
@@ -534,25 +533,48 @@
     font-weight: 700;
   }
 
-  .loss-row {
-    display: flex;
-    justify-content: center;
+  /* Layout de los 3 contadores */
+  .loss-grid {
+    display: grid;
+    gap: 1rem;
     margin: 0.5rem 0 0.3rem;
+  }
+
+  .loss-item {
     text-align: center;
   }
 
-  /* Estilo del contador animado */
+  .loss-item.principal {
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid rgba(148,163,184,0.4);
+    margin-bottom: 0.3rem;
+  }
+
+  .label-contador {
+    font-size: 0.85rem;
+    color: #cbd5f5;
+    margin-bottom: 0.2rem;
+  }
+
+  /* Estilo base del contador animado */
   #gadget-salario-2016 .counter {
-    font-size: 2.4rem;
+    font-size: 2.3rem;
     font-weight: 800;
-    color: #22c55e;
     position: relative;
     display: inline-block;
     transition: color .3s ease;
   }
 
+  .counter-main {
+    color: #22c55e;
+  }
+
+  .counter-neg {
+    color: #ef4444; /* rojo */
+  }
+
   #gadget-salario-2016 .counter.animate {
-    color: #f97316;
+    filter: brightness(1.1);
   }
 
   #gadget-salario-2016 .counter::after {
@@ -568,7 +590,6 @@
   #gadget-salario-2016 .counter.animate::after {
     opacity: 1;
     transform: translateX(0);
-    color: #f97316;
   }
 
   @media (max-width: 600px) {
@@ -595,7 +616,8 @@
 
   const DURATION_MS = 2000; // duración de la animación del contador
 
-  function animateMoneyCounter(el, target) {
+  function animateMoneyCounter(el, target, options = {}) {
+    const { negative = false } = options;
     const start = performance.now();
     const initial = 0;
     el.classList.remove("animate"); // reseteo
@@ -605,12 +627,14 @@
       const eased = 1 - Math.pow(1 - t, 3);
       const value = Math.round(initial + (target - initial) * eased);
 
-      el.textContent = formatoPesos.format(value);
+      const texto = formatoPesos.format(Math.abs(value));
+      el.textContent = negative && value > 0 ? ("- " + texto) : texto;
 
       if (t < 1) {
         requestAnimationFrame(tick);
       } else {
-        el.textContent = formatoPesos.format(target);
+        const finalTexto = formatoPesos.format(Math.abs(target));
+        el.textContent = negative && target > 0 ? ("- " + finalTexto) : finalTexto;
         el.classList.add("animate");
       }
     }
@@ -664,6 +688,7 @@
     const bloqueDeberiaHoy = document.getElementById("bloqueDeberiaHoy");
     const bloquePerdidas = document.getElementById("bloquePerdidas");
 
+    const contadorDeberia = document.getElementById("contadorDeberia");
     const contadorPerdidaMensual = document.getElementById("contadorPerdidaMensual");
     const contadorPerdidaTotal = document.getElementById("contadorPerdidaTotal");
 
@@ -685,10 +710,9 @@
     document.getElementById("m2016Estimado").textContent = formatoPesos.format(salario2016_estimado);
     bloqueEstimacion2016.style.display = "block";
 
-    // 2) Calcular cuánto debería ganar hoy para no perder poder adquisitivo
+    // 2) Calcular cuánto deberías ganar hoy para no perder poder adquisitivo
     //    salario_necesario_hoy = salario_2016_estimado × IPC_FACTOR
     const salarioNecesarioHoy = salario2016_estimado * IPC_FACTOR;
-    document.getElementById("mNecesarioHoy").textContent = formatoPesos.format(salarioNecesarioHoy);
     bloqueDeberiaHoy.style.display = "block";
 
     // 3) Pérdida mensual hoy
@@ -696,12 +720,9 @@
     if (perdidaMensual < 0) perdidaMensual = 0; // si dio "ganancia", no mostramos negativo
 
     // 4) Pérdida acumulada desde dic-2016 sumando mes a mes (aprox)
-    // Supuesto: tu sueldo real se fue quedando atrás de la inflación
-    // de forma más o menos proporcional al desfase final entre
-    // SALARIO_FACTOR (lo que crecieron los sueldos) e IPC_FACTOR (lo que crecieron los precios).
     let perdidaTotal = 0;
     if (normalizedIndices.length > 1 && IPC_FACTOR > 0) {
-      const k = SALARIO_FACTOR / IPC_FACTOR; // proporción sueldo/precios (menor que 1 si hubo pérdida)
+      const k = SALARIO_FACTOR / IPC_FACTOR; // proporción sueldo/precios
 
       for (let i = 1; i < normalizedIndices.length; i++) {
         const factorMes = normalizedIndices[i]; // IPC_t / IPC_dic2016
@@ -710,7 +731,7 @@
         perdidaTotal += (salarioIdealMes - salarioRealMes);
       }
     } else {
-      // fallback simple: aprox = pérdida mensual * cantidad de meses (ej. 8 años = 96 meses)
+      // fallback simple: aprox = pérdida mensual * cantidad de meses
       const mesesAprox = 96;
       perdidaTotal = perdidaMensual * mesesAprox;
     }
@@ -718,13 +739,20 @@
     // Mostrar contadores animados
     bloquePerdidas.style.display = "block";
 
-    animateMoneyCounter(contadorPerdidaMensual, Math.round(perdidaMensual));
-    animateMoneyCounter(contadorPerdidaTotal, Math.round(perdidaTotal));
+    // 1) Deberías estar ganando hoy (contador principal)
+    animateMoneyCounter(contadorDeberia, Math.round(salarioNecesarioHoy), { negative: false });
+
+    // 2) Pérdida mensual (en rojo, con "-")
+    animateMoneyCounter(contadorPerdidaMensual, Math.round(perdidaMensual), { negative: true });
+
+    // 3) Pérdida total acumulada (en rojo, con "-")
+    animateMoneyCounter(contadorPerdidaTotal, Math.round(perdidaTotal), { negative: true });
 
     resultado.style.display = "block";
   });
 </script>
-<!-- ==== FIN GADGET PODER ADQUISITIVO – SALARIO ACTUAL + CONTADORES ==== -->
+<!-- ==== FIN GADGET PODER ADQUISITIVO – SALARIO ACTUAL + 3 CONTADORES ==== -->
+
 
   
     <!-- JUNTA INTERNA -->
