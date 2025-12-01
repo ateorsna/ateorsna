@@ -340,84 +340,12 @@
       </div>
     </header>
 
-    <!-- JUNTA INTERNA -->
-    <section id="junta-interna">
-      <h2>Junta Interna</h2>
-      <p>
-        Integran la Junta Interna, organización de la
-        representación gremial dentro del ORSNA, y principales
-        líneas de trabajo: defensa salarial, condiciones de trabajo, convenios,
-        organización por sectores, etc.
-      </p>
-
-      <div class="grid" style="margin-top:14px;">
-        <article class="card">
-          <span class="tag">Representación</span>
-          <h3>Delegadas y delegados</h3>
-          <p>Listado de representantes por área, contacto básico y referencias.</p>
-        </article>
-        <article class="card">
-          <span class="tag">Trabajo</span>
-          <h3>Comisiones y equipos</h3>
-          <p>CIOT, CyMAT, género y diversidad, formación, comunicación, entre otras comisiones.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- PUBLICACIONES -->
-    <section id="publicaciones">
-      <h2>Publicaciones</h2>
-      <p>
-        En esta sección vas a poder subir comunicados, informes, actas y materiales
-        producidos por la Junta Interna y Cuerpo de Delegades de ATE ORSNA.
-      </p>
-
-      <div class="grid">
-        <article class="card">
-          <span class="tag">Ejemplo</span>
-          <h3>Comunicado N°1</h3>
-          <p>
-            Comunicado de la Junta Interna. Este espacio se irá
-            actualizando con materiales reales a medida que avance el sitio.
-          </p>
-        </article>
-
-        <article class="card">
-          <span class="tag">Informes</span>
-          <h3>Informes y materiales</h3>
-          <p>
-            Enlazá acá informes en PDF, tableros, mapas u otros materiales que
-            quieras compartir con las y los compañeros.
-          </p>
-        </article>
-      </div>
-    </section>
-
-    <!-- CONTACTO -->
-    <section id="contacto">
-      <h2>Contacto</h2>
-      <p>
-        Datos de contacto
-      </p>
-
-      <ul class="contact-list">
-        <li><strong>Correo general:</strong> ateorsna@gmail.com (ejemplo)</li>
-        <li><strong>Canal interno:</strong> Lista de correo / grupo de mensajes (a definir)</li>
-        <li><strong>Presencial:</strong> Oficina de la Junta Interna en el ORSNA (6to piso T4 Aeroparque)</li>
-      </ul>
-
-      <p class="muted">
-        Esta es una versión inicial de prueba.
-      </p>
-    </section>
-  </main>
-
-<!-- ==== GADGET PODER ADQUISITIVO ATE ORSNA ==== -->
-<section id="gadget-salario-2015" class="salario-card">
-  <h2>Calculá tu salario en términos de 2015</h2>
+  <!-- ==== GADGET PODER ADQUISITIVO – BASE DIC 2016 + CONTADOR ==== -->
+<section id="gadget-salario-2016" class="salario-card">
+  <h2>¿Cuánto perdiste de poder adquisitivo desde diciembre 2016?</h2>
   <p class="salario-subtitulo">
-    Ingresá tus salarios y mirá cuánto deberías cobrar hoy para no haber perdido
-    poder adquisitivo respecto de diciembre de 2015.
+    Ingresá tus salarios y mirá cuánto deberías cobrar hoy para mantener
+    el mismo poder de compra que tenías en diciembre de 2016, según el IPC.
   </p>
 
   <div class="salario-grid">
@@ -425,19 +353,18 @@
       <label for="salarioActual">Tu salario mensual actual (en $ de hoy)</label>
       <input type="number" id="salarioActual" placeholder="Ej: 850000" min="0" step="100">
       <small>
-        Con este dato vamos a calcular cuánto “valdría” tu sueldo actual,
-        medido en precios de diciembre 2015.
+        Con este dato vemos cuánto “valdría” tu sueldo actual medido en precios de diciembre 2016.
       </small>
     </div>
 
     <div class="salario-col">
-      <label for="salario2015">
-        Tu salario mensual en diciembre 2015 (si lo recordás)
+      <label for="salario2016">
+        Tu salario mensual en diciembre 2016
       </label>
-      <input type="number" id="salario2015" placeholder="Ej: 15000" min="0" step="100">
+      <input type="number" id="salario2016" placeholder="Ej: 15000" min="0" step="100">
       <small>
-        Con este dato vamos a calcular cuánto deberías cobrar hoy para mantener
-        el mismo poder de compra que tenías en diciembre 2015.
+        Con este dato calculamos cuánto deberías cobrar hoy para mantener
+        el mismo poder de compra que tenías en diciembre 2016.
       </small>
     </div>
   </div>
@@ -451,36 +378,45 @@
       <h4>A partir de tu salario actual</h4>
       <p>
         Tu salario actual de <span class="monto" id="mActual"></span><br>
-        equivale aproximadamente a <span class="monto" id="mEquiv2015"></span>
-        <strong>en precios de diciembre 2015</strong>.
-      </p>
-      <p class="nota">
-        Esto sirve para ver cuánto se redujo tu poder de compra medido hacia atrás
-        (pasando tu sueldo actual a “pesos 2015”).
+        equivale aproximadamente a <span class="monto" id="mEquiv2016"></span>
+        <strong>en precios de diciembre 2016</strong>.
       </p>
     </div>
 
     <hr>
 
-    <div id="bloqueDesde2015" class="salario-bloque" style="display:none;">
-      <h4>A partir de tu salario en diciembre 2015</h4>
+    <div id="bloqueDesde2016" class="salario-bloque" style="display:none;">
+      <h4>A partir de tu salario en diciembre 2016</h4>
       <p>
-        Si en diciembre 2015 cobrabas <span class="monto" id="m2015"></span>,<br>
+        Si en diciembre 2016 cobrabas <span class="monto" id="m2016"></span>,<br>
         para <strong>no haber perdido poder adquisitivo</strong> hoy deberías
         estar cobrando alrededor de
         <span class="monto" id="mNecesarioHoy"></span>.
       </p>
+    </div>
+
+    <hr>
+
+    <!-- BLOQUE CON CONTADOR ANIMADO DE PÉRDIDA -->
+    <div id="bloquePerdida" class="salario-bloque" style="display:none;">
+      <h4>¿Cuánta plata estás perdiendo por mes?</h4>
+      <p>Según este cálculo, estás dejando de cobrar aproximadamente:</p>
+
+      <div class="loss-row">
+        <div class="counter" id="contadorPerdida" data-suffix="/mes">$ 0</div>
+      </div>
+
+      <p class="nota" id="textoExplicacionPerdida"></p>
       <p class="nota">
-        La diferencia entre ese valor y tu salario actual muestra cuánto se
-        recortó tu poder de compra frente a diciembre 2015.
+        Fuente: IPC (base dic-2016 = 100), calculado automáticamente desde <code>Docs/ipc.csv</code>.
       </p>
     </div>
   </div>
 </section>
 
 <style>
-  /* === Estilos mínimos del gadget (no tocan el resto de la página) === */
-  #gadget-salario-2015.salario-card {
+  /* === Estilos mínimos del gadget === */
+  #gadget-salario-2016.salario-card {
     margin: 2rem auto;
     max-width: 720px;
     padding: 1.5rem 1.75rem;
@@ -491,12 +427,12 @@
     font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
   }
 
-  #gadget-salario-2015 h2 {
+  #gadget-salario-2016 h2 {
     font-size: 1.4rem;
     margin-bottom: 0.5rem;
   }
 
-  #gadget-salario-2015 .salario-subtitulo {
+  #gadget-salario-2016 .salario-subtitulo {
     font-size: 0.9rem;
     color: #cbd5f5;
     margin-bottom: 1rem;
@@ -587,8 +523,44 @@
     font-weight: 700;
   }
 
+  .loss-row {
+    display: flex;
+    justify-content: center;
+    margin: 0.5rem 0 0.8rem;
+  }
+
+  /* Estilo del contador animado */
+  #gadget-salario-2016 .counter {
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: #22c55e;
+    position: relative;
+    display: inline-block;
+    transition: color .3s ease;
+  }
+
+  #gadget-salario-2016 .counter.animate {
+    color: #f97316;
+  }
+
+  #gadget-salario-2016 .counter::after {
+    content: attr(data-suffix);
+    font-size: 0.45em;
+    margin-left: 6px;
+    position: static;
+    opacity: 0;
+    transform: translateX(4px);
+    transition: opacity .3s ease-out, transform .3s ease-out, color .3s ease;
+  }
+
+  #gadget-salario-2016 .counter.animate::after {
+    opacity: 1;
+    transform: translateX(0);
+    color: #f97316;
+  }
+
   @media (max-width: 600px) {
-    #gadget-salario-2015.salario-card {
+    #gadget-salario-2016.salario-card {
       margin: 1rem;
       padding: 1.25rem 1rem;
     }
@@ -596,11 +568,9 @@
 </style>
 
 <script>
-  // ⚠️ ACÁ DEFINÍS EL FACTOR DE PRECIOS
-  // IPC_FACTOR = cuánto aumentaron los precios desde dic-2015 hasta hoy.
-  // Ejemplo: si el índice pasa de 100 (dic-2015) a 600 (hoy), entonces factor = 6.
-  // >>> REEMPLAZAR ESTE 6.0 POR EL VALOR QUE QUIERAS USAR <<<
-  const IPC_FACTOR = 6.0; // EJEMPLO
+  // IPC_FACTOR se va a calcular automáticamente leyendo Docs/ipc.csv
+  // Dejamos un valor de respaldo por si algo falla en la carga
+  let IPC_FACTOR = 6.0; // fallback
 
   const formatoPesos = new Intl.NumberFormat("es-AR", {
     style: "currency",
@@ -608,43 +578,145 @@
     maximumFractionDigits: 0
   });
 
+  const DURATION_MS = 2000; // duración de la animación del contador
+
+  function animateMoneyCounter(el, target) {
+    const start = performance.now();
+    const initial = 0;
+    el.classList.remove("animate"); // reseteo
+
+    function tick(now) {
+      const t = Math.min(1, (now - start) / DURATION_MS);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const value = Math.round(initial + (target - initial) * eased);
+
+      el.textContent = formatoPesos.format(value);
+
+      if (t < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        el.textContent = formatoPesos.format(target);
+        el.classList.add("animate");
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  // Leer Docs/ipc.csv y calcular IPC_FACTOR = último_valor / primer_valor
+  // Suponemos columnas: año ; año-mes ; valor (o separadas por coma)
+  (function cargarIPC() {
+    fetch("Docs/ipc.csv")
+      .then(resp => resp.text())
+      .then(texto => {
+        const lineas = texto.split(/\r?\n/).filter(l => l.trim().length > 0);
+
+        if (lineas.length < 2) return; // al menos encabezado + un dato
+
+        const datos = [];
+        // detectar separador ( ; o , ) usando la segunda línea
+        const ejemplo = lineas[1];
+        const sep = ejemplo.includes(";") ? ";" : ",";
+
+        for (let i = 1; i < lineas.length; i++) { // saltamos encabezado (i=0)
+          const partes = lineas[i].split(sep).map(p => p.trim());
+          if (partes.length < 3) continue;
+
+          const valorStr = partes[2].replace(",", "."); // por si usa coma decimal
+          const valor = parseFloat(valorStr);
+          if (!isNaN(valor)) {
+            datos.push(valor);
+          }
+        }
+
+        if (datos.length < 2) return;
+
+        const base = datos[0]; // primer dato = dic 2016 = 100
+        const ultimo = datos[datos.length - 1]; // último dato (ej. oct 2025)
+
+        if (base > 0) {
+          IPC_FACTOR = ultimo / base;
+          console.log("IPC_FACTOR calculado desde Docs/ipc.csv:", IPC_FACTOR.toFixed(4));
+        }
+      })
+      .catch(err => {
+        console.warn("No se pudo leer Docs/ipc.csv, se usa IPC_FACTOR por defecto:", err);
+      });
+  })();
+
   document.getElementById("btnCalcularSalario").addEventListener("click", function () {
     const salarioActualInput = document.getElementById("salarioActual");
-    const salario2015Input = document.getElementById("salario2015");
+    const salario2016Input = document.getElementById("salario2016");
 
-    const salarioActual = parseFloat(salarioActualInput.value.replace(",", "."));
-    const salario2015 = parseFloat(salario2015Input.value.replace(",", "."));
+    const salarioActual = parseFloat(String(salarioActualInput.value).replace(",", "."));
+    const salario2016 = parseFloat(String(salario2016Input.value).replace(",", "."));
 
     const resultado = document.getElementById("resultadoSalario");
     const bloqueDesdeActual = document.getElementById("bloqueDesdeActual");
-    const bloqueDesde2015 = document.getElementById("bloqueDesde2015");
+    const bloqueDesde2016 = document.getElementById("bloqueDesde2016");
+    const bloquePerdida = document.getElementById("bloquePerdida");
+    const contadorPerdida = document.getElementById("contadorPerdida");
+    const textoExplicacionPerdida = document.getElementById("textoExplicacionPerdida");
 
     // Reset de visibilidad
     bloqueDesdeActual.style.display = "none";
-    bloqueDesde2015.style.display = "none";
+    bloqueDesde2016.style.display = "none";
+    bloquePerdida.style.display = "none";
     resultado.style.display = "none";
 
     let hayAlgo = false;
 
-    // 1) Si el usuario ingresa salario actual -> lo pasamos a precios de 2015
+    // 1) Si el usuario ingresa salario actual -> lo pasamos a precios de 2016
     if (!isNaN(salarioActual) && salarioActual > 0) {
-      const salarioEquivalente2015 = salarioActual / IPC_FACTOR;
+      const salarioEquivalente2016 = salarioActual / IPC_FACTOR;
 
       document.getElementById("mActual").textContent = formatoPesos.format(salarioActual);
-      document.getElementById("mEquiv2015").textContent = formatoPesos.format(salarioEquivalente2015);
+      document.getElementById("mEquiv2016").textContent = formatoPesos.format(salarioEquivalente2016);
 
       bloqueDesdeActual.style.display = "block";
       hayAlgo = true;
     }
 
-    // 2) Si el usuario ingresa salario de dic-2015 -> cuánto necesitaría hoy
-    if (!isNaN(salario2015) && salario2015 > 0) {
-      const salarioNecesarioHoy = salario2015 * IPC_FACTOR;
+    // 2) Si el usuario ingresa salario de dic-2016 -> cuánto necesitaría hoy
+    let salarioNecesarioHoy = null;
+    if (!isNaN(salario2016) && salario2016 > 0) {
+      salarioNecesarioHoy = salario2016 * IPC_FACTOR;
 
-      document.getElementById("m2015").textContent = formatoPesos.format(salario2015);
+      document.getElementById("m2016").textContent = formatoPesos.format(salario2016);
       document.getElementById("mNecesarioHoy").textContent = formatoPesos.format(salarioNecesarioHoy);
 
-      bloqueDesde2015.style.display = "block";
+      bloqueDesde2016.style.display = "block";
+      hayAlgo = true;
+    }
+
+    // 3) Contador animado de pérdida:
+    //    para mostrarlo necesitamos LOS DOS datos: salarioActual y salario2016
+    if (!isNaN(salarioActual) && salarioActual > 0 &&
+        !isNaN(salario2016) && salario2016 > 0) {
+
+      if (salarioNecesarioHoy === null) {
+        salarioNecesarioHoy = salario2016 * IPC_FACTOR;
+      }
+
+      let perdida = salarioNecesarioHoy - salarioActual;
+
+      if (perdida <= 0) {
+        perdida = 0;
+        textoExplicacionPerdida.textContent =
+          "Según este índice, tu salario actual no muestra pérdida de poder adquisitivo " +
+          "frente a diciembre 2016 (o incluso está por encima).";
+      } else {
+        textoExplicacionPerdida.textContent =
+          "Es la diferencia entre lo que deberías cobrar hoy (" +
+          formatoPesos.format(salarioNecesarioHoy) +
+          ") y tu salario actual (" +
+          formatoPesos.format(salarioActual) +
+          "), según el IPC tomado desde Docs/ipc.csv.";
+      }
+
+      bloquePerdida.style.display = "block";
+      contadorPerdida.setAttribute("data-suffix", "/mes");
+      animateMoneyCounter(contadorPerdida, Math.round(perdida));
+
       hayAlgo = true;
     }
 
@@ -655,7 +727,80 @@
     }
   });
 </script>
-<!-- ==== FIN GADGET PODER ADQUISITIVO ATE ORSNA ==== -->
+<!-- ==== FIN GADGET PODER ADQUISITIVO – BASE DIC 2016 + CONTADOR ==== -->
+  
+    <!-- JUNTA INTERNA -->
+    <section id="junta-interna">
+      <h2>Junta Interna</h2>
+      <p>
+        Integran la Junta Interna, organización de la
+        representación gremial dentro del ORSNA, y principales
+        líneas de trabajo: defensa salarial, condiciones de trabajo, convenios,
+        organización por sectores, etc.
+      </p>
+
+      <div class="grid" style="margin-top:14px;">
+        <article class="card">
+          <span class="tag">Representación</span>
+          <h3>Delegadas y delegados</h3>
+          <p>Listado de representantes por área, contacto básico y referencias.</p>
+        </article>
+        <article class="card">
+          <span class="tag">Trabajo</span>
+          <h3>Comisiones y equipos</h3>
+          <p>CIOT, CyMAT, género y diversidad, formación, comunicación, entre otras comisiones.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- PUBLICACIONES -->
+    <section id="publicaciones">
+      <h2>Publicaciones</h2>
+      <p>
+        En esta sección vas a poder subir comunicados, informes, actas y materiales
+        producidos por la Junta Interna y Cuerpo de Delegades de ATE ORSNA.
+      </p>
+
+      <div class="grid">
+        <article class="card">
+          <span class="tag">Ejemplo</span>
+          <h3>Comunicado N°1</h3>
+          <p>
+            Comunicado de la Junta Interna. Este espacio se irá
+            actualizando con materiales reales a medida que avance el sitio.
+          </p>
+        </article>
+
+        <article class="card">
+          <span class="tag">Informes</span>
+          <h3>Informes y materiales</h3>
+          <p>
+            Enlazá acá informes en PDF, tableros, mapas u otros materiales que
+            quieras compartir con las y los compañeros.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto">
+      <h2>Contacto</h2>
+      <p>
+        Datos de contacto
+      </p>
+
+      <ul class="contact-list">
+        <li><strong>Correo general:</strong> ateorsna@gmail.com (ejemplo)</li>
+        <li><strong>Canal interno:</strong> Lista de correo / grupo de mensajes (a definir)</li>
+        <li><strong>Presencial:</strong> Oficina de la Junta Interna en el ORSNA (6to piso T4 Aeroparque)</li>
+      </ul>
+
+      <p class="muted">
+        Esta es una versión inicial de prueba.
+      </p>
+    </section>
+  </main>
+
 
   
 </body>
