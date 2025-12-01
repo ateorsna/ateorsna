@@ -289,6 +289,13 @@
         height: 220px;
       }
     }
+
+    /* === Ajuste específico para achicar los contadores por año === */
+#gadget-salario-2016 .year-loss-item .counter {
+  font-size: 0.9rem !important;  /* bien chiquito */
+  line-height: 1.2;
+}
+
   </style>
 </head>
 <body>
@@ -604,22 +611,28 @@
     text-align: center;
   }
 
-  .year-loss-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-    gap: 0.4rem;
-  }
+.year-loss-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 0.35rem;
+}
 
-  .year-loss-item {
-    text-align: center;
-    padding: 0.25rem 0.2rem;
-  }
+.year-loss-item {
+  text-align: center;
+  padding: 0.2rem 0.15rem;
+}
+
 
   .year-label {
     font-size: 0.78rem;
     color: #e5e7eb;
     margin-bottom: 0.1rem;
   }
+@media (max-width: 600px) {
+  .year-loss-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 columnas máx */
+  }
+}
 
 /* reemplazá esta regla por esta versión más chica */
 .year-loss-item .counter {
