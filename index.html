@@ -333,7 +333,7 @@
 
 <!-- ==== GADGET PODER ADQUISITIVO – SALARIO ACTUAL + 3 CONTADORES + AÑO A AÑO ==== -->
 <section id="gadget-salario-2016" class="salario-card">
-  <h2>¿Cuánto perdiste de poder adquisitivo desde diciembre 2016?</h2>
+  <h2>¿Cuánto perdiste de poder adquisitivo desde diciembre 2015?</h2>
   <p class="salario-subtitulo">
     Ingresá tu salario actual y calculamos cuánto deberías estar ganando hoy
     y cuánta plata dejaste de cobrar por la inflación.
@@ -345,7 +345,7 @@
       <label for="salarioActual">Tu salario mensual actual (en $ de hoy)</label>
       <input type="number" id="salarioActual" placeholder="Ej: 2.000.000" min="0" step="100">
       <small>
-        Se estima tu salario de diciembre 2016 dividiéndolo por <strong>31,71</strong>.
+        Se estima tu salario de diciembre 2015 dividiéndolo por <strong>31,71</strong>.
       </small>
     </div>
     <button type="button" id="btnCalcularSalario">Calcular</button>
@@ -372,7 +372,7 @@
 
       <!-- 3) PÉRDIDA TOTAL ACUMULADA -->
       <div class="loss-item">
-        <div class="label-contador">Perdiste desde dic-2016</div>
+        <div class="label-contador">Perdiste desde dic-2015</div>
         <div class="counter counter-neg" id="contadorPerdidaTotal" data-suffix=" acumulado"></div>
       </div>
     </div>
@@ -729,8 +729,14 @@
         perdidaTotal += diff;
 
         // calcular año aproximado del mes i
-        const monthsSinceJan2017 = i - 1; // i=1 -> 0 (ene 2017)
-        const year = 2017 + Math.floor(monthsSinceJan2017 / 12);
+// Ahora i=0 es dic-2015
+// i=1 es dic-2016
+// i=2 es ene-2017
+const baseYear = 2015;
+const baseMonthIndex = 0; // dic-2015
+// mes real = base + i meses
+const year = baseYear + Math.floor((i) / 12);
+
 
         if (!perYearLoss[year]) perYearLoss[year] = 0;
         perYearLoss[year] += diff;
@@ -741,7 +747,7 @@
       perdidaTotal = perdidaMensual * mesesAprox;
 
       // repartir linealmente una pérdida aproximada por año (2017-actual)
-      const yearStart = 2017;
+      const yearStart = 2016;
       const yearEnd = CURRENT_YEAR;
       const years = yearEnd - yearStart + 1;
       const approxPerYear = perdidaTotal / years;
