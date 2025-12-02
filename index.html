@@ -348,8 +348,13 @@
 <div class="salario-row">
   
   <div class="input-y-boton">
-      <input type="number" id="salarioActual" placeholder="ingrese su salario actual" min="0" step="100">
-      <button type="button" id="btnCalcularSalario">Calcular</button>
+<input
+  type="text"
+  id="salarioActual"
+  placeholder="Ej: 2.000.000"
+  inputmode="numeric"
+  autocomplete="off">
+  <button type="button" id="btnCalcularSalario">Calcular</button>
   </div>
 
   <small class="nota-sueldo">No se registra ningún dato personal</small>
@@ -656,6 +661,24 @@
   let normalizedYears = [];        // año de cada fila (mismo índice que normalizedIndices)
 
   const CURRENT_YEAR = new Date().getFullYear();
+// Formato para mostrar el salario ingresado con puntos de miles
+const formatoEntero = new Intl.NumberFormat("es-AR", {
+  maximumFractionDigits: 0
+});
+
+// Formatear el input mientras escribe
+const salarioInput = document.getElementById("salarioActual");
+salarioInput.addEventListener("input", function () {
+  // Sacamos todo lo que no sea dígito
+  let raw = this.value.replace(/\D/g, "");
+  if (raw === "") {
+    this.value = "";
+    return;
+  }
+  // Aplicamos formato con puntos de miles
+  const num = parseInt(raw, 10);
+  this.value = formatoEntero.format(num);
+});
 
   // Formato general en pesos (para los 3 contadores grandes)
   const formatoPesos = new Intl.NumberFormat("es-AR", {
@@ -784,7 +807,11 @@
 
   document.getElementById("btnCalcularSalario").addEventListener("click", function () {
     const salarioActualInput = document.getElementById("salarioActual");
-    const salarioActual = parseFloat(String(salarioActualInput.value).replace(",", "."));
+const salarioActual = parseFloat(
+  String(salarioActualInput.value)
+    .replace(/\./g, "")   // sacamos los puntos de miles
+    .replace(",", ".")    // por si algún día hay coma
+);
 
     const bloquePerdidas = document.getElementById("bloquePerdidas");
     const yearLossContainer = document.getElementById("yearLossContainer");
