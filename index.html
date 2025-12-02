@@ -649,12 +649,13 @@
 </style>
 
 <script>
-  // Factor de crecimiento salarial observado (2016 -> hoy) que querés usar
+  // Factor de crecimiento salarial observado (2015/2016 -> hoy) que querés usar
   const SALARIO_FACTOR = 64.43;
 
   // IPC_FACTOR se calcula automáticamente leyendo Docs/ipc.csv
-  let IPC_FACTOR = 1; // se ajusta al cargar el CSV
-  let normalizedIndices = []; // IPC_t / IPC_dic2016 para cada mes
+  let IPC_FACTOR = 1;              // se ajusta al cargar el CSV
+  let normalizedIndices = [];      // IPC_t / IPC_base
+  let normalizedYears = [];        // año de cada fila (mismo índice que normalizedIndices)
 
   const CURRENT_YEAR = new Date().getFullYear();
 
@@ -692,8 +693,9 @@
   }
 
   // Leer Docs/ipc.csv y calcular:
-  // - IPC_FACTOR = IPC_último / IPC_dic2016
-  // - normalizedIndices = IPC_t / IPC_dic2016 para cada mes
+  // - IPC_FACTOR = IPC_último / IPC_base
+  // - normalizedIndices = IPC_t / IPC_base para cada fila
+  // - normalizedYears = año de cada fila (Año de tu CSV)
   (function cargarIPC() {
     fetch("Docs/ipc.csv")
       .then(resp => resp.text())
@@ -702,30 +704,43 @@
         if (lineas.length < 2) return;
 
         const valores = [];
+        const years = [];
         const ejemplo = lineas[1];
         const sep = ejemplo.includes(";") ? ";" : ",";
 
         for (let i = 1; i < lineas.length; i++) { // saltamos encabezado
           const partes = lineas[i].split(sep).map(p => p.trim());
           if (partes.length < 3) continue;
+
+          const yearStr = partes[0];             // columna "Año"
+          const year = parseInt(yearStr, 10);
+
           const valorStr = partes[2].replace(",", ".");
           const v = parseFloat(valorStr);
-          if (!isNaN(v)) valores.push(v);
+
+          if (!isNaN(v) && !isNaN(year)) {
+            valores.push(v);
+            years.push(year);
+          }
         }
 
         if (valores.length < 2) return;
 
-        const base = valores[0]; // dic-2016 = 100
+        // base = primer valor del CSV (en tu caso, dic-2015)
+        const base = valores[0];
         normalizedIndices = valores.map(v => v / base);
+        normalizedYears = years;
         IPC_FACTOR = normalizedIndices[normalizedIndices.length - 1];
 
         console.log("IPC_FACTOR:", IPC_FACTOR.toFixed(4),
-                    "meses desde base:", normalizedIndices.length - 1);
+                    "filas IPC:", normalizedIndices.length,
+                    "años en serie:", [...new Set(normalizedYears)].join(", "));
       })
       .catch(err => {
         console.warn("No se pudo leer Docs/ipc.csv, se usan valores por defecto:", err);
-        IPC_FACTOR = 64.43;  // fallback para que no explote
+        IPC_FACTOR = SALARIO_FACTOR;  // fallback para que no explote
         normalizedIndices = [1, IPC_FACTOR]; // base + un punto
+        normalizedYears = [2015, CURRENT_YEAR];
       });
   })();
 
@@ -751,44 +766,33 @@
       return;
     }
 
-    // 1) Estimar salario en dic-2016 a partir del salario actual y SALARIO_FACTOR
-    const salario2016_estimado = salarioActual / SALARIO_FACTOR;
+    // 1) Estimar salario "base" (2015/2016) a partir del salario actual y SALARIO_FACTOR
+    const salarioBaseEstimado = salarioActual / SALARIO_FACTOR;
 
     // 2) Sueldo ideal hoy (sin pérdida de poder adquisitivo)
-    const salarioNecesarioHoy = salario2016_estimado * IPC_FACTOR;
+    const salarioNecesarioHoy = salarioBaseEstimado * IPC_FACTOR;
 
     // 3) Pérdida mensual hoy
     let perdidaMensual = salarioNecesarioHoy - salarioActual;
     if (perdidaMensual < 0) perdidaMensual = 0;
 
-    // 4) Pérdida acumulada desde dic-2016 sumando mes a mes (aprox)
+    // 4) Pérdida acumulada sumando mes a mes (aprox)
     let perdidaTotal = 0;
     const perYearLoss = {};
 
-    if (normalizedIndices.length > 1 && IPC_FACTOR > 0) {
+    if (normalizedIndices.length > 1 && IPC_FACTOR > 0 && normalizedYears.length === normalizedIndices.length) {
       const k = SALARIO_FACTOR / IPC_FACTOR; // proporción sueldo/precios
 
-      // i = índice de mes en normalizedIndices
-      // i = 0 -> dic 2016 (base)
-      // i = 1 -> ene 2017, etc.
+      // i recorre todas las filas excepto la base (i=0)
       for (let i = 1; i < normalizedIndices.length; i++) {
-        const factorMes = normalizedIndices[i]; // IPC_t / IPC_dic2016
-        const salarioIdealMes = salario2016_estimado * factorMes;
-        const salarioRealMes = salarioIdealMes * k; // rezagado
+        const factorMes = normalizedIndices[i];             // IPC_t / IPC_base
+        const salarioIdealMes = salarioBaseEstimado * factorMes;
+        const salarioRealMes = salarioIdealMes * k;         // rezagado
         const diff = salarioIdealMes - salarioRealMes;
 
         perdidaTotal += diff;
 
-        // calcular año aproximado del mes i
-// Ahora i=0 es dic-2015
-// i=1 es dic-2016
-// i=2 es ene-2017
-const baseYear = 2015;
-const baseMonthIndex = 0; // dic-2015
-// mes real = base + i meses
-const year = baseYear + Math.floor((i) / 12);
-
-
+        const year = normalizedYears[i];                    // <-- año real desde el CSV
         if (!perYearLoss[year]) perYearLoss[year] = 0;
         perYearLoss[year] += diff;
       }
@@ -797,7 +801,6 @@ const year = baseYear + Math.floor((i) / 12);
       const mesesAprox = 96;
       perdidaTotal = perdidaMensual * mesesAprox;
 
-      // repartir linealmente una pérdida aproximada por año (2017-actual)
       const yearStart = 2016;
       const yearEnd = CURRENT_YEAR;
       const years = yearEnd - yearStart + 1;
@@ -820,7 +823,7 @@ const year = baseYear + Math.floor((i) / 12);
     animateMoneyCounter(contadorPerdidaTotal, Math.round(perdidaTotal), { negative: true });
 
     // 5) Pérdida por año: contadores por año desde 2017 hasta año actual
-    const yearStart = 2017;
+    const yearStart = 2016;  // si querés incluir 2016, cambiá esto a 2016
     const yearsInData = Object.keys(perYearLoss).map(y => parseInt(y, 10));
     const maxYearInData = yearsInData.length ? Math.max(...yearsInData) : CURRENT_YEAR;
     const yearEnd = Math.min(CURRENT_YEAR, maxYearInData);
@@ -852,6 +855,7 @@ const year = baseYear + Math.floor((i) / 12);
     }
   });
 </script>
+
 <!-- ==== FIN GADGET PODER ADQUISITIVO – SALARIO ACTUAL + 3 CONTADORES + AÑO A AÑO ==== -->
 
 
