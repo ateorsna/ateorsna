@@ -632,20 +632,18 @@
   }
 }
 
-/* reemplazá esta regla por esta versión más chica */
 .year-loss-item .counter {
-  font-size: 1.1rem;   /* antes 1.4rem */
-  line-height: 1.2;    /* más compacto en altura */
+  font-size: 1.1rem;
+  line-height: 1.2;
 }
 
+@media (max-width: 600px) {
+  #gadget-salario-2016.salario-card {
+    margin: 1rem;
+    padding: 1.1rem 1rem;
   }
+}
 
-  @media (max-width: 600px) {
-    #gadget-salario-2016.salario-card {
-      margin: 1rem;
-      padding: 1.1rem 1rem;
-    }
-  }
 </style>
 
 <script>
@@ -659,42 +657,71 @@
 
   const CURRENT_YEAR = new Date().getFullYear();
 
-// Formateo para mostrar montos en millones (ej: 13,5 Mill)
-const formatoMillones = new Intl.NumberFormat("es-AR", {
-  minimumFractionDigits: 1,
-  maximumFractionDigits: 1
-});
+  // Formato general en pesos (para los 3 contadores grandes)
+  const formatoPesos = new Intl.NumberFormat("es-AR", {
+    style: "currency",
+    currency: "ARS",
+    maximumFractionDigits: 0
+  });
 
-function animateMillionsCounter(el, targetEnMillones, options = {}) {
-  const { negative = false } = options;
-  const start = performance.now();
-  const initial = 0;
-  el.classList.remove("animate");
+  const DURATION_MS = 2000; // duración de la animación del contador
 
-  function tick(now) {
-    const t = Math.min(1, (now - start) / DURATION_MS);
-    const eased = 1 - Math.pow(1 - t, 3);
-    const value = initial + (targetEnMillones - initial) * eased;
+  // Animación en pesos (contadores principales)
+  function animateMoneyCounter(el, target, options = {}) {
+    const { negative = false } = options;
+    const start = performance.now();
+    const initial = 0;
+    el.classList.remove("animate"); // reseteo
 
-    const texto = formatoMillones.format(Math.abs(value));
-    el.textContent = negative && value > 0 ? ("- " + texto + " Mill") : (texto + " Mill");
+    function tick(now) {
+      const t = Math.min(1, (now - start) / DURATION_MS);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const value = Math.round(initial + (target - initial) * eased);
 
-    if (t < 1) {
-      requestAnimationFrame(tick);
-    } else {
-      const finalTexto = formatoMillones.format(Math.abs(targetEnMillones));
-      el.textContent = negative && targetEnMillones > 0
-        ? ("- " + finalTexto + " Mill")
-        : (finalTexto + " Mill");
-      el.classList.add("animate");
-    }
-  }
-  requestAnimationFrame(tick);
-}
+      const texto = formatoPesos.format(Math.abs(value));
+      el.textContent = negative && value > 0 ? ("- " + texto) : texto;
 
+      if (t < 1) {
+        requestAnimationFrame(tick);
       } else {
         const finalTexto = formatoPesos.format(Math.abs(target));
         el.textContent = negative && target > 0 ? ("- " + finalTexto) : finalTexto;
+        el.classList.add("animate");
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  // Formateo para mostrar montos en millones (ej: 13,5 Mill)
+  const formatoMillones = new Intl.NumberFormat("es-AR", {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1
+  });
+
+  // Animación específica para “Mill” (contadores por año)
+  function animateMillionsCounter(el, targetEnMillones, options = {}) {
+    const { negative = false } = options;
+    const start = performance.now();
+    const initial = 0;
+    el.classList.remove("animate");
+
+    function tick(now) {
+      const t = Math.min(1, (now - start) / DURATION_MS);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const value = initial + (targetEnMillones - initial) * eased;
+
+      const texto = formatoMillones.format(Math.abs(value));
+      el.textContent = negative && value > 0
+        ? ("- " + texto + " Mill")
+        : (texto + " Mill");
+
+      if (t < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        const finalTexto = formatoMillones.format(Math.abs(targetEnMillones));
+        el.textContent = negative && targetEnMillones > 0
+          ? ("- " + finalTexto + " Mill")
+          : (finalTexto + " Mill");
         el.classList.add("animate");
       }
     }
@@ -735,15 +762,17 @@ function animateMillionsCounter(el, targetEnMillones, options = {}) {
 
         if (valores.length < 2) return;
 
-        // base = primer valor del CSV (en tu caso, dic-2015)
+        // base = primer valor del CSV (en tu caso, dic-2015 empalmado)
         const base = valores[0];
         normalizedIndices = valores.map(v => v / base);
         normalizedYears = years;
         IPC_FACTOR = normalizedIndices[normalizedIndices.length - 1];
 
-        console.log("IPC_FACTOR:", IPC_FACTOR.toFixed(4),
-                    "filas IPC:", normalizedIndices.length,
-                    "años en serie:", [...new Set(normalizedYears)].join(", "));
+        console.log(
+          "IPC_FACTOR:", IPC_FACTOR.toFixed(4),
+          "filas IPC:", normalizedIndices.length,
+          "años en serie:", [...new Set(normalizedYears)].join(", ")
+        );
       })
       .catch(err => {
         console.warn("No se pudo leer Docs/ipc.csv, se usan valores por defecto:", err);
@@ -789,7 +818,10 @@ function animateMillionsCounter(el, targetEnMillones, options = {}) {
     let perdidaTotal = 0;
     const perYearLoss = {};
 
-    if (normalizedIndices.length > 1 && IPC_FACTOR > 0 && normalizedYears.length === normalizedIndices.length) {
+    if (normalizedIndices.length > 1 &&
+        IPC_FACTOR > 0 &&
+        normalizedYears.length === normalizedIndices.length) {
+
       const k = SALARIO_FACTOR / IPC_FACTOR; // proporción sueldo/precios
 
       // i recorre todas las filas excepto la base (i=0)
@@ -801,7 +833,7 @@ function animateMillionsCounter(el, targetEnMillones, options = {}) {
 
         perdidaTotal += diff;
 
-        const year = normalizedYears[i];                    // <-- año real desde el CSV
+        const year = normalizedYears[i];                    // año real desde el CSV
         if (!perYearLoss[year]) perYearLoss[year] = 0;
         perYearLoss[year] += diff;
       }
@@ -810,11 +842,11 @@ function animateMillionsCounter(el, targetEnMillones, options = {}) {
       const mesesAprox = 96;
       perdidaTotal = perdidaMensual * mesesAprox;
 
-      const yearStart = 2016;
-      const yearEnd = CURRENT_YEAR;
-      const years = yearEnd - yearStart + 1;
-      const approxPerYear = perdidaTotal / years;
-      for (let y = yearStart; y <= yearEnd; y++) {
+      const yearStartFallback = 2016;
+      const yearEndFallback = CURRENT_YEAR;
+      const yearsFallback = yearEndFallback - yearStartFallback + 1;
+      const approxPerYear = perdidaTotal / yearsFallback;
+      for (let y = yearStartFallback; y <= yearEndFallback; y++) {
         perYearLoss[y] = approxPerYear;
       }
     }
@@ -831,44 +863,44 @@ function animateMillionsCounter(el, targetEnMillones, options = {}) {
     // 3) Pérdida total acumulada (rojo, con "-")
     animateMoneyCounter(contadorPerdidaTotal, Math.round(perdidaTotal), { negative: true });
 
-    // 5) Pérdida por año: contadores por año desde 2017 hasta año actual
-    const yearStart = 2016;  // si querés incluir 2016, cambiá esto a 2016
+    // 5) Pérdida por año: contadores por año desde 2016 hasta año actual
+    const yearStart = 2016;  // si querés arrancar en 2017, cambiá esto
     const yearsInData = Object.keys(perYearLoss).map(y => parseInt(y, 10));
     const maxYearInData = yearsInData.length ? Math.max(...yearsInData) : CURRENT_YEAR;
     const yearEnd = Math.min(CURRENT_YEAR, maxYearInData);
 
-if (yearEnd >= yearStart) {
-  const MILL = 1_000_000; // divisor para pasar a millones
+    if (yearEnd >= yearStart) {
+      const MILL = 1_000_000; // divisor para pasar a millones
 
-  for (let y = yearStart; y <= yearEnd; y++) {
-    const lossYear = perYearLoss[y] || 0;
-    const lossYearEnMillones = lossYear / MILL;
+      for (let y = yearStart; y <= yearEnd; y++) {
+        const lossYear = perYearLoss[y] || 0;
+        const lossYearEnMillones = lossYear / MILL;
 
-    const item = document.createElement("div");
-    item.className = "year-loss-item";
+        const item = document.createElement("div");
+        item.className = "year-loss-item";
 
-    const label = document.createElement("div");
-    label.className = "year-label";
-    label.textContent = y;
+        const label = document.createElement("div");
+        label.className = "year-label";
+        label.textContent = y;
 
-    const counter = document.createElement("div");
-    counter.className = "counter counter-neg";
-    counter.setAttribute("data-suffix", "");
-    counter.textContent = "- 0,0 Mill";
+        const counter = document.createElement("div");
+        counter.className = "counter counter-neg";
+        counter.setAttribute("data-suffix", "");
+        counter.textContent = "- 0,0 Mill";
 
-    item.appendChild(label);
-    item.appendChild(counter);
-    yearLossGrid.appendChild(item);
+        item.appendChild(label);
+        item.appendChild(counter);
+        yearLossGrid.appendChild(item);
 
-    // animamos en millones: ej. 13,5 Mill
-    animateMillionsCounter(counter, lossYearEnMillones, { negative: true });
-  }
+        // animamos en millones: ej. 13,5 Mill
+        animateMillionsCounter(counter, lossYearEnMillones, { negative: true });
+      }
 
-  yearLossContainer.style.display = "block";
-}
-
+      yearLossContainer.style.display = "block";
+    }
   });
 </script>
+
 
 <!-- ==== FIN GADGET PODER ADQUISITIVO – SALARIO ACTUAL + 3 CONTADORES + AÑO A AÑO ==== -->
 
