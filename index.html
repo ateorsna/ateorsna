@@ -665,6 +665,12 @@
   let normalizedIndices = [];      // IPC_t / IPC_base
   let normalizedYears = [];        // año de cada fila (mismo índice que normalizedIndices)
 
+  // Nuevos arrays y objeto para IPC crudo y mes-año
+let rawIPC = [];                 // valores originales del índice IPC
+let ipcYearMonth = [];           // strings "YYYY-MM"
+let inflationByYear = {};        // { 2017: 24.5, 2018: 32.1, ... }
+
+  
   const CURRENT_YEAR = new Date().getFullYear();
 // Formato para mostrar el salario ingresado con puntos de miles
 const formatoEntero = new Intl.NumberFormat("es-AR", {
@@ -760,55 +766,93 @@ salarioInput.addEventListener("input", function () {
   // - IPC_FACTOR = IPC_último / IPC_base
   // - normalizedIndices = IPC_t / IPC_base para cada fila
   // - normalizedYears = año de cada fila (Año de tu CSV)
-  (function cargarIPC() {
-    fetch("Docs/ipc.csv")
-      .then(resp => resp.text())
-      .then(texto => {
-        const lineas = texto.split(/\r?\n/).filter(l => l.trim().length > 0);
-        if (lineas.length < 2) return;
+(function cargarIPC() {
+  fetch("Docs/ipc.csv")
+    .then(resp => resp.text())
+    .then(texto => {
+      const lineas = texto.split(/\r?\n/).filter(l => l.trim().length > 0);
+      if (lineas.length < 2) return;
 
-        const valores = [];
-        const years = [];
-        const ejemplo = lineas[1];
-        const sep = ejemplo.includes(";") ? ";" : ",";
+      const valores = [];
+      const years = [];
+      const yearMonths = [];
+      const ejemplo = lineas[1];
+      const sep = ejemplo.includes(";") ? ";" : ",";
 
-        for (let i = 1; i < lineas.length; i++) { // saltamos encabezado
-          const partes = lineas[i].split(sep).map(p => p.trim());
-          if (partes.length < 3) continue;
+      for (let i = 1; i < lineas.length; i++) { // saltamos encabezado
+        const partes = lineas[i].split(sep).map(p => p.trim());
+        if (partes.length < 3) continue;
 
-          const yearStr = partes[0];             // columna "Año"
-          const year = parseInt(yearStr, 10);
+        const yearStr = partes[0];      // columna "Año"
+        const ymStr   = partes[1];      // columna "AñoMes" (ej: 2016-12)
+        const year    = parseInt(yearStr, 10);
 
-          const valorStr = partes[2].replace(",", ".");
-          const v = parseFloat(valorStr);
+        const valorStr = partes[2].replace(",", ".");
+        const v = parseFloat(valorStr);
 
-          if (!isNaN(v) && !isNaN(year)) {
-            valores.push(v);
-            years.push(year);
+        if (!isNaN(v) && !isNaN(year) && ymStr) {
+          valores.push(v);
+          years.push(year);
+          yearMonths.push(ymStr);
+        }
+      }
+
+      if (valores.length < 2) return;
+
+      // Guardamos globalmente
+      rawIPC       = valores;
+      normalizedYears  = years;
+      ipcYearMonth = yearMonths;
+
+      // base = primer valor del CSV (en tu caso, dic-2015 empalmado)
+      const base = valores[0];
+      normalizedIndices = valores.map(v => v / base);
+      IPC_FACTOR = normalizedIndices[normalizedIndices.length - 1];
+
+      // ==== Cálculo de inflación anual (dic vs dic anterior) ====
+      inflationByYear = {};
+      const indexByYearMonth = new Map();
+      for (let i = 0; i < ipcYearMonth.length; i++) {
+        indexByYearMonth.set(ipcYearMonth[i], i);
+      }
+
+      const minYear = Math.min(...normalizedYears);
+      const maxYear = Math.max(...normalizedYears);
+
+      for (let y = minYear + 1; y <= maxYear; y++) {
+        const claveActual = `${y}-12`;
+        const clavePrev   = `${y - 1}-12`;
+
+        if (indexByYearMonth.has(claveActual) && indexByYearMonth.has(clavePrev)) {
+          const idxAct = indexByYearMonth.get(claveActual);
+          const idxPrev = indexByYearMonth.get(clavePrev);
+
+          const ipcAct  = rawIPC[idxAct];
+          const ipcPrev = rawIPC[idxPrev];
+
+          if (ipcPrev > 0) {
+            const infl = (ipcAct / ipcPrev - 1) * 100;
+            inflationByYear[y] = infl;
           }
         }
+      }
 
-        if (valores.length < 2) return;
+      console.log(
+        "IPC_FACTOR:", IPC_FACTOR.toFixed(4),
+        "filas IPC:", normalizedIndices.length,
+        "años en serie:", [...new Set(normalizedYears)].join(", "),
+        "inflación por año:", inflationByYear
+      );
+    })
+    .catch(err => {
+      console.warn("No se pudo leer Docs/ipc.csv, se usan valores por defecto:", err);
+      IPC_FACTOR = SALARIO_FACTOR;  // fallback para que no explote
+      normalizedIndices = [1, IPC_FACTOR]; // base + un punto
+      normalizedYears = [2015, CURRENT_YEAR];
+      inflationByYear = {};
+    });
+})();
 
-        // base = primer valor del CSV (en tu caso, dic-2015 empalmado)
-        const base = valores[0];
-        normalizedIndices = valores.map(v => v / base);
-        normalizedYears = years;
-        IPC_FACTOR = normalizedIndices[normalizedIndices.length - 1];
-
-        console.log(
-          "IPC_FACTOR:", IPC_FACTOR.toFixed(4),
-          "filas IPC:", normalizedIndices.length,
-          "años en serie:", [...new Set(normalizedYears)].join(", ")
-        );
-      })
-      .catch(err => {
-        console.warn("No se pudo leer Docs/ipc.csv, se usan valores por defecto:", err);
-        IPC_FACTOR = SALARIO_FACTOR;  // fallback para que no explote
-        normalizedIndices = [1, IPC_FACTOR]; // base + un punto
-        normalizedYears = [2015, CURRENT_YEAR];
-      });
-  })();
 
   document.getElementById("btnCalcularSalario").addEventListener("click", function () {
     const salarioActualInput = document.getElementById("salarioActual");
