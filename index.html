@@ -659,30 +659,39 @@
 
   const CURRENT_YEAR = new Date().getFullYear();
 
-  const formatoPesos = new Intl.NumberFormat("es-AR", {
-    style: "currency",
-    currency: "ARS",
-    maximumFractionDigits: 0
-  });
+// Formateo para mostrar montos en millones (ej: 13,5 Mill)
+const formatoMillones = new Intl.NumberFormat("es-AR", {
+  minimumFractionDigits: 1,
+  maximumFractionDigits: 1
+});
 
-  const DURATION_MS = 2000; // duración de la animación del contador
+function animateMillionsCounter(el, targetEnMillones, options = {}) {
+  const { negative = false } = options;
+  const start = performance.now();
+  const initial = 0;
+  el.classList.remove("animate");
 
-  function animateMoneyCounter(el, target, options = {}) {
-    const { negative = false } = options;
-    const start = performance.now();
-    const initial = 0;
-    el.classList.remove("animate"); // reseteo
+  function tick(now) {
+    const t = Math.min(1, (now - start) / DURATION_MS);
+    const eased = 1 - Math.pow(1 - t, 3);
+    const value = initial + (targetEnMillones - initial) * eased;
 
-    function tick(now) {
-      const t = Math.min(1, (now - start) / DURATION_MS);
-      const eased = 1 - Math.pow(1 - t, 3);
-      const value = Math.round(initial + (target - initial) * eased);
+    const texto = formatoMillones.format(Math.abs(value));
+    el.textContent = negative && value > 0 ? ("- " + texto + " Mill") : (texto + " Mill");
 
-      const texto = formatoPesos.format(Math.abs(value));
-      el.textContent = negative && value > 0 ? ("- " + texto) : texto;
+    if (t < 1) {
+      requestAnimationFrame(tick);
+    } else {
+      const finalTexto = formatoMillones.format(Math.abs(targetEnMillones));
+      el.textContent = negative && targetEnMillones > 0
+        ? ("- " + finalTexto + " Mill")
+        : (finalTexto + " Mill");
+      el.classList.add("animate");
+    }
+  }
+  requestAnimationFrame(tick);
+}
 
-      if (t < 1) {
-        requestAnimationFrame(tick);
       } else {
         const finalTexto = formatoPesos.format(Math.abs(target));
         el.textContent = negative && target > 0 ? ("- " + finalTexto) : finalTexto;
@@ -828,31 +837,36 @@
     const maxYearInData = yearsInData.length ? Math.max(...yearsInData) : CURRENT_YEAR;
     const yearEnd = Math.min(CURRENT_YEAR, maxYearInData);
 
-    if (yearEnd >= yearStart) {
-      for (let y = yearStart; y <= yearEnd; y++) {
-        const lossYear = perYearLoss[y] || 0;
+if (yearEnd >= yearStart) {
+  const MILL = 1_000_000; // divisor para pasar a millones
 
-        const item = document.createElement("div");
-        item.className = "year-loss-item";
+  for (let y = yearStart; y <= yearEnd; y++) {
+    const lossYear = perYearLoss[y] || 0;
+    const lossYearEnMillones = lossYear / MILL;
 
-        const label = document.createElement("div");
-        label.className = "year-label";
-        label.textContent = y;
+    const item = document.createElement("div");
+    item.className = "year-loss-item";
 
-        const counter = document.createElement("div");
-        counter.className = "counter counter-neg";
-        counter.setAttribute("data-suffix", "");
-        counter.textContent = "- " + formatoPesos.format(0);
+    const label = document.createElement("div");
+    label.className = "year-label";
+    label.textContent = y;
 
-        item.appendChild(label);
-        item.appendChild(counter);
-        yearLossGrid.appendChild(item);
+    const counter = document.createElement("div");
+    counter.className = "counter counter-neg";
+    counter.setAttribute("data-suffix", "");
+    counter.textContent = "- 0,0 Mill";
 
-        animateMoneyCounter(counter, Math.round(lossYear), { negative: true });
-      }
+    item.appendChild(label);
+    item.appendChild(counter);
+    yearLossGrid.appendChild(item);
 
-      yearLossContainer.style.display = "block";
-    }
+    // animamos en millones: ej. 13,5 Mill
+    animateMillionsCounter(counter, lossYearEnMillones, { negative: true });
+  }
+
+  yearLossContainer.style.display = "block";
+}
+
   });
 </script>
 
