@@ -653,6 +653,11 @@
     padding: 1.1rem 1rem;
   }
 }
+.year-inflation {
+  font-size: 0.7rem;
+  color: #cbd5f5;
+  margin-top: 0.05rem;
+}
 
 </style>
 
@@ -698,6 +703,13 @@ salarioInput.addEventListener("input", function () {
     maximumFractionDigits: 0
   });
 
+  // Formato para porcentaje (inflación anual)
+const formatoPorcentaje = new Intl.NumberFormat("es-AR", {
+  minimumFractionDigits: 1,
+  maximumFractionDigits: 1
+});
+
+  
   const DURATION_MS = 2000; // duración de la animación del contador
 
   // Animación en pesos (contadores principales)
@@ -945,35 +957,48 @@ const salarioActual = parseFloat(
     const maxYearInData = yearsInData.length ? Math.max(...yearsInData) : CURRENT_YEAR;
     const yearEnd = Math.min(CURRENT_YEAR, maxYearInData);
 
-    if (yearEnd >= yearStart) {
-      const MILL = 1_000_000; // divisor para pasar a millones
+if (yearEnd >= yearStart) {
+  const MILL = 1_000_000; // divisor para pasar a millones
 
-      for (let y = yearStart; y <= yearEnd; y++) {
-        const lossYear = perYearLoss[y] || 0;
-        const lossYearEnMillones = lossYear / MILL;
+  for (let y = yearStart; y <= yearEnd; y++) {
+    const lossYear = perYearLoss[y] || 0;
+    const lossYearEnMillones = lossYear / MILL;
 
-        const item = document.createElement("div");
-        item.className = "year-loss-item";
+    const item = document.createElement("div");
+    item.className = "year-loss-item";
 
-        const label = document.createElement("div");
-        label.className = "year-label";
-        label.textContent = y;
+    // Año
+    const label = document.createElement("div");
+    label.className = "year-label";
+    label.textContent = y;
 
-        const counter = document.createElement("div");
-        counter.className = "counter counter-neg";
-        counter.setAttribute("data-suffix", "");
-        counter.textContent = "- 0,0 Mill";
+    // Contador en millones
+    const counter = document.createElement("div");
+    counter.className = "counter counter-neg";
+    counter.setAttribute("data-suffix", "");
+    counter.textContent = "- 0,0 Mill";
 
-        item.appendChild(label);
-        item.appendChild(counter);
-        yearLossGrid.appendChild(item);
+    item.appendChild(label);
+    item.appendChild(counter);
 
-        // animamos en millones: ej. 13,5 Mill
-        animateMillionsCounter(counter, lossYearEnMillones, { negative: true });
-      }
-
-      yearLossContainer.style.display = "block";
+    // Inflación anual (si la tenemos)
+    if (typeof inflationByYear[y] === "number") {
+      const infDiv = document.createElement("div");
+      infDiv.className = "year-inflation";
+      infDiv.textContent = "Inflación: " +
+        formatoPorcentaje.format(inflationByYear[y]) + " %";
+      item.appendChild(infDiv);
     }
+
+    yearLossGrid.appendChild(item);
+
+    // animamos en millones: ej. 13,5 Mill
+    animateMillionsCounter(counter, lossYearEnMillones, { negative: true });
+  }
+
+  yearLossContainer.style.display = "block";
+}
+
   });
 </script>
 
