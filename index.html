@@ -662,8 +662,25 @@
 </style>
 
 <script>
-  // Factor de crecimiento salarial observado (2015/2016 -> hoy) que querés usar
-  const SALARIO_FACTOR = 49.15;
+// Factor de crecimiento salarial observado (2015/2016 -> hoy) que querés usar
+// Factor global de crecimiento salarial (dic-2015 -> hoy):
+// lo seguimos usando para estimar el sueldo base a partir del sueldo actual.
+let SALARIO_FACTOR = 49.15;
+
+// IPC_FACTOR se calcula automáticamente leyendo Docs/ipc.csv
+let IPC_FACTOR = 1;              // se ajusta al cargar el CSV
+let normalizedIndices = [];      // IPC_t / IPC_base
+let normalizedYears = [];        // año de cada fila (mismo índice que normalizedIndices)
+
+// Nuevos arrays / estructuras para índice salarial
+let rawIPC = [];                 // valores originales del índice IPC
+let ipcYearMonth = [];           // strings "YYYY-MM"
+let inflationByYear = {};        // { 2017: 24.5, 2018: 32.1, ... }
+
+// Índice salarial a partir de Varsueldo.csv
+let salaryIndexNorm = [];        // índice salarial normalizado y escalado (base=1 en dic-2015)
+let salaryYearMonth = [];        // "YYYY-MM" para cada fila de Varsueldo
+let salaryYears = [];            // año (number) para cada fila de Varsueldo
 
   // IPC_FACTOR se calcula automáticamente leyendo Docs/ipc.csv
   let IPC_FACTOR = 1;              // se ajusta al cargar el CSV
@@ -865,6 +882,83 @@ const formatoPorcentaje = new Intl.NumberFormat("es-AR", {
     });
 })();
 
+  // Leer Docs/Varsueldo.csv y construir un índice salarial mensual
+(function cargarVarsueldo() {
+  fetch("Docs/Varsueldo.csv")
+    .then(resp => resp.text())
+    .then(texto => {
+      const lineas = texto.split(/\r?\n/).filter(l => l.trim().length > 0);
+      if (lineas.length < 2) return;
+
+      const variaciones = [];
+      const years = [];
+      const yearMonths = [];
+
+      const ejemplo = lineas[1];
+      const sep = ejemplo.includes(";") ? ";" : ",";
+
+      for (let i = 1; i < lineas.length; i++) { // salteamos encabezado
+        const partes = lineas[i].split(sep).map(p => p.trim());
+        if (partes.length < 2) continue;
+
+        const periodo = partes[0];   // ej: "12/2015"
+        const varStr  = partes[1];   // ej: "3,5%"
+
+        // Parsear periodo MM/YYYY -> YYYY-MM
+        const partesFecha = periodo.split("/");
+        if (partesFecha.length !== 2) continue;
+        const mesStr  = partesFecha[0].padStart(2, "0");
+        const yearStr = partesFecha[1];
+        const anio    = parseInt(yearStr, 10);
+        if (isNaN(anio)) continue;
+
+        const ym = `${yearStr}-${mesStr}`;  // "2015-12", "2016-01", etc.
+
+        // Parsear porcentaje: "3,5%" -> 0.035
+        const limpio = varStr.replace("%", "").replace(",", ".");
+        const v = parseFloat(limpio);
+        const varMensual = isNaN(v) ? 0 : (v / 100);
+
+        years.push(anio);
+        yearMonths.push(ym);
+        variaciones.push(varMensual);
+      }
+
+      if (!variaciones.length) return;
+
+      // Construimos índice salarial crudo con base = 1 en el primer registro (dic-2015)
+      const idxRaw = [];
+      let nivel = 1;
+      for (let i = 0; i < variaciones.length; i++) {
+        if (i === 0) {
+          idxRaw.push(1); // base = 1
+        } else {
+          nivel = nivel * (1 + variaciones[i]);
+          idxRaw.push(nivel);
+        }
+      }
+
+      // Escalamos el índice para que el último valor coincida con SALARIO_FACTOR (64,43)
+      const factorEndRaw = idxRaw[idxRaw.length - 1];
+      let scale = 1;
+      if (factorEndRaw > 0) {
+        scale = SALARIO_FACTOR / factorEndRaw;
+      }
+
+      salaryIndexNorm = idxRaw.map(v => v * scale);
+      salaryYearMonth = yearMonths;
+      salaryYears     = years;
+
+      console.log("Índice salarial cargado. Último factor (escalado) =", salaryIndexNorm[salaryIndexNorm.length - 1]);
+    })
+    .catch(err => {
+      console.warn("No se pudo leer Docs/Varsueldo.csv. Se usará solo la aproximación global.", err);
+      salaryIndexNorm = [];
+      salaryYearMonth = [];
+      salaryYears     = [];
+    });
+})();
+
 
   document.getElementById("btnCalcularSalario").addEventListener("click", function () {
     const salarioActualInput = document.getElementById("salarioActual");
@@ -902,31 +996,51 @@ const salarioActual = parseFloat(
     let perdidaMensual = salarioNecesarioHoy - salarioActual;
     if (perdidaMensual < 0) perdidaMensual = 0;
 
-    // 4) Pérdida acumulada sumando mes a mes (aprox)
+    // 4) Pérdida acumulada sumando mes a mes (usando IPC + Varsueldo si están disponibles)
     let perdidaTotal = 0;
     const perYearLoss = {};
 
-    if (normalizedIndices.length > 1 &&
-        IPC_FACTOR > 0 &&
-        normalizedYears.length === normalizedIndices.length) {
+    if (
+      normalizedIndices.length > 1 &&
+      IPC_FACTOR > 0 &&
+      normalizedYears.length === normalizedIndices.length &&
+      salaryIndexNorm.length > 0 &&
+      salaryYearMonth.length === salaryIndexNorm.length
+    ) {
+      // Mapas para encontrar el índice por año-mes
+      const mapIPC = new Map();  // "YYYY-MM" -> índice en IPC
+      for (let i = 0; i < ipcYearMonth.length; i++) {
+        mapIPC.set(ipcYearMonth[i], i);
+      }
 
-      const k = SALARIO_FACTOR / IPC_FACTOR; // proporción sueldo/precios
+      const mapSAL = new Map();  // "YYYY-MM" -> índice en salario
+      for (let i = 0; i < salaryYearMonth.length; i++) {
+        mapSAL.set(salaryYearMonth[i], i);
+      }
 
-      // i recorre todas las filas excepto la base (i=0)
-      for (let i = 1; i < normalizedIndices.length; i++) {
-        const factorMes = normalizedIndices[i];             // IPC_t / IPC_base
-        const salarioIdealMes = salarioBaseEstimado * factorMes;
-        const salarioRealMes = salarioIdealMes * k;         // rezagado
+      // Recorremos todos los meses donde tenemos IPC y salario a la vez
+      for (const [ym, idxIPC] of mapIPC.entries()) {
+        const idxSAL = mapSAL.get(ym);
+        if (idxSAL == null) continue;      // si falta salario para ese mes, lo salteamos
+        if (idxIPC === 0) continue;        // saltamos la base (dic-2015)
+
+        const factorIPC = normalizedIndices[idxIPC];   // IPC_t / IPC_base
+        const factorSal = salaryIndexNorm[idxSAL];     // Salario_t / Salario_base (escalado)
+
+        const salarioIdealMes = salarioBaseEstimado * factorIPC;
+        const salarioRealMes  = salarioBaseEstimado * factorSal;
         const diff = salarioIdealMes - salarioRealMes;
 
-        perdidaTotal += diff;
+        if (diff > 0) {
+          perdidaTotal += diff;
 
-        const year = normalizedYears[i];                    // año real desde el CSV
-        if (!perYearLoss[year]) perYearLoss[year] = 0;
-        perYearLoss[year] += diff;
+          const year = normalizedYears[idxIPC];
+          if (!perYearLoss[year]) perYearLoss[year] = 0;
+          perYearLoss[year] += diff;
+        }
       }
     } else {
-      // fallback simple si no hay IPC: aprox = pérdida mensual * 96 meses (~8 años)
+      // fallback simple si no tenemos series suficientes: aprox = pérdida mensual * 96 meses (~8 años)
       const mesesAprox = 96;
       perdidaTotal = perdidaMensual * mesesAprox;
 
@@ -938,6 +1052,7 @@ const salarioActual = parseFloat(
         perYearLoss[y] = approxPerYear;
       }
     }
+
 
     // Mostrar contadores principales
     bloquePerdidas.style.display = "block";
