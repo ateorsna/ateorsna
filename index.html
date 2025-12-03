@@ -662,7 +662,6 @@
 </style>
 
 <script>
-// Factor de crecimiento salarial observado (2015/2016 -> hoy) que querés usar
 // Factor global de crecimiento salarial (dic-2015 -> hoy):
 // lo seguimos usando para estimar el sueldo base a partir del sueldo actual.
 let SALARIO_FACTOR = 49.15;
@@ -670,9 +669,9 @@ let SALARIO_FACTOR = 49.15;
 // IPC_FACTOR se calcula automáticamente leyendo Docs/ipc.csv
 let IPC_FACTOR = 1;              // se ajusta al cargar el CSV
 let normalizedIndices = [];      // IPC_t / IPC_base
-let normalizedYears = [];        // año de cada fila (mismo índice que normalizedIndices)
+let normalizedYears = [];        // año de cada fila (Año de tu CSV)
 
-// Nuevos arrays / estructuras para índice salarial
+// Nuevos arrays / estructuras para índice salarial y precios
 let rawIPC = [];                 // valores originales del índice IPC
 let ipcYearMonth = [];           // strings "YYYY-MM"
 let inflationByYear = {};        // { 2017: 24.5, 2018: 32.1, ... }
@@ -682,18 +681,8 @@ let salaryIndexNorm = [];        // índice salarial normalizado y escalado (bas
 let salaryYearMonth = [];        // "YYYY-MM" para cada fila de Varsueldo
 let salaryYears = [];            // año (number) para cada fila de Varsueldo
 
-  // IPC_FACTOR se calcula automáticamente leyendo Docs/ipc.csv
-  let IPC_FACTOR = 1;              // se ajusta al cargar el CSV
-  let normalizedIndices = [];      // IPC_t / IPC_base
-  let normalizedYears = [];        // año de cada fila (mismo índice que normalizedIndices)
+const CURRENT_YEAR = new Date().getFullYear();
 
-  // Nuevos arrays y objeto para IPC crudo y mes-año
-let rawIPC = [];                 // valores originales del índice IPC
-let ipcYearMonth = [];           // strings "YYYY-MM"
-let inflationByYear = {};        // { 2017: 24.5, 2018: 32.1, ... }
-
-  
-  const CURRENT_YEAR = new Date().getFullYear();
 // Formato para mostrar el salario ingresado con puntos de miles
 const formatoEntero = new Intl.NumberFormat("es-AR", {
   maximumFractionDigits: 0
@@ -713,88 +702,87 @@ salarioInput.addEventListener("input", function () {
   this.value = formatoEntero.format(num);
 });
 
-  // Formato general en pesos (para los 3 contadores grandes)
-  const formatoPesos = new Intl.NumberFormat("es-AR", {
-    style: "currency",
-    currency: "ARS",
-    maximumFractionDigits: 0
-  });
+// Formato general en pesos (para los 3 contadores grandes)
+const formatoPesos = new Intl.NumberFormat("es-AR", {
+  style: "currency",
+  currency: "ARS",
+  maximumFractionDigits: 0
+});
 
-  // Formato para porcentaje (inflación anual)
+// Formato para porcentaje (inflación anual)
 const formatoPorcentaje = new Intl.NumberFormat("es-AR", {
   minimumFractionDigits: 1,
   maximumFractionDigits: 1
 });
 
-  
-  const DURATION_MS = 2000; // duración de la animación del contador
+const DURATION_MS = 2000; // duración de la animación del contador
 
-  // Animación en pesos (contadores principales)
-  function animateMoneyCounter(el, target, options = {}) {
-    const { negative = false } = options;
-    const start = performance.now();
-    const initial = 0;
-    el.classList.remove("animate"); // reseteo
+// Animación en pesos (contadores principales)
+function animateMoneyCounter(el, target, options = {}) {
+  const { negative = false } = options;
+  const start = performance.now();
+  const initial = 0;
+  el.classList.remove("animate"); // reseteo
 
-    function tick(now) {
-      const t = Math.min(1, (now - start) / DURATION_MS);
-      const eased = 1 - Math.pow(1 - t, 3);
-      const value = Math.round(initial + (target - initial) * eased);
+  function tick(now) {
+    const t = Math.min(1, (now - start) / DURATION_MS);
+    const eased = 1 - Math.pow(1 - t, 3);
+    const value = Math.round(initial + (target - initial) * eased);
 
-      const texto = formatoPesos.format(Math.abs(value));
-      el.textContent = negative && value > 0 ? ("- " + texto) : texto;
+    const texto = formatoPesos.format(Math.abs(value));
+    el.textContent = negative && value > 0 ? ("- " + texto) : texto;
 
-      if (t < 1) {
-        requestAnimationFrame(tick);
-      } else {
-        const finalTexto = formatoPesos.format(Math.abs(target));
-        el.textContent = negative && target > 0 ? ("- " + finalTexto) : finalTexto;
-        el.classList.add("animate");
-      }
+    if (t < 1) {
+      requestAnimationFrame(tick);
+    } else {
+      const finalTexto = formatoPesos.format(Math.abs(target));
+      el.textContent = negative && target > 0 ? ("- " + finalTexto) : finalTexto;
+      el.classList.add("animate");
     }
-    requestAnimationFrame(tick);
   }
+  requestAnimationFrame(tick);
+}
 
-  // Formateo para mostrar montos en millones (ej: 13,5 Mill)
-  const formatoMillones = new Intl.NumberFormat("es-AR", {
-    minimumFractionDigits: 1,
-    maximumFractionDigits: 1
-  });
+// Formateo para mostrar montos en millones (ej: 13,5 Mill)
+const formatoMillones = new Intl.NumberFormat("es-AR", {
+  minimumFractionDigits: 1,
+  maximumFractionDigits: 1
+});
 
-  // Animación específica para “Mill” (contadores por año)
-  function animateMillionsCounter(el, targetEnMillones, options = {}) {
-    const { negative = false } = options;
-    const start = performance.now();
-    const initial = 0;
-    el.classList.remove("animate");
+// Animación específica para “Mill” (contadores por año)
+function animateMillionsCounter(el, targetEnMillones, options = {}) {
+  const { negative = false } = options;
+  const start = performance.now();
+  const initial = 0;
+  el.classList.remove("animate");
 
-    function tick(now) {
-      const t = Math.min(1, (now - start) / DURATION_MS);
-      const eased = 1 - Math.pow(1 - t, 3);
-      const value = initial + (targetEnMillones - initial) * eased;
+  function tick(now) {
+    const t = Math.min(1, (now - start) / DURATION_MS);
+    const eased = 1 - Math.pow(1 - t, 3);
+    const value = initial + (targetEnMillones - initial) * eased;
 
-      const texto = formatoMillones.format(Math.abs(value));
-      el.textContent = negative && value > 0
-        ? ("- " + texto + " Mill")
-        : (texto + " Mill");
+    const texto = formatoMillones.format(Math.abs(value));
+    el.textContent = negative && value > 0
+      ? ("- " + texto + " Mill")
+      : (texto + " Mill");
 
-      if (t < 1) {
-        requestAnimationFrame(tick);
-      } else {
-        const finalTexto = formatoMillones.format(Math.abs(targetEnMillones));
-        el.textContent = negative && targetEnMillones > 0
-          ? ("- " + finalTexto + " Mill")
-          : (finalTexto + " Mill");
-        el.classList.add("animate");
-      }
+    if (t < 1) {
+      requestAnimationFrame(tick);
+    } else {
+      const finalTexto = formatoMillones.format(Math.abs(targetEnMillones));
+      el.textContent = negative && targetEnMillones > 0
+        ? ("- " + finalTexto + " Mill")
+        : (finalTexto + " Mill");
+      el.classList.add("animate");
     }
-    requestAnimationFrame(tick);
   }
+  requestAnimationFrame(tick);
+}
 
-  // Leer Docs/ipc.csv y calcular:
-  // - IPC_FACTOR = IPC_último / IPC_base
-  // - normalizedIndices = IPC_t / IPC_base para cada fila
-  // - normalizedYears = año de cada fila (Año de tu CSV)
+// Leer Docs/ipc.csv y calcular:
+// - IPC_FACTOR = IPC_último / IPC_base
+// - normalizedIndices = IPC_t / IPC_base para cada fila
+// - normalizedYears = año de cada fila (Año de tu CSV)
 (function cargarIPC() {
   fetch("Docs/ipc.csv")
     .then(resp => resp.text())
@@ -829,9 +817,9 @@ const formatoPorcentaje = new Intl.NumberFormat("es-AR", {
       if (valores.length < 2) return;
 
       // Guardamos globalmente
-      rawIPC       = valores;
-      normalizedYears  = years;
-      ipcYearMonth = yearMonths;
+      rawIPC          = valores;
+      normalizedYears = years;
+      ipcYearMonth    = yearMonths;
 
       // base = primer valor del CSV (en tu caso, dic-2015 empalmado)
       const base = valores[0];
@@ -882,7 +870,7 @@ const formatoPorcentaje = new Intl.NumberFormat("es-AR", {
     });
 })();
 
-  // Leer Docs/Varsueldo.csv y construir un índice salarial mensual
+// Leer Docs/Varsueldo.csv y construir un índice salarial mensual
 (function cargarVarsueldo() {
   fetch("Docs/Varsueldo.csv")
     .then(resp => resp.text())
@@ -938,7 +926,7 @@ const formatoPorcentaje = new Intl.NumberFormat("es-AR", {
         }
       }
 
-      // Escalamos el índice para que el último valor coincida con SALARIO_FACTOR (64,43)
+      // Escalamos el índice para que el último valor coincida con SALARIO_FACTOR (49,15)
       const factorEndRaw = idxRaw[idxRaw.length - 1];
       let scale = 1;
       if (factorEndRaw > 0) {
@@ -959,163 +947,161 @@ const formatoPorcentaje = new Intl.NumberFormat("es-AR", {
     });
 })();
 
+document.getElementById("btnCalcularSalario").addEventListener("click", function () {
+  const salarioActualInput = document.getElementById("salarioActual");
+  const salarioActual = parseFloat(
+    String(salarioActualInput.value)
+      .replace(/\./g, "")   // sacamos los puntos de miles
+      .replace(",", ".")    // por si algún día hay coma
+  );
 
-  document.getElementById("btnCalcularSalario").addEventListener("click", function () {
-    const salarioActualInput = document.getElementById("salarioActual");
-const salarioActual = parseFloat(
-  String(salarioActualInput.value)
-    .replace(/\./g, "")   // sacamos los puntos de miles
-    .replace(",", ".")    // por si algún día hay coma
-);
+  const bloquePerdidas = document.getElementById("bloquePerdidas");
+  const yearLossContainer = document.getElementById("yearLossContainer");
+  const yearLossGrid = document.getElementById("yearLossGrid");
 
-    const bloquePerdidas = document.getElementById("bloquePerdidas");
-    const yearLossContainer = document.getElementById("yearLossContainer");
-    const yearLossGrid = document.getElementById("yearLossGrid");
+  const contadorDeberia = document.getElementById("contadorDeberia");
+  const contadorPerdidaMensual = document.getElementById("contadorPerdidaMensual");
+  const contadorPerdidaTotal = document.getElementById("contadorPerdidaTotal");
 
-    const contadorDeberia = document.getElementById("contadorDeberia");
-    const contadorPerdidaMensual = document.getElementById("contadorPerdidaMensual");
-    const contadorPerdidaTotal = document.getElementById("contadorPerdidaTotal");
+  // Ocultamos resultados si algo está mal
+  bloquePerdidas.style.display = "none";
+  yearLossContainer.style.display = "none";
+  yearLossGrid.innerHTML = "";
 
-    // Ocultamos resultados si algo está mal
-    bloquePerdidas.style.display = "none";
-    yearLossContainer.style.display = "none";
-    yearLossGrid.innerHTML = "";
-
-    if (isNaN(salarioActual) || salarioActual <= 0) {
-      alert("Por favor, ingresá tu salario mensual actual.");
-      return;
-    }
-
-    // 1) Estimar salario "base" (2015/2016) a partir del salario actual y SALARIO_FACTOR
-    const salarioBaseEstimado = salarioActual / SALARIO_FACTOR;
-
-    // 2) Sueldo ideal hoy (sin pérdida de poder adquisitivo)
-    const salarioNecesarioHoy = salarioBaseEstimado * IPC_FACTOR;
-
-    // 3) Pérdida mensual hoy
-    let perdidaMensual = salarioNecesarioHoy - salarioActual;
-    if (perdidaMensual < 0) perdidaMensual = 0;
-
-    // 4) Pérdida acumulada sumando mes a mes (usando IPC + Varsueldo si están disponibles)
-    let perdidaTotal = 0;
-    const perYearLoss = {};
-
-    if (
-      normalizedIndices.length > 1 &&
-      IPC_FACTOR > 0 &&
-      normalizedYears.length === normalizedIndices.length &&
-      salaryIndexNorm.length > 0 &&
-      salaryYearMonth.length === salaryIndexNorm.length
-    ) {
-      // Mapas para encontrar el índice por año-mes
-      const mapIPC = new Map();  // "YYYY-MM" -> índice en IPC
-      for (let i = 0; i < ipcYearMonth.length; i++) {
-        mapIPC.set(ipcYearMonth[i], i);
-      }
-
-      const mapSAL = new Map();  // "YYYY-MM" -> índice en salario
-      for (let i = 0; i < salaryYearMonth.length; i++) {
-        mapSAL.set(salaryYearMonth[i], i);
-      }
-
-      // Recorremos todos los meses donde tenemos IPC y salario a la vez
-      for (const [ym, idxIPC] of mapIPC.entries()) {
-        const idxSAL = mapSAL.get(ym);
-        if (idxSAL == null) continue;      // si falta salario para ese mes, lo salteamos
-        if (idxIPC === 0) continue;        // saltamos la base (dic-2015)
-
-        const factorIPC = normalizedIndices[idxIPC];   // IPC_t / IPC_base
-        const factorSal = salaryIndexNorm[idxSAL];     // Salario_t / Salario_base (escalado)
-
-        const salarioIdealMes = salarioBaseEstimado * factorIPC;
-        const salarioRealMes  = salarioBaseEstimado * factorSal;
-        const diff = salarioIdealMes - salarioRealMes;
-
-        if (diff > 0) {
-          perdidaTotal += diff;
-
-          const year = normalizedYears[idxIPC];
-          if (!perYearLoss[year]) perYearLoss[year] = 0;
-          perYearLoss[year] += diff;
-        }
-      }
-    } else {
-      // fallback simple si no tenemos series suficientes: aprox = pérdida mensual * 96 meses (~8 años)
-      const mesesAprox = 96;
-      perdidaTotal = perdidaMensual * mesesAprox;
-
-      const yearStartFallback = 2016;
-      const yearEndFallback = CURRENT_YEAR;
-      const yearsFallback = yearEndFallback - yearStartFallback + 1;
-      const approxPerYear = perdidaTotal / yearsFallback;
-      for (let y = yearStartFallback; y <= yearEndFallback; y++) {
-        perYearLoss[y] = approxPerYear;
-      }
-    }
-
-
-    // Mostrar contadores principales
-    bloquePerdidas.style.display = "block";
-
-    // 1) Deberías estar ganando hoy (contador principal)
-    animateMoneyCounter(contadorDeberia, Math.round(salarioNecesarioHoy), { negative: false });
-
-    // 2) Pérdida mensual (rojo, con "-")
-    animateMoneyCounter(contadorPerdidaMensual, Math.round(perdidaMensual), { negative: true });
-
-    // 3) Pérdida total acumulada (rojo, con "-")
-    animateMoneyCounter(contadorPerdidaTotal, Math.round(perdidaTotal), { negative: true });
-
-    // 5) Pérdida por año: contadores por año desde 2016 hasta año actual
-    const yearStart = 2016;  // si querés arrancar en 2017, cambiá esto
-    const yearsInData = Object.keys(perYearLoss).map(y => parseInt(y, 10));
-    const maxYearInData = yearsInData.length ? Math.max(...yearsInData) : CURRENT_YEAR;
-    const yearEnd = Math.min(CURRENT_YEAR, maxYearInData);
-
-if (yearEnd >= yearStart) {
-  const MILL = 1_000_000; // divisor para pasar a millones
-
-  for (let y = yearStart; y <= yearEnd; y++) {
-    const lossYear = perYearLoss[y] || 0;
-    const lossYearEnMillones = lossYear / MILL;
-
-    const item = document.createElement("div");
-    item.className = "year-loss-item";
-
-    // Año
-    const label = document.createElement("div");
-    label.className = "year-label";
-    label.textContent = y;
-
-    // Contador en millones
-    const counter = document.createElement("div");
-    counter.className = "counter counter-neg";
-    counter.setAttribute("data-suffix", "");
-    counter.textContent = "- 0,0 Mill";
-
-    item.appendChild(label);
-    item.appendChild(counter);
-
-    // Inflación anual (si la tenemos)
-    if (typeof inflationByYear[y] === "number") {
-      const infDiv = document.createElement("div");
-      infDiv.className = "year-inflation";
-      infDiv.textContent = "Inflación: " +
-        formatoPorcentaje.format(inflationByYear[y]) + " %";
-      item.appendChild(infDiv);
-    }
-
-    yearLossGrid.appendChild(item);
-
-    // animamos en millones: ej. 13,5 Mill
-    animateMillionsCounter(counter, lossYearEnMillones, { negative: true });
+  if (isNaN(salarioActual) || salarioActual <= 0) {
+    alert("Por favor, ingresá tu salario mensual actual.");
+    return;
   }
 
-  yearLossContainer.style.display = "block";
-}
+  // 1) Estimar salario "base" (2015/2016) a partir del salario actual y SALARIO_FACTOR
+  const salarioBaseEstimado = salarioActual / SALARIO_FACTOR;
 
-  });
+  // 2) Sueldo ideal hoy (sin pérdida de poder adquisitivo)
+  const salarioNecesarioHoy = salarioBaseEstimado * IPC_FACTOR;
+
+  // 3) Pérdida mensual hoy
+  let perdidaMensual = salarioNecesarioHoy - salarioActual;
+  if (perdidaMensual < 0) perdidaMensual = 0;
+
+  // 4) Pérdida acumulada sumando mes a mes (usando IPC + Varsueldo si están disponibles)
+  let perdidaTotal = 0;
+  const perYearLoss = {};
+
+  if (
+    normalizedIndices.length > 1 &&
+    IPC_FACTOR > 0 &&
+    normalizedYears.length === normalizedIndices.length &&
+    salaryIndexNorm.length > 0 &&
+    salaryYearMonth.length === salaryIndexNorm.length
+  ) {
+    // Mapas para encontrar el índice por año-mes
+    const mapIPC = new Map();  // "YYYY-MM" -> índice en IPC
+    for (let i = 0; i < ipcYearMonth.length; i++) {
+      mapIPC.set(ipcYearMonth[i], i);
+    }
+
+    const mapSAL = new Map();  // "YYYY-MM" -> índice en salario
+    for (let i = 0; i < salaryYearMonth.length; i++) {
+      mapSAL.set(salaryYearMonth[i], i);
+    }
+
+    // Recorremos todos los meses donde tenemos IPC y salario a la vez
+    for (const [ym, idxIPC] of mapIPC.entries()) {
+      const idxSAL = mapSAL.get(ym);
+      if (idxSAL == null) continue;      // si falta salario para ese mes, lo salteamos
+      if (idxIPC === 0) continue;        // saltamos la base (dic-2015)
+
+      const factorIPC = normalizedIndices[idxIPC];   // IPC_t / IPC_base
+      const factorSal = salaryIndexNorm[idxSAL];     // Salario_t / Salario_base (escalado)
+
+      const salarioIdealMes = salarioBaseEstimado * factorIPC;
+      const salarioRealMes  = salarioBaseEstimado * factorSal;
+      const diff = salarioIdealMes - salarioRealMes;
+
+      if (diff > 0) {
+        perdidaTotal += diff;
+
+        const year = normalizedYears[idxIPC];
+        if (!perYearLoss[year]) perYearLoss[year] = 0;
+        perYearLoss[year] += diff;
+      }
+    }
+  } else {
+    // fallback simple si no tenemos series suficientes: aprox = pérdida mensual * 96 meses (~8 años)
+    const mesesAprox = 96;
+    perdidaTotal = perdidaMensual * mesesAprox;
+
+    const yearStartFallback = 2016;
+    const yearEndFallback = CURRENT_YEAR;
+    const yearsFallback = yearEndFallback - yearStartFallback + 1;
+    const approxPerYear = perdidaTotal / yearsFallback;
+    for (let y = yearStartFallback; y <= yearEndFallback; y++) {
+      perYearLoss[y] = approxPerYear;
+    }
+  }
+
+  // Mostrar contadores principales
+  bloquePerdidas.style.display = "block";
+
+  // 1) Deberías estar ganando hoy (contador principal)
+  animateMoneyCounter(contadorDeberia, Math.round(salarioNecesarioHoy), { negative: false });
+
+  // 2) Pérdida mensual (rojo, con "-")
+  animateMoneyCounter(contadorPerdidaMensual, Math.round(perdidaMensual), { negative: true });
+
+  // 3) Pérdida total acumulada (rojo, con "-")
+  animateMoneyCounter(contadorPerdidaTotal, Math.round(perdidaTotal), { negative: true });
+
+  // 5) Pérdida por año: contadores por año desde 2016 hasta año actual
+  const yearStart = 2016;  // si querés arrancar en 2017, cambiá esto
+  const yearsInData = Object.keys(perYearLoss).map(y => parseInt(y, 10));
+  const maxYearInData = yearsInData.length ? Math.max(...yearsInData) : CURRENT_YEAR;
+  const yearEnd = Math.min(CURRENT_YEAR, maxYearInData);
+
+  if (yearEnd >= yearStart) {
+    const MILL = 1_000_000; // divisor para pasar a millones
+
+    for (let y = yearStart; y <= yearEnd; y++) {
+      const lossYear = perYearLoss[y] || 0;
+      const lossYearEnMillones = lossYear / MILL;
+
+      const item = document.createElement("div");
+      item.className = "year-loss-item";
+
+      // Año
+      const label = document.createElement("div");
+      label.className = "year-label";
+      label.textContent = y;
+
+      // Contador en millones
+      const counter = document.createElement("div");
+      counter.className = "counter counter-neg";
+      counter.setAttribute("data-suffix", "");
+      counter.textContent = "- 0,0 Mill";
+
+      item.appendChild(label);
+      item.appendChild(counter);
+
+      // Inflación anual (si la tenemos)
+      if (typeof inflationByYear[y] === "number") {
+        const infDiv = document.createElement("div");
+        infDiv.className = "year-inflation";
+        infDiv.textContent = "Inflación: " +
+          formatoPorcentaje.format(inflationByYear[y]) + " %";
+        item.appendChild(infDiv);
+      }
+
+      yearLossGrid.appendChild(item);
+
+      // animamos en millones: ej. 13,5 Mill
+      animateMillionsCounter(counter, lossYearEnMillones, { negative: true });
+    }
+
+    yearLossContainer.style.display = "block";
+  }
+});
 </script>
+
 
 
 <!-- ==== FIN GADGET PODER ADQUISITIVO – SALARIO ACTUAL + 3 CONTADORES + AÑO A AÑO ==== -->
