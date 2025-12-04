@@ -688,6 +688,11 @@
   font-weight: 700;
   color: #fca5a5;
 }
+.year-salary-var {
+  font-size: 0.7rem;
+  color: #bbf7d0;        /* verdecito suave para diferenciar de inflación */
+  margin-top: 0.05rem;
+}
 
 </style>
 
@@ -711,6 +716,8 @@ let salaryIndexNorm = [];        // índice salarial normalizado y escalado (bas
 let salaryYearMonth = [];        // "YYYY-MM" para cada fila de Varsueldo
 let salaryYears = [];            // año (number) para cada fila de Varsueldo
 
+  // NUEVO: suma de Varsueldo (%) por año
+let salaryVariationByYear = {};  // { 2016: 45.3, 2017: 34.2, ... }
 const CURRENT_YEAR = new Date().getFullYear();
 
 // Formato para mostrar el salario ingresado con puntos de miles
@@ -911,7 +918,11 @@ function animateMillionsCounter(el, targetEnMillones, options = {}) {
       const variaciones = [];
       const years = [];
       const yearMonths = [];
+      
+      // Reiniciamos el acumulador anual de paritarias
+      salaryVariationByYear = {};
 
+      
       const ejemplo = lineas[1];
       const sep = ejemplo.includes(";") ? ";" : ",";
 
@@ -941,6 +952,11 @@ function animateMillionsCounter(el, targetEnMillones, options = {}) {
         yearMonths.push(ym);
         variaciones.push(varMensual);
       }
+        // NUEVO: acumular suma de Varsueldo (%) por año calendario
+        if (!salaryVariationByYear[anio]) {
+          salaryVariationByYear[anio] = 0;
+        }
+        salaryVariationByYear[anio] += varMensual * 100; // guardamos en puntos porcentuales
 
       if (!variaciones.length) return;
 
@@ -1146,6 +1162,14 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
           formatoPorcentaje.format(inflationByYear[y]) + " %";
         item.appendChild(infDiv);
       }
+    // NUEVO: suma anual de paritarias (Varsueldo)
+    if (typeof salaryVariationByYear[y] === "number") {
+      const varDiv = document.createElement("div");
+      varDiv.className = "year-salary-var";
+      varDiv.textContent = "Paritarias: " +
+        formatoPorcentaje.format(salaryVariationByYear[y]) + " %";
+      item.appendChild(varDiv);
+    }
 
       yearLossGrid.appendChild(item);
 
