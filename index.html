@@ -395,7 +395,7 @@
         <!-- PÉRDIDA EN PORCENTAJE HOY -->
 <div class="percentage-loss" id="porcentajePerdidaWrapper" style="display:none;">
   <div class="percentage-loss-text">
-    A tu sueldo actual debería crecer un <span id="porcentajePerdida"></span>
+    Tu sueldo actual debería crecer un <span id="porcentajePerdida"></span>
     para no perder contra la inflación
   </div>
 </div>
@@ -922,7 +922,6 @@ function animateMillionsCounter(el, targetEnMillones, options = {}) {
       // Reiniciamos el acumulador anual de paritarias
       salaryVariationByYear = {};
 
-      
       const ejemplo = lineas[1];
       const sep = ejemplo.includes(";") ? ";" : ",";
 
@@ -951,12 +950,13 @@ function animateMillionsCounter(el, targetEnMillones, options = {}) {
         years.push(anio);
         yearMonths.push(ym);
         variaciones.push(varMensual);
-      }
-        // NUEVO: acumular suma de Varsueldo (%) por año calendario
+
+        // 👉 ACÁ adentro sí: acumular Varsueldo (%) por año calendario
         if (!salaryVariationByYear[anio]) {
           salaryVariationByYear[anio] = 0;
         }
-        salaryVariationByYear[anio] += varMensual * 100; // guardamos en puntos porcentuales
+        salaryVariationByYear[anio] += varMensual * 100; // guardamos puntos porcentuales
+      }
 
       if (!variaciones.length) return;
 
@@ -965,14 +965,14 @@ function animateMillionsCounter(el, targetEnMillones, options = {}) {
       let nivel = 1;
       for (let i = 0; i < variaciones.length; i++) {
         if (i === 0) {
-          idxRaw.push(1); // base = 1
+          idxRaw.push(1);
         } else {
           nivel = nivel * (1 + variaciones[i]);
           idxRaw.push(nivel);
         }
       }
 
-      // Escalamos el índice para que el último valor coincida con SALARIO_FACTOR (49,15)
+      // Escalamos para que el último valor coincida con SALARIO_FACTOR
       const factorEndRaw = idxRaw[idxRaw.length - 1];
       let scale = 1;
       if (factorEndRaw > 0) {
@@ -984,14 +984,17 @@ function animateMillionsCounter(el, targetEnMillones, options = {}) {
       salaryYears     = years;
 
       console.log("Índice salarial cargado. Último factor (escalado) =", salaryIndexNorm[salaryIndexNorm.length - 1]);
+      console.log("Paritarias por año:", salaryVariationByYear);
     })
     .catch(err => {
       console.warn("No se pudo leer Docs/Varsueldo.csv. Se usará solo la aproximación global.", err);
       salaryIndexNorm = [];
       salaryYearMonth = [];
       salaryYears     = [];
+      salaryVariationByYear = {};
     });
 })();
+
 
 document.getElementById("btnCalcularSalario").addEventListener("click", function () {
   const salarioActualInput = document.getElementById("salarioActual");
@@ -1117,11 +1120,18 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
   // 3) Pérdida total acumulada (rojo, con "-")
   animateMoneyCounter(contadorPerdidaTotal, Math.round(perdidaTotal), { negative: true });
 
-    // Mostrar la pérdida en porcentaje si es mayor a 0
-  if (porcentajePerdida > 0) {
-    porcentajePerdidaWrapper.style.display = "block";
-    porcentajePerdidaSpan.textContent = formatoPorcentaje.format(porcentajePerdida) + " %";
-  }
+// Mostrar el porcentaje de crecimiento TOTAL (100% + aumento necesario)
+if (porcentajePerdida > 0) {
+  porcentajePerdidaWrapper.style.display = "block";
+
+  // porcentajePerdida es el aumento necesario vs tu sueldo actual
+  // Para mostrar "crecer un XXX %", sumamos 100:
+  const porcentajeCrecimientoTotal = 100 + porcentajePerdida;
+
+  porcentajePerdidaSpan.textContent =
+    formatoPorcentaje.format(porcentajeCrecimientoTotal) + " %";
+}
+
 
   
   // 5) Pérdida por año: contadores por año desde 2016 hasta año actual
