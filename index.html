@@ -393,12 +393,13 @@
     </div>
 
         <!-- PÉRDIDA EN PORCENTAJE HOY -->
-    <div class="percentage-loss" id="porcentajePerdidaWrapper" style="display:none;">
-      <div class="percentage-loss-text">
-        Estás cobrando hoy <span id="porcentajePerdida"></span> menos de lo que deberías 
-        para no perder contra la inflación desde 2015.
-      </div>
-    </div>
+<div class="percentage-loss" id="porcentajePerdidaWrapper" style="display:none;">
+  <div class="percentage-loss-text">
+    Tu sueldo debería aumentar hoy <span id="porcentajePerdida"></span>
+    para no perder contra la inflación desde 2015.
+  </div>
+</div>
+
 
     <!-- PÉRDIDA POR AÑO -->
     <div class="year-loss-container" id="yearLossContainer" style="display:none;">
@@ -1016,12 +1017,18 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
   // 3) Pérdida mensual hoy
   let perdidaMensual = salarioNecesarioHoy - salarioActual;
   if (perdidaMensual < 0) perdidaMensual = 0;
-  // 3 bis) Pérdida en porcentaje respecto de lo que deberías cobrar hoy
+  
+  // 3 bis) % de aumento necesario hoy para no perder contra la inflación
   let porcentajePerdida = 0;
-  if (salarioNecesarioHoy > 0) {
-    porcentajePerdida = (1 - (salarioActual / salarioNecesarioHoy)) * 100;
-    if (porcentajePerdida < 0) porcentajePerdida = 0; // por si en algún momento el sueldo real supera al ideal
+  if (salarioActual > 0) {
+    // cuánto tiene que subir tu sueldo para llegar a salarioNecesarioHoy
+    porcentajePerdida = (salarioNecesarioHoy / salarioActual - 1) * 100;
+    if (porcentajePerdida < 0) {
+      // si ya estás por encima del "ideal", no hace falta aumento
+      porcentajePerdida = 0;
+    }
   }
+
 
   // 4) Pérdida acumulada sumando mes a mes (usando IPC + Varsueldo si están disponibles)
   let perdidaTotal = 0;
