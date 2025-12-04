@@ -997,6 +997,13 @@ function animateMillionsCounter(el, targetEnMillones, options = {}) {
 
 
 document.getElementById("btnCalcularSalario").addEventListener("click", function () {
+  // Permitir calcular con Enter dentro del input
+salarioInput.addEventListener("keyup", function (e) {
+  if (e.key === "Enter") {
+    document.getElementById("btnCalcularSalario").click();
+  }
+});
+
   const salarioActualInput = document.getElementById("salarioActual");
   const salarioActual = parseFloat(
     String(salarioActualInput.value)
