@@ -289,6 +289,78 @@
         height: 220px;
       }
     }
+/* === Layout calculadora + tarjeta informe MATE === */
+.layout-calculadora-informe {
+  display: flex;
+  gap: 24px;
+  align-items: stretch;   /* hace que calculadora e informe tengan la misma altura */
+  margin-top: 24px;
+}
+
+.calculadora-contenedor {
+  flex: 1 1 0;
+}
+
+/* Tarjeta lateral del informe */
+.informe-mate {
+  width: 280px;
+  background: #f5f5f5;
+  border-left: 6px solid var(--verde-ate);
+  border-radius: 10px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  color: #222;
+}
+
+.informe-mate-img {
+  width: 100%;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.informe-mate h3 {
+  margin: 0 0 8px 0;
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--verde-oscuro);
+}
+
+.informe-mate p {
+  font-size: 0.9rem;
+  line-height: 1.45;
+  margin-bottom: 14px;
+}
+
+.informe-mate-btn {
+  display: inline-block;
+  text-align: center;
+  background: var(--verde-ate);
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-top: auto; /* el botón se queda al final de la tarjeta */
+}
+
+.informe-mate-btn:hover {
+  filter: brightness(1.05);
+}
+
+/* En pantallas chicas, que se apilen uno abajo del otro */
+@media (max-width: 860px) {
+  .layout-calculadora-informe {
+    flex-direction: column;
+  }
+  .informe-mate {
+    width: 100%;
+  }
+}
 
     /* === Ajuste específico para achicar los contadores por año === */
 #gadget-salario-2016 .year-loss-item .counter {
@@ -336,10 +408,15 @@
         Un espacio para organizar, informar y defender nuestros derechos como trabajadoras y trabajadores del Organismo.
       </p>
 
+      <!-- Contenedor: calculadora + tarjeta informe MATE -->
+      <div class="layout-calculadora-informe">
 
+        <!-- Caja de la CALCULADORA -->
+        <div class="calculadora-contenedor">
 
 <!-- ==== GADGET PODER ADQUISITIVO – SALARIO ACTUAL + 3 CONTADORES + AÑO A AÑO ==== -->
 <section id="gadget-salario-2016" class="salario-card">
+
   <h2>¿Cuánto poder adquisitivo perdiste desde diciembre de 2015?</h2>
   <p class="salario-subtitulo">
     Ingresá tu salario actual y te mostramos cuánto perdimos por la falta de actualización paritaria  </p>
@@ -1207,6 +1284,26 @@ if (porcentajePerdida > 0) {
 
 <!-- ==== FIN GADGET PODER ADQUISITIVO – SALARIO ACTUAL + 3 CONTADORES + AÑO A AÑO ==== -->
 
+        </div> <!-- fin .calculadora-contenedor -->
+
+        <!-- TARJETA LATERAL: Informe MATE Economía -->
+        <div class="informe-mate">
+          <img src="Imagenes/MateInforme.PNG"
+               alt="Informe MATE Economía – Octubre 2025"
+               class="informe-mate-img">
+          <h3>Informe de referencia</h3>
+          <p>
+            Para darle marco a esta calculadora y entender la pérdida de poder adquisitivo
+            frente a la inflación, podés consultar el informe de MATE Economía (octubre 2025).
+          </p>
+          <a href="https://mateconomia.com.ar/infomate/2025/octubre-2025/"
+             target="_blank"
+             class="informe-mate-btn">
+            📄 Ver informe de MATE Economía
+          </a>
+        </div>
+
+      </div> <!-- fin .layout-calculadora-informe -->
 
       <!-- Video: una reproducción, con sonido al darle play, desde el minuto 44 -->
       <div class="hero-video">
