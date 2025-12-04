@@ -395,8 +395,8 @@
         <!-- PÉRDIDA EN PORCENTAJE HOY -->
 <div class="percentage-loss" id="porcentajePerdidaWrapper" style="display:none;">
   <div class="percentage-loss-text">
-    A tu sueldo actual debería sumarse un <span id="porcentajePerdida"></span>
-    para no perder contra la inflación desde 2015.
+    A tu sueldo actual debería crecer un <span id="porcentajePerdida"></span>
+    para no perder contra la inflación
   </div>
 </div>
 
@@ -1042,7 +1042,7 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
     // cuánto tiene que subir tu sueldo para llegar a salarioNecesarioHoy
     porcentajePerdida = (salarioNecesarioHoy / salarioActual - 1) * 100;
     if (porcentajePerdida < 0) {
-      // si ya estás por encima del "ideal", no hace falta aumento
+      // si ya estás por encima del "ideal", no hace falta aumento 
       porcentajePerdida = 0;
     }
   }
