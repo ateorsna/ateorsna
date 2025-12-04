@@ -870,31 +870,32 @@ function animateMillionsCounter(el, targetEnMillones, options = {}) {
       normalizedIndices = valores.map(v => v / base);
       IPC_FACTOR = normalizedIndices[normalizedIndices.length - 1];
 
-      // ==== Cálculo de inflación anual (dic vs dic anterior) ====
+      // ==== Cálculo de inflación anual:
+      // usamos el ÚLTIMO mes disponible de cada año vs el ÚLTIMO mes del año anterior ====
       inflationByYear = {};
-      const indexByYearMonth = new Map();
-      for (let i = 0; i < ipcYearMonth.length; i++) {
-        indexByYearMonth.set(ipcYearMonth[i], i);
+
+      // Mapear, para cada año, el último índice donde aparece en la serie
+      const perYearLastIndex = {};
+      for (let i = 0; i < normalizedYears.length; i++) {
+        const y = normalizedYears[i];
+        perYearLastIndex[y] = i; // como recorre en orden, queda el último
       }
 
       const minYear = Math.min(...normalizedYears);
       const maxYear = Math.max(...normalizedYears);
 
       for (let y = minYear + 1; y <= maxYear; y++) {
-        const claveActual = `${y}-12`;
-        const clavePrev   = `${y - 1}-12`;
+        const idxAct  = perYearLastIndex[y];
+        const idxPrev = perYearLastIndex[y - 1];
 
-        if (indexByYearMonth.has(claveActual) && indexByYearMonth.has(clavePrev)) {
-          const idxAct = indexByYearMonth.get(claveActual);
-          const idxPrev = indexByYearMonth.get(clavePrev);
+        if (idxAct == null || idxPrev == null) continue;
 
-          const ipcAct  = rawIPC[idxAct];
-          const ipcPrev = rawIPC[idxPrev];
+        const ipcAct  = rawIPC[idxAct];
+        const ipcPrev = rawIPC[idxPrev];
 
-          if (ipcPrev > 0) {
-            const infl = (ipcAct / ipcPrev - 1) * 100;
-            inflationByYear[y] = infl;
-          }
+        if (ipcPrev > 0) {
+          const infl = (ipcAct / ipcPrev - 1) * 100;
+          inflationByYear[y] = infl;
         }
       }
 
@@ -904,6 +905,7 @@ function animateMillionsCounter(el, targetEnMillones, options = {}) {
         "años en serie:", [...new Set(normalizedYears)].join(", "),
         "inflación por año:", inflationByYear
       );
+
     })
     .catch(err => {
       console.warn("No se pudo leer Docs/ipc.csv, se usan valores por defecto:", err);
