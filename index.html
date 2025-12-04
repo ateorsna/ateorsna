@@ -293,63 +293,62 @@
 .layout-calculadora-informe {
   display: flex;
   gap: 24px;
-  align-items: stretch;   /* hace que calculadora e informe tengan la misma altura */
+  align-items: flex-start;   /* ya no fuerza la misma altura exacta */
   margin-top: 24px;
 }
 
+/* La calculadora sigue siendo el contenido principal (ocupa casi todo el ancho) */
 .calculadora-contenedor {
-  flex: 1 1 0;
+  flex: 1 1 auto;
+  max-width: 800px;  /* la mantenemos bien ancha dentro del contenido */
 }
 
-/* Tarjeta lateral del informe */
+/* Tarjeta lateral del informe, más angosta y secundaria */
 .informe-mate {
-  width: 280px;
+  flex: 0 0 240px;   /* columna más finita */
   background: #f5f5f5;
-  border-left: 6px solid var(--verde-ate);
+  border-left: 4px solid var(--verde-ate);
   border-radius: 10px;
-  padding: 16px 18px;
+  padding: 12px 14px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   color: #222;
+  font-size: 0.9rem;
+}
+
+/* El link es la imagen completa */
+.informe-mate-link {
+  display: block;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.informe-mate-link:hover {
+  border-color: var(--verde-ate);
+  filter: brightness(1.03);
 }
 
 .informe-mate-img {
   width: 100%;
-  border-radius: 6px;
-  margin-bottom: 10px;
+  display: block;
 }
 
 .informe-mate h3 {
-  margin: 0 0 8px 0;
+  margin: 0 0 6px 0;
   font-family: "Roboto Condensed", sans-serif;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--verde-oscuro);
 }
 
 .informe-mate p {
-  font-size: 0.9rem;
-  line-height: 1.45;
-  margin-bottom: 14px;
-}
-
-.informe-mate-btn {
-  display: inline-block;
-  text-align: center;
-  background: var(--verde-ate);
-  color: #fff;
-  text-decoration: none;
-  padding: 10px 14px;
-  border-radius: 999px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  margin-top: auto; /* el botón se queda al final de la tarjeta */
-}
-
-.informe-mate-btn:hover {
-  filter: brightness(1.05);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin: 0;
 }
 
 /* En pantallas chicas, que se apilen uno abajo del otro */
@@ -358,9 +357,11 @@
     flex-direction: column;
   }
   .informe-mate {
+    flex: 0 0 auto;
     width: 100%;
   }
 }
+
 
     /* === Ajuste específico para achicar los contadores por año === */
 #gadget-salario-2016 .year-loss-item .counter {
@@ -1288,20 +1289,20 @@ if (porcentajePerdida > 0) {
 
         <!-- TARJETA LATERAL: Informe MATE Economía -->
         <div class="informe-mate">
-          <img src="Imagenes/MateInforme.PNG"
-               alt="Informe MATE Economía – Octubre 2025"
-               class="informe-mate-img">
+          <a href="https://mateeconomia.com.ar/infomate/2025/octubre-2025/"
+             target="_blank"
+             class="informe-mate-link">
+            <img src="Imagenes/MateInforme.PNG"
+                 alt="Informe MATE Economía – Octubre 2025"
+                 class="informe-mate-img">
+          </a>
           <h3>Informe de referencia</h3>
           <p>
             Para darle marco a esta calculadora y entender la pérdida de poder adquisitivo
             frente a la inflación, podés consultar el informe de MATE Economía (octubre 2025).
           </p>
-          <a href="https://mateconomia.com.ar/infomate/2025/octubre-2025/"
-             target="_blank"
-             class="informe-mate-btn">
-            📄 Ver informe de MATE Economía
-          </a>
         </div>
+
 
       </div> <!-- fin .layout-calculadora-informe -->
 
