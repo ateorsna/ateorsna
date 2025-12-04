@@ -306,8 +306,8 @@
 /* Tarjeta lateral del informe, más angosta y secundaria */
 .informe-mate {
   flex: 0 0 240px;   /* columna más finita */
-  background: #f5f5f5;
-  border-left: 4px solid var(--verde-ate);
+  background: #f8fafc;
+  border-left: 3px solid var(--verde-ate);
   border-radius: 10px;
   padding: 12px 14px;
   display: flex;
@@ -315,6 +315,7 @@
   justify-content: flex-start;
   color: #222;
   font-size: 0.9rem;
+  margin-top: 12px;
 }
 
 /* El link es la imagen completa */
@@ -331,18 +332,25 @@
   filter: brightness(1.03);
 }
 
+    .informe-mate-link:hover img {
+  filter: brightness(1.04);
+  transform: scale(1.01);
+  transition: 0.2s;
+}
+
 .informe-mate-img {
-  width: 100%;
-  display: block;
+  max-height: 300px;
+  object-fit: contain;
 }
 
 .informe-mate h3 {
   margin: 0 0 6px 0;
   font-family: "Roboto Condensed", sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   color: var(--verde-oscuro);
+  margin-bottom: 4px;
 }
 
 .informe-mate p {
@@ -355,11 +363,14 @@
 @media (max-width: 860px) {
   .layout-calculadora-informe {
     flex-direction: column;
+    gap: 32px;
   }
-  .informe-mate {
-    flex: 0 0 auto;
-    width: 100%;
-  }
+.informe-mate {
+  border-left: 4px solid #00923f;
+  padding-left: 14px;
+    border-radius: 0 10px 10px 0;
+}
+
 }
 
 
@@ -1298,8 +1309,7 @@ if (porcentajePerdida > 0) {
           </a>
           <h3>Informe de referencia</h3>
           <p>
-            Para darle marco a esta calculadora y entender la pérdida de poder adquisitivo
-            frente a la inflación, podés consultar el informe de MATE Economía (octubre 2025).
+            Para contextualizar la pérdida de poder adquisitivo frente a la inflación, consultá el informe de MATE Economía (octubre 2025)
           </p>
         </div>
 
