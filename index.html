@@ -739,6 +739,13 @@ salarioInput.addEventListener("input", function () {
   this.value = formatoEntero.format(num);
 });
 
+    // Permitir calcular con Enter dentro del input
+salarioInput.addEventListener("keyup", function (e) {
+  if (e.key === "Enter") {
+    document.getElementById("btnCalcularSalario").click();
+  }
+});
+  
 // Formato general en pesos (para los 3 contadores grandes)
 const formatoPesos = new Intl.NumberFormat("es-AR", {
   style: "currency",
@@ -997,12 +1004,7 @@ function animateMillionsCounter(el, targetEnMillones, options = {}) {
 
 
 document.getElementById("btnCalcularSalario").addEventListener("click", function () {
-  // Permitir calcular con Enter dentro del input
-salarioInput.addEventListener("keyup", function (e) {
-  if (e.key === "Enter") {
-    document.getElementById("btnCalcularSalario").click();
-  }
-});
+
 
   const salarioActualInput = document.getElementById("salarioActual");
   const salarioActual = parseFloat(
