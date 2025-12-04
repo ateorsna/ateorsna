@@ -392,6 +392,14 @@
       </div>
     </div>
 
+        <!-- PÉRDIDA EN PORCENTAJE HOY -->
+    <div class="percentage-loss" id="porcentajePerdidaWrapper" style="display:none;">
+      <div class="percentage-loss-text">
+        Estás cobrando hoy <span id="porcentajePerdida"></span> menos de lo que deberías 
+        para no perder contra la inflación desde 2015.
+      </div>
+    </div>
+
     <!-- PÉRDIDA POR AÑO -->
     <div class="year-loss-container" id="yearLossContainer" style="display:none;">
       <div class="year-loss-title">Pérdida acumulada por año</div>
@@ -657,6 +665,25 @@
   font-size: 0.7rem;
   color: #cbd5f5;
   margin-top: 0.05rem;
+}
+.percentage-loss {
+  margin-top: 0.4rem;
+  margin-bottom: 0.2rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(248, 113, 113, 0.12); /* rojito suave */
+  border: 1px solid rgba(248, 113, 113, 0.45);
+  text-align: center;
+}
+
+.percentage-loss-text {
+  font-size: 0.85rem;
+  color: #fee2e2;
+}
+
+#porcentajePerdida {
+  font-weight: 700;
+  color: #fca5a5;
 }
 
 </style>
@@ -959,14 +986,21 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
   const yearLossContainer = document.getElementById("yearLossContainer");
   const yearLossGrid = document.getElementById("yearLossGrid");
 
+
   const contadorDeberia = document.getElementById("contadorDeberia");
   const contadorPerdidaMensual = document.getElementById("contadorPerdidaMensual");
   const contadorPerdidaTotal = document.getElementById("contadorPerdidaTotal");
+
+  const porcentajePerdidaWrapper = document.getElementById("porcentajePerdidaWrapper");
+  const porcentajePerdidaSpan = document.getElementById("porcentajePerdida");
+
 
   // Ocultamos resultados si algo está mal
   bloquePerdidas.style.display = "none";
   yearLossContainer.style.display = "none";
   yearLossGrid.innerHTML = "";
+  porcentajePerdidaWrapper.style.display = "none";
+
 
   if (isNaN(salarioActual) || salarioActual <= 0) {
     alert("Por favor, ingresá tu salario mensual actual.");
@@ -982,6 +1016,12 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
   // 3) Pérdida mensual hoy
   let perdidaMensual = salarioNecesarioHoy - salarioActual;
   if (perdidaMensual < 0) perdidaMensual = 0;
+  // 3 bis) Pérdida en porcentaje respecto de lo que deberías cobrar hoy
+  let porcentajePerdida = 0;
+  if (salarioNecesarioHoy > 0) {
+    porcentajePerdida = (1 - (salarioActual / salarioNecesarioHoy)) * 100;
+    if (porcentajePerdida < 0) porcentajePerdida = 0; // por si en algún momento el sueldo real supera al ideal
+  }
 
   // 4) Pérdida acumulada sumando mes a mes (usando IPC + Varsueldo si están disponibles)
   let perdidaTotal = 0;
@@ -1052,6 +1092,13 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
   // 3) Pérdida total acumulada (rojo, con "-")
   animateMoneyCounter(contadorPerdidaTotal, Math.round(perdidaTotal), { negative: true });
 
+    // Mostrar la pérdida en porcentaje si es mayor a 0
+  if (porcentajePerdida > 0) {
+    porcentajePerdidaWrapper.style.display = "block";
+    porcentajePerdidaSpan.textContent = formatoPorcentaje.format(porcentajePerdida) + " %";
+  }
+
+  
   // 5) Pérdida por año: contadores por año desde 2016 hasta año actual
   const yearStart = 2016;  // si querés arrancar en 2017, cambiá esto
   const yearsInData = Object.keys(perYearLoss).map(y => parseInt(y, 10));
