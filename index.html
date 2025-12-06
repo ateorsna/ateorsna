@@ -910,13 +910,16 @@ function animateMoneyCounter(el, target, options = {}) {
   requestAnimationFrame(tick);
 }
 
-// Formateo para mostrar montos en millones (ej: 13,5 Mill)
+// Formato para mostrar montos en millones de pesos (ej: - $0,50 ; - $3,25)
 const formatoMillones = new Intl.NumberFormat("es-AR", {
-  minimumFractionDigits: 1,
-  maximumFractionDigits: 1
+  style: "currency",
+  currency: "ARS",
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
 });
 
-// Animación específica para “Mill” (contadores por año)
+
+// Animación para valores en millones de pesos (sin texto "Mill")
 function animateMillionsCounter(el, targetEnMillones, options = {}) {
   const { negative = false } = options;
   const start = performance.now();
@@ -928,23 +931,25 @@ function animateMillionsCounter(el, targetEnMillones, options = {}) {
     const eased = 1 - Math.pow(1 - t, 3);
     const value = initial + (targetEnMillones - initial) * eased;
 
-    const texto = formatoMillones.format(Math.abs(value));
-    el.textContent = negative && value > 0
-      ? ("- " + texto + " Mill")
-      : (texto + " Mill");
+    const texto = formatoMillones.format(Math.abs(value)); // ej: $0,50
+    el.textContent = (negative && value > 0)
+      ? "- " + texto
+      : texto;
 
     if (t < 1) {
       requestAnimationFrame(tick);
     } else {
       const finalTexto = formatoMillones.format(Math.abs(targetEnMillones));
-      el.textContent = negative && targetEnMillones > 0
-        ? ("- " + finalTexto + " Mill")
-        : (finalTexto + " Mill");
+      el.textContent = (negative && targetEnMillones > 0)
+        ? "- " + finalTexto
+        : finalTexto;
       el.classList.add("animate");
     }
   }
+
   requestAnimationFrame(tick);
 }
+
 
 // Leer Docs/ipc.csv y calcular:
 // - IPC_FACTOR = IPC_último / IPC_base
