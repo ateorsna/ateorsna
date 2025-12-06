@@ -676,7 +676,20 @@
     position: relative;
     display: inline-block;
     transition: color .3s ease;
+    white-space: nowrap;  /* 👈 evita que se corte en 2 renglones */
   }
+
+  /* Un poquito más chico solo en los 3 contadores grandes para que entren cómodos */
+  #gadget-salario-2016 .loss-grid .counter {
+    font-size: 1.8rem;
+  }
+
+  @media (max-width: 700px) {
+    #gadget-salario-2016 .loss-grid .counter {
+      font-size: 1.5rem;
+    }
+  }
+
 
   .counter-main {
     color: #22c55e;
@@ -719,33 +732,45 @@
     text-align: center;
   }
 
+/* Contenedor de la tabla de pérdidas por año */
 .year-loss-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  gap: 0.35rem;
+  overflow-x: auto; /* si hay muchos años, que se pueda scrollear horizontal */
 }
 
-.year-loss-item {
+/* Tabla: columnas = años, filas = pérdida / inflación / paritarias */
+.year-loss-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+  color: #e5e7eb;
+  margin-top: 0.3rem;
+}
+
+.year-loss-table th,
+.year-loss-table td {
+  padding: 0.25rem 0.4rem;
   text-align: center;
-  padding: 0.2rem 0.15rem;
+  border-bottom: 1px solid rgba(148,163,184,0.25);
 }
 
+.year-loss-table th:first-child,
+.year-loss-table td:first-child {
+  text-align: left;
+  white-space: nowrap;
+  font-weight: 600;
+  color: #cbd5f5;
+}
 
-  .year-label {
-    font-size: 0.78rem;
-    color: #e5e7eb;
-    margin-bottom: 0.1rem;
-  }
+.year-loss-row-label {
+  white-space: nowrap;
+}
+
 @media (max-width: 600px) {
-  .year-loss-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 columnas máx */
+  .year-loss-table {
+    font-size: 0.7rem;
   }
 }
 
-.year-loss-item .counter {
-  font-size: 1.1rem;
-  line-height: 1.2;
-}
 
 @media (max-width: 600px) {
   #gadget-salario-2016.salario-card {
@@ -1234,7 +1259,7 @@ if (porcentajePerdida > 0) {
 
 
   
-  // 5) Pérdida por año: contadores por año desde 2016 hasta año actual
+  // 5) Pérdida por año en tabla: columnas = años, filas = pérdida / inflación / paritarias
   const yearStart = 2016;  // si querés arrancar en 2017, cambiá esto
   const yearsInData = Object.keys(perYearLoss).map(y => parseInt(y, 10));
   const maxYearInData = yearsInData.length ? Math.max(...yearsInData) : CURRENT_YEAR;
@@ -1243,52 +1268,106 @@ if (porcentajePerdida > 0) {
   if (yearEnd >= yearStart) {
     const MILL = 1_000_000; // divisor para pasar a millones
 
+    // limpiamos el contenedor
+    yearLossGrid.innerHTML = "";
+
+    // creamos la tabla
+    const table = document.createElement("table");
+    table.className = "year-loss-table";
+
+    // === THEAD: fila de años ===
+    const thead = document.createElement("thead");
+    const headRow = document.createElement("tr");
+
+    const emptyTh = document.createElement("th"); // celda vacía para las etiquetas de fila
+    emptyTh.textContent = "";
+    headRow.appendChild(emptyTh);
+
+    for (let y = yearStart; y <= yearEnd; y++) {
+      const th = document.createElement("th");
+      th.textContent = y;
+      headRow.appendChild(th);
+    }
+
+    thead.appendChild(headRow);
+    table.appendChild(thead);
+
+    // === TBODY ===
+    const tbody = document.createElement("tbody");
+
+    // Fila 1: Pérdida (Mill)
+    const rowLoss = document.createElement("tr");
+    const labelLoss = document.createElement("td");
+    labelLoss.className = "year-loss-row-label";
+    labelLoss.textContent = "Pérdida (Mill)";
+    rowLoss.appendChild(labelLoss);
+
+    const countersLoss = []; // para animar después
+
     for (let y = yearStart; y <= yearEnd; y++) {
       const lossYear = perYearLoss[y] || 0;
       const lossYearEnMillones = lossYear / MILL;
 
-      const item = document.createElement("div");
-      item.className = "year-loss-item";
-
-      // Año
-      const label = document.createElement("div");
-      label.className = "year-label";
-      label.textContent = y;
-
-      // Contador en millones
+      const td = document.createElement("td");
       const counter = document.createElement("div");
       counter.className = "counter counter-neg";
       counter.setAttribute("data-suffix", "");
       counter.textContent = "- 0,0 Mill";
+      td.appendChild(counter);
+      rowLoss.appendChild(td);
 
-      item.appendChild(label);
-      item.appendChild(counter);
-
-      // Inflación anual (si la tenemos)
-      if (typeof inflationByYear[y] === "number") {
-        const infDiv = document.createElement("div");
-        infDiv.className = "year-inflation";
-        infDiv.textContent = "Inflación: " +
-          formatoPorcentaje.format(inflationByYear[y]) + " %";
-        item.appendChild(infDiv);
-      }
-    // NUEVO: suma anual de paritarias (Varsueldo)
-    if (typeof salaryVariationByYear[y] === "number") {
-      const varDiv = document.createElement("div");
-      varDiv.className = "year-salary-var";
-      varDiv.textContent = "Paritarias: " +
-        formatoPorcentaje.format(salaryVariationByYear[y]) + " %";
-      item.appendChild(varDiv);
+      countersLoss.push({ counter, value: lossYearEnMillones });
     }
 
-      yearLossGrid.appendChild(item);
+    tbody.appendChild(rowLoss);
 
-      // animamos en millones: ej. 13,5 Mill
-      animateMillionsCounter(counter, lossYearEnMillones, { negative: true });
+    // Fila 2: Inflación (%)
+    const rowInfl = document.createElement("tr");
+    const labelInfl = document.createElement("td");
+    labelInfl.className = "year-loss-row-label";
+    labelInfl.textContent = "Inflación (%)";
+    rowInfl.appendChild(labelInfl);
+
+    for (let y = yearStart; y <= yearEnd; y++) {
+      const td = document.createElement("td");
+      const infl = inflationByYear[y];
+      td.textContent = (typeof infl === "number")
+        ? formatoPorcentaje.format(infl) + " %"
+        : "–";
+      rowInfl.appendChild(td);
+    }
+
+    tbody.appendChild(rowInfl);
+
+    // Fila 3: Paritarias (%)
+    const rowSal = document.createElement("tr");
+    const labelSal = document.createElement("td");
+    labelSal.className = "year-loss-row-label";
+    labelSal.textContent = "Paritarias (%)";
+    rowSal.appendChild(labelSal);
+
+    for (let y = yearStart; y <= yearEnd; y++) {
+      const td = document.createElement("td");
+      const varSal = salaryVariationByYear[y];
+      td.textContent = (typeof varSal === "number")
+        ? formatoPorcentaje.format(varSal) + " %"
+        : "–";
+      rowSal.appendChild(td);
+    }
+
+    tbody.appendChild(rowSal);
+
+    table.appendChild(tbody);
+    yearLossGrid.appendChild(table);
+
+    // Animamos solo la fila de pérdidas (en millones)
+    for (const item of countersLoss) {
+      animateMillionsCounter(item.counter, item.value, { negative: true });
     }
 
     yearLossContainer.style.display = "block";
   }
+
 });
 </script>
 
