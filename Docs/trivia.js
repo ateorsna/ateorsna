@@ -17,6 +17,11 @@
   let idx = 0;
   let score = 0;
   let locked = false;
+  let profileCounter = {
+    transformador: 0,
+    administrativo: 0,
+    individualista: 0
+  };
 
   // Fisher-Yates shuffle
   function shuffle(arr) {
@@ -61,6 +66,11 @@
     idx = 0;
     score = 0;
     locked = false;
+    profileCounter = {
+      transformador: 0,
+      administrativo: 0,
+      individualista: 0
+    };
 
     // opcional: mezclar el orden de preguntas para que no sea siempre el mismo
     questions = shuffle(questions);
@@ -114,6 +124,11 @@
     const q = questions[idx];
     const correctKeys = q.correct; // array
     const isCorrect = correctKeys.includes(selectedKey);
+// sumar perfil (si la opción trae profile)
+const selectedOption = q.options.find(o => o.key === selectedKey);
+if (selectedOption && selectedOption.profile && profileCounter[selectedOption.profile] != null) {
+  profileCounter[selectedOption.profile] += 1;
+}
 
     // marcar botones
     const buttons = Array.from(elOpts.querySelectorAll("button.trivia-option"));
@@ -152,16 +167,42 @@
     renderQuestion();
   }
 
-  function finish() {
-    elQ.textContent = "¡Terminaste la trivia!";
-    elOpts.innerHTML = "";
-    elFb.style.display = "block";
-    elFb.className = "trivia-feedback good";
-    elFb.textContent = `Puntaje final: ${score} / ${questions.length}. La organización y la formación son poder colectivo: afiliate y participá.`;
+function finish() {
+  elOpts.innerHTML = "";
+  btnNext.disabled = true;
 
-    btnNext.disabled = true;
-    btnRestart.style.display = "inline-block";
+  // Determinar perfil dominante
+  const entries = Object.entries(profileCounter);
+  entries.sort((a, b) => b[1] - a[1]);
+  const perfil = entries[0][0];
+
+  let titulo = "";
+  let mensaje = "";
+
+  if (perfil === "transformador") {
+    titulo = "Perfil: Sindicalismo Participativo y Transformador";
+    mensaje = "Tus respuestas muestran una visión de sindicato activo, democrático y comprometido con ampliar derechos, fortalecer el rol del Estado y construir poder colectivo en el ORSNA. Este modelo apuesta a más afiliación, más participación y más organización.";
+  } else if (perfil === "administrativo") {
+    titulo = "Perfil: Sindicalismo Administrativo";
+    mensaje = "Tu visión prioriza estabilidad y gestión institucional. Aun así, en contextos de pérdida salarial y ajuste, la organización y la participación son claves para recuperar derechos y fortalecer la función pública.";
+  } else {
+    titulo = "Perfil: Sindicalismo Individualista";
+    mensaje = "Tus respuestas muestran una mirada más individual. Pero la experiencia sindical demuestra que, especialmente en el Estado, la defensa de derechos y salarios se logra con organización colectiva y solidaridad entre compañeras y compañeros.";
   }
+
+  elQ.innerHTML = `<strong>${titulo}</strong>`;
+  elFb.style.display = "block";
+  elFb.className = "trivia-feedback good";
+  elFb.innerHTML = `
+    <p>${mensaje}</p>
+    <p style="margin-top:10px; font-weight:600;">
+      La renovación de la Junta Interna es una oportunidad para fortalecer el sindicato que necesitamos.
+    </p>
+  `;
+
+  btnRestart.style.display = "inline-block";
+}
+
 
   // events
   btnStart.addEventListener("click", startGame);
