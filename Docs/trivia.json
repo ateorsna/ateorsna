@@ -1,1 +1,20 @@
+{
+  "title": "Trivia Sindical ATE ORSNA",
+  "version": "1.0",
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple_choice",
+      "question": "¿Qué es ATE?",
+      "options": [
+        { "key": "A", "text": "Una empresa pública" },
+        { "key": "B", "text": "Un sindicato de trabajadoras y trabajadores del Estado" },
+        { "key": "C", "text": "Un partido político" }
+      ],
+      "correct": ["B"],
+      "feedbackCorrect": "Correcto...",
+      "feedbackIncorrect": "No, en realidad..."
+    }
+  ]
+}
 
