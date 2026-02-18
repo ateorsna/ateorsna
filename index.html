@@ -432,39 +432,47 @@
         Esta es la página de la Junta Interna de ATE en el ORSNA.                        
         Un espacio para organizar, informar y defender nuestros derechos como trabajadoras y trabajadores del Organismo.
       </p>
+      
 <!-- ====== TRIVIA (ARRIBA DE TODO) ====== -->
-<section id="trivia" style="margin-bottom:28px;">
-  <div class="trivia-banner">
-    <div class="trivia-banner-title">Aprendé en 5 minutos: derechos, organización sindical y función pública.</div>
-    <div class="trivia-banner-sub"> Transparencia: no pedimos nombre ni mail, no guardamos respuestas, no hay seguimiento. Todo corre en tu navegador.</div>
-    <div class="trivia-banner-foot">
-      Si querés revisar el contenido: preguntas y código están en el repositorio de la página.
-    </div>
-  </div>
-
-  <div id="triviaApp" class="trivia-card">
-    <div class="trivia-modes">
-      <button id="btnModeGeneral" class="trivia-btn primary">Modo formación (10 preguntas)</button>
-      <button id="btnModeCampaign" class="trivia-btn">Modo elecciones (perfil sindical)</button>
+<section id="trivia">
+  <div class="trivia-kpi">
+    <div class="trivia-kpi__head">
+      <div class="trivia-kpi__title">Trivia ATE ORSNA</div>
+      <div class="trivia-kpi__hint">5 minutos · sin registro · sin seguimiento</div>
     </div>
 
-    <div id="triviaMeta" class="trivia-meta"></div>
+    <div class="trivia-banner">
+      <div class="trivia-banner-title">Aprendé en 5 minutos: derechos, organización sindical y función pública.</div>
+      <div class="trivia-banner-sub">Transparencia: no pedimos nombre ni mail, no guardamos respuestas, no hay seguimiento. Todo corre en tu navegador.</div>
+      <div class="trivia-banner-foot">
+        Si querés revisar el contenido: preguntas y código están en el repositorio de la página.
+      </div>
+    </div>
 
-    <div id="triviaGame" class="trivia-game" style="display:none;">
-      <div class="trivia-top">
-        <div id="triviaProgress" class="trivia-progress"></div>
-        <div id="triviaScore" class="trivia-score"></div>
+    <div id="triviaApp" class="trivia-card">
+      <div class="trivia-modes">
+        <button id="btnModeGeneral" class="trivia-btn primary">Modo formación (10 preguntas)</button>
+        <button id="btnModeCampaign" class="trivia-btn">Modo elecciones (perfil sindical)</button>
       </div>
 
-      <div id="triviaQuestion" class="trivia-question"></div>
-      <div id="triviaOptions" class="trivia-options"></div>
+      <div id="triviaMeta" class="trivia-meta"></div>
 
-      <div id="triviaFeedback" class="trivia-feedback" style="display:none;"></div>
+      <div id="triviaGame" class="trivia-game" style="display:none;">
+        <div class="trivia-top">
+          <div id="triviaProgress" class="trivia-progress"></div>
+          <div id="triviaScore" class="trivia-score"></div>
+        </div>
 
-      <div class="trivia-actions">
-        <button id="btnNext" class="trivia-btn" disabled>Siguiente</button>
-        <button id="btnRestart" class="trivia-btn ghost" style="display:none;">Volver a modos</button>
-        <button id="btnNextRound" class="trivia-btn ghost" style="display:none;">Otra ronda</button>
+        <div id="triviaQuestion" class="trivia-question"></div>
+        <div id="triviaOptions" class="trivia-options"></div>
+
+        <div id="triviaFeedback" class="trivia-feedback" style="display:none;"></div>
+
+        <div class="trivia-actions">
+          <button id="btnNext" class="trivia-btn" disabled>Siguiente</button>
+          <button id="btnRestart" class="trivia-btn ghost" style="display:none;">Volver a modos</button>
+          <button id="btnNextRound" class="trivia-btn ghost" style="display:none;">Otra ronda</button>
+        </div>
       </div>
     </div>
   </div>
@@ -472,6 +480,7 @@
 
 <link rel="stylesheet" href="Docs/trivia.css">
 <script defer src="Docs/trivia.js"></script>
+
 
       <!-- Contenedor: calculadora + tarjeta informe MATE -->
       <div class="layout-calculadora-informe">
