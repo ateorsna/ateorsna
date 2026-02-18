@@ -1,20 +1,1321 @@
 {
-  "title": "Trivia Sindical ATE ORSNA",
-  "version": "1.0",
-  "questions": [
-    {
-      "id": 1,
-      "type": "multiple_choice",
-      "question": "¿Qué es ATE?",
-      "options": [
-        { "key": "A", "text": "Una empresa pública" },
-        { "key": "B", "text": "Un sindicato de trabajadoras y trabajadores del Estado" },
-        { "key": "C", "text": "Un partido político" }
-      ],
-      "correct": ["B"],
-      "feedbackCorrect": "Correcto...",
-      "feedbackIncorrect": "No, en realidad..."
-    }
-  ]
+    "title": "Trivia Sindical ATE ORSNA",
+    "language": "es-AR",
+    "version": "1.0",
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple_choice",
+        "question": "¿Qué es ATE?",
+        "options": [
+          { "key": "A", "text": "Una empresa pública" },
+          { "key": "B", "text": "Un sindicato de trabajadoras y trabajadores del Estado" },
+          { "key": "C", "text": "Un partido político" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. ATE es una organización sindical que agrupa a trabajadoras y trabajadores del Estado para defender derechos laborales, salariales y sociales. No es una empresa ni un partido: es una herramienta colectiva.",
+        "feedbackIncorrect": "ATE no es una empresa ni un partido. Es un sindicato: organización democrática de trabajadoras y trabajadores para defender derechos y mejorar condiciones de vida. Sin organización colectiva, la defensa queda en soledad."
+      },
+      {
+        "id": 2,
+        "type": "multiple_choice",
+        "question": "¿Para qué existe un sindicato?",
+        "options": [
+          { "key": "A", "text": "Para hacer favores individuales" },
+          { "key": "B", "text": "Para organizar la defensa colectiva de derechos" },
+          { "key": "C", "text": "Para generar conflictos por costumbre" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. El sindicato organiza la fuerza colectiva. Los derechos no se sostienen con “arreglos” individuales: se conquistan y se defienden en comunidad.",
+        "feedbackIncorrect": "Un sindicato no es gestor de favores ni fábrica de conflictos. Es una herramienta democrática para equilibrar poder frente al empleador y garantizar condiciones dignas para todas y todos."
+      },
+      {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "Según el Estatuto, ¿quién puede afiliarse a ATE?",
+        "options": [
+          { "key": "A", "text": "Solo personal del Estado nacional" },
+          { "key": "B", "text": "Trabajadoras y trabajadores del Estado nacional, provincial o municipal (y otros ámbitos previstos)" },
+          { "key": "C", "text": "Solo personal jerárquico" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. ATE agrupa a trabajadoras y trabajadores estatales en distintos niveles y organismos, porque los derechos laborales se fortalecen con unidad y organización.",
+        "feedbackIncorrect": "ATE no es solo para un nivel ni para jerárquicos. Su lógica es unir al conjunto de trabajadoras y trabajadores del Estado para defender derechos comunes."
+      },
+      {
+        "id": 4,
+        "type": "multiple_choice",
+        "question": "La cuota sindical de afiliados activos, según el Estatuto, es ...:",
+        "options": [
+          { "key": "A", "text": "5% fijo del salario" },
+          { "key": "B", "text": "2,2% de la remuneración sujeta a aportes" },
+          { "key": "C", "text": "0,5% fijo mensual" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. La cuota sostiene la organización: formación, asesoramiento, acción gremial y servicios. No es gasto: es inversión en defensa colectiva.",
+        "feedbackIncorrect": "La cuota sindical no es un monto arbitrario: es un aporte proporcional que financia la organización y la defensa de derechos para todas y todos."
+      },
+      {
+        "id": 5,
+        "type": "multiple_choice",
+        "question": "El objetivo principal de un sindicato como ATE es:",
+        "options": [
+          { "key": "A", "text": "Administrar recursos del Estado" },
+          { "key": "B", "text": "Defender derechos laborales, sociales y salariales" },
+          { "key": "C", "text": "Reemplazar a las autoridades del organismo" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. El sindicato defiende derechos y condiciones de vida. Cuando el trabajo es digno, el servicio público también mejora para la sociedad.",
+        "feedbackIncorrect": "El sindicato no administra el Estado ni reemplaza autoridades: organiza a las y los trabajadores para defender derechos, salario y condiciones laborales."
+      },
+      {
+        "id": 6,
+        "type": "multiple_choice",
+        "question": "El cupo femenino en cargos sindicales apunta a:",
+        "options": [
+          { "key": "A", "text": "Decoración en las listas" },
+          { "key": "B", "text": "Garantizar participación real y democracia interna con perspectiva de género" },
+          { "key": "C", "text": "Eliminar el debate interno" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. Democratizar la representación implica igualdad real, no solo formal. La perspectiva de género mejora la justicia y la calidad democrática del sindicato.",
+        "feedbackIncorrect": "No es decoración: es una herramienta para romper desigualdades históricas y garantizar participación efectiva en la toma de decisiones."
+      },
+      {
+        "id": 7,
+        "type": "multiple_choice",
+        "question": "La violencia laboral es:",
+        "options": [
+          { "key": "A", "text": "Un malentendido inevitable" },
+          { "key": "B", "text": "Una estrategia de abuso de poder para someter o excluir" },
+          { "key": "C", "text": "Un conflicto gremial normal" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Así es. La violencia laboral busca anular a una persona: someterla o expulsarla del lugar de trabajo. Nombrarla permite intervenir y prevenir.",
+        "feedbackIncorrect": "No es “normal” ni inevitable. Cuando hay abuso de poder para dañar, estamos ante violencia laboral y el sindicato debe intervenir."
+      },
+      {
+        "id": 8,
+        "type": "multiple_choice",
+        "question": "El Convenio 190 de la OIT se centra en:",
+        "options": [
+          { "key": "A", "text": "Salarios mínimos globales" },
+          { "key": "B", "text": "Violencia y acoso en el mundo del trabajo" },
+          { "key": "C", "text": "Licencias por turismo" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. Reconoce que la violencia y el acoso dañan la salud, la dignidad y la igualdad, y exige abordaje con perspectiva de género.",
+        "feedbackIncorrect": "El Convenio 190 trata de violencia y acoso laboral. Comprenderlo ayuda a exigir prevención, protocolos y acompañamiento efectivo."
+      },
+      {
+        "id": 9,
+        "type": "multiple_choice",
+        "question": "La Ley de Identidad de Género garantiza, entre otras cosas:",
+        "options": [
+          { "key": "A", "text": "Uniformes especiales obligatorios" },
+          { "key": "B", "text": "Derecho al reconocimiento de la identidad autopercibida" },
+          { "key": "C", "text": "Ascensos automáticos" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. Respetar nombre, trato y pronombres es un derecho humano. En el Estado, el respeto es obligación institucional.",
+        "feedbackIncorrect": "No es un tema “de gustos”: es un derecho reconocido. El respeto a la identidad previene discriminación y violencia laboral."
+      },
+      {
+        "id": 10,
+        "type": "multiple_choice",
+        "question": "Ampliar licencias por nacimiento para personas no gestantes se hace para:",
+        "options": [
+          { "key": "A", "text": "Dar un privilegio" },
+          { "key": "B", "text": "Redistribuir tareas de cuidado y promover igualdad" },
+          { "key": "C", "text": "Reducir el tiempo de crianza" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. Igualdad también es que el cuidado sea compartido y reconocido. Si el cuidado recae solo en una persona, hay desigualdad.",
+        "feedbackIncorrect": "No es privilegio: es justicia. Reconocer el cuidado fortalece familias trabajadoras y reduce brechas de género."
+      },
+  
+      {
+        "id": 11,
+        "type": "multiple_choice",
+        "question": "“El sindicato solo interviene si hay denuncia judicial”. Esto es:",
+        "options": [
+          { "key": "A", "text": "Verdadero" },
+          { "key": "B", "text": "Falso" },
+          { "key": "C", "text": "Depende del humor del jefe" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. El sindicato puede acompañar antes y durante cualquier instancia: contención, encuadre, asesoramiento y representación.",
+        "feedbackIncorrect": "No hace falta esperar una denuncia judicial. La intervención sindical temprana protege y evita que el problema se agrave."
+      },
+      {
+        "id": 12,
+        "type": "multiple_choice",
+        "question": "La violencia laboral puede darse entre pares (horizontal). Esto es:",
+        "options": [
+          { "key": "A", "text": "Verdadero" },
+          { "key": "B", "text": "Falso" },
+          { "key": "C", "text": "Solo si hay gritos" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Correcto. No siempre viene “de arriba”. Puede ser entre pares o incluso ascendente. Lo central es el abuso y el daño.",
+        "feedbackIncorrect": "Sí puede ser horizontal. La violencia laboral no depende solo del cargo: depende del ejercicio abusivo de poder y sus efectos."
+      },
+      {
+        "id": 13,
+        "type": "multiple_choice",
+        "question": "“El Estado debe garantizar igualdad y no discriminación”. Esto es:",
+        "options": [
+          { "key": "A", "text": "Verdadero" },
+          { "key": "B", "text": "Falso" },
+          { "key": "C", "text": "Solo en campaña" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Exacto. El Estado es herramienta democrática para ampliar derechos. Por eso la función pública tiene responsabilidad social.",
+        "feedbackIncorrect": "Sí, es verdadero. Sin Estado presente, los derechos se vuelven “papel mojado” y la desigualdad crece."
+      },
+      {
+        "id": 14,
+        "type": "multiple_choice",
+        "question": "“Las licencias con perspectiva de género amplían derechos”. Esto es:",
+        "options": [
+          { "key": "A", "text": "Verdadero" },
+          { "key": "B", "text": "Falso" },
+          { "key": "C", "text": "Solo para algunas personas" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Correcto. Reconocer cuidados, violencias y diversidad es adaptar el derecho laboral a la realidad, con igualdad sustantiva.",
+        "feedbackIncorrect": "Es verdadero. La perspectiva de género no “divide”: corrige desigualdades históricas y protege a quienes más lo necesitan."
+      },
+{
+  "id": 15,
+  "type": "multiple_choice",
+  "question": "En una reunión con el empleador, la mejor práctica sindical para un delegado o delegada es:",
+  "options": [
+    { "key": "A", "text": "Decidir según su criterio personal sin consultar" },
+    { "key": "B", "text": "Actuar con mandato colectivo, informar lo conversado y fortalecer la transparencia" },
+    { "key": "C", "text": "Evitar siempre cualquier reunión" }
+  ],
+  "correct": ["B"],
+  "feedbackCorrect": "Correcto. La representación sindical se basa en el mandato colectivo y la transparencia. Informar fortalece la confianza y la unidad.",
+  "feedbackIncorrect": "La representación no es individual ni personalista. El mandato de la base y la devolución a las y los compañeros garantizan democracia sindical."
+},
+      {
+        "id": 16,
+        "type": "multiple_choice",
+        "question": "“No presentar una queja cuando corresponde puede debilitar el convenio”. Esto es:",
+        "options": [
+          { "key": "A", "text": "Verdadero" },
+          { "key": "B", "text": "Falso" },
+          { "key": "C", "text": "Solo si es un caso grande" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Correcto. Cada derecho no defendido se erosiona. Defender el convenio es defender a todas y todos, incluso a futuro.",
+        "feedbackIncorrect": "Es verdadero. No reclamar naturaliza el retroceso y deja a otros compañeros en la misma vulnerabilidad."
+      },
+      {
+        "id": 17,
+        "type": "multiple_choice",
+        "question": "“El miedo y el desconocimiento sostienen la violencia laboral”. Esto es:",
+        "options": [
+          { "key": "A", "text": "Verdadero" },
+          { "key": "B", "text": "Falso" },
+          { "key": "C", "text": "Solo en el sector privado" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Exacto. Por eso la formación y la organización sindical son herramientas centrales: convierten miedo en acción colectiva.",
+        "feedbackIncorrect": "Es verdadero. La violencia crece cuando la persona está aislada o desinformada. El sindicato rompe esa soledad."
+      },
+      {
+        "id": 18,
+        "type": "multiple_choice",
+        "question": "“La organización sindical es defensa colectiva”. Esto es:",
+        "options": [
+          { "key": "A", "text": "Verdadero" },
+          { "key": "B", "text": "Falso" },
+          { "key": "C", "text": "Solo para delegados" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Correcto. La fuerza de una trabajadora o trabajador solo es limitada; la fuerza colectiva cambia la balanza.",
+        "feedbackIncorrect": "Es verdadero. El sindicato es la forma histórica de defensa de la clase trabajadora, con democracia y solidaridad."
+      },
+      {
+        "id": 19,
+        "type": "multiple_choice",
+        "question": "“Las personas LGBTIQ+ pueden sufrir violencia laboral específica”. Esto es:",
+        "options": [
+          { "key": "A", "text": "Verdadero" },
+          { "key": "B", "text": "Falso" },
+          { "key": "C", "text": "Solo en redes sociales" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Correcto. Invisibilización, burlas, negación de identidad y discriminación son formas de violencia laboral que deben prevenirse y sancionarse.",
+        "feedbackIncorrect": "Es verdadero. Negar esta realidad invisibiliza violencias y perpetúa desigualdades."
+      },
+      {
+        "id": 20,
+        "type": "multiple_choice",
+        "question": "“El Estado es una herramienta neutral, sin impacto social”. Esto es:",
+        "options": [
+          { "key": "A", "text": "Verdadero" },
+          { "key": "B", "text": "Falso" },
+          { "key": "C", "text": "Depende del ministerio" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. El Estado define políticas públicas que cambian la vida real: salud, educación, seguridad social, conectividad y regulación.",
+        "feedbackIncorrect": "Es falso. Cuando el Estado se retira, crece la desigualdad. El Estado presente es herramienta imprescindible para garantizar derechos."
+      },
+  
+      {
+        "id": 21,
+        "type": "situational",
+        "question": "Si un compañero tiene miedo de denunciar una injusticia laboral, se debe:",
+        "options": [
+          { "key": "A", "text": "Decirle que no se meta" },
+          { "key": "B", "text": "Acompañarlo desde el sindicato y no dejarlo solo" },
+          { "key": "C", "text": "Ignorar el problema para evitar líos" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. El miedo se combate con organización. El sindicato existe para que nadie enfrente injusticias en soledad.",
+        "feedbackIncorrect": "Mirar para otro lado fortalece al abuso. La solidaridad es la base: hoy por vos, mañana por mí."
+      },
+      {
+        "id": 22,
+        "type": "situational",
+        "question": "Si el empleador ofrece un “arreglo” individual para que no se haga reclamo colectivo, se debe:",
+        "options": [
+          { "key": "A", "text": "Aceptar si conviene en lo personal" },
+          { "key": "B", "text": "Tratar el tema colectivamente y con el sindicato" },
+          { "key": "C", "text": "Callarse y seguir trabajando" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. Los arreglos individuales fragmentan. Lo colectivo protege y mejora para todas y todos, no solo para una persona.",
+        "feedbackIncorrect": "Aceptar en soledad puede debilitar al conjunto. La organización se fortalece cuando las decisiones se discuten con transparencia."
+      },
+      {
+        "id": 23,
+        "type": "situational",
+        "question": "Si un compañero está siendo hostigado y tiene miedo a represalias, se debe:",
+        "options": [
+          { "key": "A", "text": "Decirle que aguante hasta que pase" },
+          { "key": "B", "text": "Escuchar, contener y activar acompañamiento sindical" },
+          { "key": "C", "text": "Decirle que renuncie" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. La contención y el acompañamiento sindical ayudan a encuadrar la situación y a cortar la violencia.",
+        "feedbackIncorrect": "Aguantar o renunciar no resuelve la injusticia. La salida colectiva protege a la persona y mejora el ambiente laboral."
+      },
+      {
+        "id": 24,
+        "type": "situational",
+        "question": "Si una persona trans no es nombrada por su nombre autopercibido en el trabajo, se debe:",
+        "options": [
+          { "key": "A", "text": "Tomarlo como un detalle" },
+          { "key": "B", "text": "Reconocerlo como violencia y exigir respeto institucional" },
+          { "key": "C", "text": "Evitar el tema para no incomodar" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. Respetar identidad es derecho. El Estado debe dar el ejemplo: igualdad y no discriminación.",
+        "feedbackIncorrect": "No es detalle: es dignidad. Evitar el tema naturaliza la violencia y deja a la persona desprotegida."
+      },
+      {
+        "id": 25,
+        "type": "situational",
+        "question": "Si se recortan licencias por cuidado (hijos, mayores, discapacidad), se debe entender que:",
+        "options": [
+          { "key": "A", "text": "Es un problema individual" },
+          { "key": "B", "text": "Es un retroceso colectivo en derechos sociales" },
+          { "key": "C", "text": "No afecta al trabajo" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. El cuidado es derecho social. Recortarlo afecta a las familias trabajadoras y profundiza desigualdades de género.",
+        "feedbackIncorrect": "No es individual: es estructural. La organización sindical existe para defender estos derechos como conquistas colectivas."
+      },
+  
+      {
+        "id": 26,
+        "type": "multiple_choice",
+        "question": "Desde una mirada nacional y popular, el Estado existe principalmente para:",
+        "options": [
+          { "key": "A", "text": "Ajustar gasto a cualquier costo" },
+          { "key": "B", "text": "Garantizar derechos y políticas públicas" },
+          { "key": "C", "text": "Reemplazar a la sociedad civil" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. Un Estado presente garantiza derechos, reduce desigualdad y sostiene a quienes atraviesan vulnerabilidades.",
+        "feedbackIncorrect": "El Estado no es un capricho: es herramienta democrática para garantizar igualdad real. Sin Estado, gana el más fuerte."
+      },
+      {
+        "id": 27,
+        "type": "multiple_choice",
+        "question": "La función pública, en una perspectiva de derechos, es:",
+        "options": [
+          { "key": "A", "text": "Un privilegio personal" },
+          { "key": "B", "text": "Un servicio a la sociedad" },
+          { "key": "C", "text": "Un favor político" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. Trabajar en el Estado es sostener políticas públicas que impactan en la vida concreta de la población.",
+        "feedbackIncorrect": "La función pública no es un favor ni un privilegio: es trabajo con responsabilidad social y compromiso democrático."
+      },
+      {
+        "id": 28,
+        "type": "multiple_choice",
+        "question": "Defender el salario estatal significa defender:",
+        "options": [
+          { "key": "A", "text": "Privilegios" },
+          { "key": "B", "text": "Poder adquisitivo y vida digna de familias trabajadoras" },
+          { "key": "C", "text": "Un gasto improductivo" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. Salario digno es derecho, y también es economía real en los barrios: consumo, servicios, educación, salud.",
+        "feedbackIncorrect": "No es privilegio: es vida. Sin salario digno, se deteriora el trabajo y también la calidad del servicio público."
+      },
+      {
+        "id": 29,
+        "type": "multiple_choice",
+        "question": "Cuando se debilita el Estado, quienes suelen perder primero son:",
+        "options": [
+          { "key": "A", "text": "Los sectores más vulnerables" },
+          { "key": "B", "text": "Las grandes corporaciones" },
+          { "key": "C", "text": "Los monopolios" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Exacto. Cuando el Estado se retira, la desigualdad crece y los derechos se vuelven inaccesibles para quienes más los necesitan.",
+        "feedbackIncorrect": "La historia muestra que sin Estado presente, los más vulnerables quedan a merced del mercado y de la desigualdad."
+      },
+      {
+        "id": 30,
+        "type": "multiple_choice",
+        "question": "La estabilidad laboral en el Estado sirve sobre todo para:",
+        "options": [
+          { "key": "A", "text": "Defender derechos sin miedo a arbitrariedades" },
+          { "key": "B", "text": "Evitar responsabilidades" },
+          { "key": "C", "text": "No rendir cuentas" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Correcto. La estabilidad protege de presiones y persecuciones, y fortalece una administración pública profesional y democrática.",
+        "feedbackIncorrect": "La estabilidad no evita rendición: evita arbitrariedad. Protege el rol del Estado al servicio del pueblo."
+      },
+  
+      {
+        "id": 31,
+        "type": "situational",
+        "question": "Si una compañera atraviesa violencia laboral, el primer paso sindical debería ser:",
+        "options": [
+          { "key": "A", "text": "Decirle que lo resuelva sola" },
+          { "key": "B", "text": "Escuchar, contener y encuadrar la situación con confidencialidad" },
+          { "key": "C", "text": "Exponerlo en público sin su consentimiento" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. Confidencialidad y contención son protección. La intervención sindical se construye con respeto y acompañamiento.",
+        "feedbackIncorrect": "La soledad y la exposición sin cuidado agravan el daño. La defensa colectiva se hace con contención y estrategia."
+      },
+{
+  "id": 32,
+  "type": "multiple_choice",
+  "question": "Si surge una propuesta del empleador que puede afectar condiciones laborales, lo correcto es:",
+  "options": [
+    { "key": "A", "text": "Analizarla colectivamente antes de aceptar o rechazar" },
+    { "key": "B", "text": "Resolverla en privado para agilizar" },
+    { "key": "C", "text": "Aceptar si beneficia a algunos sectores" }
+  ],
+  "correct": ["A"],
+  "feedbackCorrect": "Correcto. Las decisiones que afectan al colectivo deben discutirse colectivamente. La unidad es la mayor fortaleza sindical.",
+  "feedbackIncorrect": "Resolver en privado o fragmentar decisiones debilita la fuerza colectiva. La organización se basa en participación."
 }
-
+,
+      {
+        "id": 33,
+        "type": "multiple_choice",
+        "question": "La ampliación de licencias por adopción reconoce principalmente:",
+        "options": [
+          { "key": "A", "text": "Un beneficio corporativo" },
+          { "key": "B", "text": "El derecho al cuidado y la vinculación" },
+          { "key": "C", "text": "Una excepción sin importancia" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. La adopción implica tiempos de vinculación y cuidado. El derecho laboral debe acompañar esas realidades.",
+        "feedbackIncorrect": "No es capricho: es derecho. El cuidado sostiene la vida y debe ser protegido por el régimen laboral."
+      },
+      {
+        "id": 34,
+        "type": "multiple_choice",
+        "question": "Cuando se debilita el Estado regulador de la actividad aeronáutica y aeroportuaria ocurre que:",
+        "options": [
+          { "key": "A", "text": "No cambia nada relevante" },
+          { "key": "B", "text": "Se afecta el interés público, la seguridad y la conectividad federal" },
+          { "key": "C", "text": "Solo cambian palabras en normas" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. La regulación estatal protege seguridad, equidad territorial y desarrollo. Debilitarla deja la actividad más expuesta a intereses concentrados.",
+        "feedbackIncorrect": "La regulación no es trámite: es protección del interés colectivo. En actividad aeroportuaria y aeronáutica, el Estado es garante de seguridad y federalismo."
+      },
+      {
+        "id": 35,
+        "type": "multiple_choice",
+        "question": "La licencia por violencia de género debe ser principalmente:",
+        "options": [
+          { "key": "A", "text": "Revictimizante y difícil" },
+          { "key": "B", "text": "Accesible, con perspectiva de género y sin exigir denuncia previa" },
+          { "key": "C", "text": "Solo para casos mediáticos" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. El acceso a derechos no debe depender de trámites que expongan o revictimicen. La protección debe ser real y rápida.",
+        "feedbackIncorrect": "Exigir condiciones que revictimizan desalienta el acceso. La perspectiva de género protege mejor a quien atraviesa violencia."
+      },
+      {
+        "id": 36,
+        "type": "multiple_choice",
+        "question": "Un delegado sindical NO debe:",
+        "options": [
+          { "key": "A", "text": "Investigar un reclamo" },
+          { "key": "B", "text": "Hacer acuerdos a puertas cerradas sin la base" },
+          { "key": "C", "text": "Organizar y sumar participación" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. La representación es transparente y colectiva. Los “arreglos” ocultos debilitan la confianza y la democracia sindical.",
+        "feedbackIncorrect": "Investigar y organizar son funciones clave. El error es negociar a espaldas de la base: eso fragmenta y debilita."
+      },
+{
+  "id": 37,
+  "type": "multiple_choice",
+  "question": "La formación sindical continua permite:",
+  "options": [
+    { "key": "A", "text": "Comprender mejor el convenio, los derechos y las estrategias de negociación" },
+    { "key": "B", "text": "Delegar todas las decisiones en dirigentes nacionales" },
+    { "key": "C", "text": "Evitar el debate interno" }
+  ],
+  "correct": ["A"],
+  "feedbackCorrect": "Correcto. La formación fortalece la autonomía y la capacidad de negociación del sindicato.",
+  "feedbackIncorrect": "Sin formación, se debilita la capacidad de defender derechos y sostener debates con fundamentos."
+}
+,
+      {
+        "id": 38,
+        "type": "multiple_choice",
+        "question": "No cumplir plazos y tiempos de presentación de una queja puede:",
+        "options": [
+          { "key": "A", "text": "No afectar nada" },
+          { "key": "B", "text": "Hacer perder un reclamo fuerte por un detalle formal" },
+          { "key": "C", "text": "Fortalecer el reclamo" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. Los derechos también se defienden con prolijidad. Cumplir plazos protege a la persona y al colectivo.",
+        "feedbackIncorrect": "Los plazos importan. Un caso justo puede caerse por incumplir tiempos. Organización también es método."
+      },
+      {
+        "id": 39,
+        "type": "multiple_choice",
+        "question": "Dar publicidad a victorias sindicales sirve para:",
+        "options": [
+          { "key": "A", "text": "Presumir" },
+          { "key": "B", "text": "Educar sobre derechos y fortalecer orgullo colectivo" },
+          { "key": "C", "text": "Generar miedo" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. Visibilizar conquistas enseña que la organización funciona y motiva participación y afiliación.",
+        "feedbackIncorrect": "La difusión no es vanidad: es pedagogía política. Un derecho ganado y comunicado se defiende mejor."
+      },
+      {
+        "id": 40,
+        "type": "multiple_choice",
+        "question": "El sindicato es más fuerte cuando:",
+        "options": [
+          { "key": "A", "text": "Tiene pocos afiliados pero muy ruidosos" },
+          { "key": "B", "text": "Crece la afiliación y la participación activa" },
+          { "key": "C", "text": "Todo se maneja en secreto" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. Afiliación + participación = legitimidad y poder real para defender salario, licencias y condiciones laborales.",
+        "feedbackIncorrect": "El secreto debilita. La fuerza sindical surge de la base: afiliación, unidad y participación."
+      },
+  
+      {
+        "id": 41,
+        "type": "multiple_choice",
+        "question": "Cuando un superior aísla deliberadamente a un trabajador, dejándolo sin tareas o excluyéndolo de reuniones, eso constituye:",
+        "options": [
+          { "key": "A", "text": "Una estrategia de gestión" },
+          { "key": "B", "text": "Una forma de violencia laboral psicológica" },
+          { "key": "C", "text": "Un procedimiento administrativo habitual" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. El aislamiento es una táctica de anulación. No es organización del trabajo: es violencia que busca desgastar y excluir.",
+        "feedbackIncorrect": "No todo cambio es violencia, pero cuando hay intención de humillar o excluir, es abuso de poder y debe abordarse sindicalmente."
+      },
+      {
+        "id": 42,
+        "type": "multiple_choice",
+        "question": "Si un compañero sufre burlas reiteradas por su orientación sexual en el ámbito laboral, se debe:",
+        "options": [
+          { "key": "A", "text": "Tomarlo como una broma" },
+          { "key": "B", "text": "Reconocerlo como discriminación y violencia laboral" },
+          { "key": "C", "text": "Recomendarle que se calle para evitar problemas" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. La discriminación por orientación sexual es violencia laboral y atenta contra la dignidad. El sindicato debe intervenir.",
+        "feedbackIncorrect": "Naturalizar burlas reproduce desigualdad. El respeto no es opcional: es un derecho que el Estado debe garantizar."
+      },
+      {
+        "id": 43,
+        "type": "multiple_choice",
+        "question": "Cuando una trabajadora embarazada empieza a recibir presiones o maltrato, se debe interpretar que:",
+        "options": [
+          { "key": "A", "text": "Es casualidad" },
+          { "key": "B", "text": "Puede ser violencia laboral y de género" },
+          { "key": "C", "text": "Es parte normal del trabajo" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. Embarazo y cuidados suelen disparar discriminación. La protección sindical y estatal es obligatoria.",
+        "feedbackIncorrect": "No es normal. La protección de la maternidad y la no discriminación son derechos laborales básicos."
+      },
+      {
+        "id": 44,
+        "type": "multiple_choice",
+        "question": "Si un delegado promete resultados antes de investigar una queja, eso:",
+        "options": [
+          { "key": "A", "text": "Fortalece su liderazgo" },
+          { "key": "B", "text": "Es un error que puede perjudicar al trabajador y al sindicato" },
+          { "key": "C", "text": "Es obligatorio para tranquilizar" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. La representación responsable investiga, reúne evidencia y actúa con estrategia, no con promesas vacías.",
+        "feedbackIncorrect": "Prometer sin investigar debilita credibilidad. La fuerza sindical se basa en seriedad y método."
+      },
+      {
+        "id": 45,
+        "type": "multiple_choice",
+        "question": "Cuando se amplían licencias por cuidado de personas mayores o con discapacidad, eso significa que:",
+        "options": [
+          { "key": "A", "text": "Se generan privilegios" },
+          { "key": "B", "text": "Se reconoce el cuidado como derecho social" },
+          { "key": "C", "text": "Se reduce productividad" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. El cuidado sostiene la vida. Reconocerlo es justicia social y equidad, no privilegio.",
+        "feedbackIncorrect": "No es privilegio: es política de igualdad real. El Estado y el convenio deben acompañar cuidados."
+      },
+{
+  "id": 46,
+  "type": "multiple_choice",
+  "question": "Cuando el Estado pierde capacidad de controlar inversiones y cumplimiento contractual en la actividad aeroportuaria, se debilita ...:",
+  "options": [
+    { "key": "A", "text": "El interés público y la calidad del servicio" },
+    { "key": "B", "text": "Solo la burocracia administrativa" },
+    { "key": "C", "text": "La competencia entre trabajadores" }
+  ],
+  "correct": ["A"],
+  "feedbackCorrect": "Correcto. La regulación estatal garantiza inversiones, seguridad y equidad territorial. Sin control, el interés público queda subordinado a la rentabilidad privada.",
+  "feedbackIncorrect": "No se trata de burocracia sino de control democrático. La regulación protege a la sociedad y a las y los trabajadores."
+}
+,
+      {
+        "id": 47,
+        "type": "situational",
+        "question": "Si el empleador propone “arreglar” algo en secreto, sin informar al colectivo ni al sindicato, se debe:",
+        "options": [
+          { "key": "A", "text": "Aceptar si conviene individualmente" },
+          { "key": "B", "text": "Rechazar acuerdos ocultos y tratar el tema colectivamente" },
+          { "key": "C", "text": "No decir nada para que no escale" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. La transparencia es democracia sindical. Lo colectivo protege y evita que el empleador divida a la base.",
+        "feedbackIncorrect": "El silencio o el arreglo individual fragmentan. La organización crece cuando la base decide y el sindicato representa."
+      },
+      {
+        "id": 48,
+        "type": "multiple_choice",
+        "question": "Cuando se limita la negociación colectiva, lo que se pone en riesgo es:",
+        "options": [
+          { "key": "A", "text": "Un trámite sin importancia" },
+          { "key": "B", "text": "Una conquista histórica del movimiento obrero" },
+          { "key": "C", "text": "Una moda sindical" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. Negociación colectiva es poder democrático de trabajadoras y trabajadores para fijar reglas y proteger derechos.",
+        "feedbackIncorrect": "No es una moda: es una conquista. Sin negociación, el empleador impone condiciones unilateralmente."
+      },
+      {
+        "id": 49,
+        "type": "multiple_choice",
+        "question": "Si un trabajador reclama por derechos y es trasladado reiteradamente como represalia, eso puede ser:",
+        "options": [
+          { "key": "A", "text": "Reorganización inocente" },
+          { "key": "B", "text": "Violencia laboral (disciplinamiento) descendente" },
+          { "key": "C", "text": "Ascenso encubierto" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. Usar el poder jerárquico para castigar reclamos es violencia. Se enfrenta con sindicato y registros.",
+        "feedbackIncorrect": "Cuando el traslado castiga, no es gestión: es abuso de poder. La defensa colectiva es clave."
+      },
+      {
+        "id": 50,
+        "type": "multiple_choice",
+        "question": "Cuando crece la afiliación sindical en la actividad aeronáutica y aeroportuaria, se logra:",
+        "options": [
+          { "key": "A", "text": "Más burocracia" },
+          { "key": "B", "text": "Mayor defensa colectiva y regulación con perspectiva social" },
+          { "key": "C", "text": "Menos diálogo" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. Más afiliación es más legitimidad y poder para defender salario, condiciones y el interés público en la regulación.",
+        "feedbackIncorrect": "La organización no reduce diálogo: lo fortalece con representatividad real y con una agenda de derechos."
+      },
+      {
+        "id": 51,
+        "type": "multiple_choice",
+        "question": "Si una persona necesita licencia por adecuación corporal acorde a su identidad de género, se debe:",
+        "options": [
+          { "key": "A", "text": "Cuestionar su pedido" },
+          { "key": "B", "text": "Reconocerlo como derecho y acompañar" },
+          { "key": "C", "text": "Postergarlo sin explicación" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. El respeto a la identidad es derecho humano. Acompañar también es construir un Estado inclusivo.",
+        "feedbackIncorrect": "Cuestionar o postergar perpetúa exclusión. El sindicato defiende derechos sin discriminación."
+      },
+      {
+        "id": 52,
+        "type": "multiple_choice",
+        "question": "Cuando el régimen de licencias reconoce el cuidado, se está afirmando que:",
+        "options": [
+          { "key": "A", "text": "El cuidado es un tema privado sin relevancia" },
+          { "key": "B", "text": "El cuidado es una responsabilidad social protegida por derechos" },
+          { "key": "C", "text": "El cuidado debe recaer solo en mujeres" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. Reconocer cuidados reduce desigualdades y mejora calidad de vida. Es política pública y sindical.",
+        "feedbackIncorrect": "Tratar el cuidado como “privado” invisibiliza desigualdades. El derecho laboral debe acompañar la vida real."
+      },
+      {
+        "id": 53,
+        "type": "multiple_choice",
+        "question": "Si el sindicato no interviene ante violencia laboral, lo más probable es que:",
+        "options": [
+          { "key": "A", "text": "Se resuelva solo" },
+          { "key": "B", "text": "Crezca la impunidad y el miedo" },
+          { "key": "C", "text": "Mejore el clima laboral" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. Sin intervención, la persona queda aislada. Con sindicato, hay contención, estrategia y protección.",
+        "feedbackIncorrect": "La violencia rara vez se “resuelve sola”. La organización es la herramienta que corta el abuso de poder."
+      },
+      {
+        "id": 54,
+        "type": "multiple_choice",
+        "question": "Cuando se recorta presupuesto en organismos que regulan la actividad aeroportuaria, eso impacta en:",
+        "options": [
+          { "key": "A", "text": "Nada importante" },
+          { "key": "B", "text": "Capacidad de control y protección del interés público" },
+          { "key": "C", "text": "Solo en comunicación interna" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. Sin recursos, no hay regulación efectiva. Y sin regulación efectiva, el interés público se debilita.",
+        "feedbackIncorrect": "La regulación requiere recursos. Recortar presupuesto puede afectar seguridad, control y conectividad con perspectiva federal."
+      },
+      {
+        "id": 55,
+        "type": "situational",
+        "question": "Si un trabajador decide no afiliarse todavía, el sindicato debería:",
+        "options": [
+          { "key": "A", "text": "Excluirlo de toda información" },
+          { "key": "B", "text": "Dialogar, informar y explicar por qué la afiliación fortalece derechos" },
+          { "key": "C", "text": "Ignorarlo completamente" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. La afiliación es voluntaria, pero se construye conciencia con diálogo y formación, no con castigo.",
+        "feedbackIncorrect": "Excluir o ignorar fragmenta. La organización crece con inclusión, conversación y solidaridad."
+      },
+      {
+        "id": 56,
+        "type": "multiple_choice",
+        "question": "Cuando el presentismo penaliza el uso de licencias legales, eso suele ser:",
+        "options": [
+          { "key": "A", "text": "Un incentivo justo" },
+          { "key": "B", "text": "Un ajuste encubierto que castiga el ejercicio de derechos" },
+          { "key": "C", "text": "Una mejora de igualdad" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. Penalizar derechos es restringirlos indirectamente. Las licencias son parte del trabajo digno.",
+        "feedbackIncorrect": "Castigar licencias legales no es justo: es disciplinamiento. El sindicato defiende que derecho no sea castigo."
+      },
+      {
+        "id": 57,
+        "type": "multiple_choice",
+        "question": "Si se debilita la estabilidad laboral en el Estado, se genera:",
+        "options": [
+          { "key": "A", "text": "Mayor vulnerabilidad ante presiones políticas o arbitrarias" },
+          { "key": "B", "text": "Mayor igualdad automática" },
+          { "key": "C", "text": "Más democracia interna por sí sola" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Exacto. La estabilidad protege al trabajador y a la institución pública: profesionalismo y continuidad del servicio.",
+        "feedbackIncorrect": "Sin estabilidad, crece el miedo y la arbitrariedad. La función pública necesita garantías para servir al pueblo."
+      },
+      {
+        "id": 58,
+        "type": "multiple_choice",
+        "question": "Cuando el sindicato difunde sus victorias (por ejemplo, una licencia o un derecho ganado), eso fortalece:",
+        "options": [
+          { "key": "A", "text": "La conciencia y el orgullo colectivo" },
+          { "key": "B", "text": "La competencia entre compañeros" },
+          { "key": "C", "text": "La desinformación" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Correcto. Difundir conquistas educa y motiva a organizarse: muestra que la lucha sirve y se traduce en derechos.",
+        "feedbackIncorrect": "Ocultar victorias debilita. Comunicar derechos es formación sindical y herramienta para sumar afiliación."
+      },
+      {
+        "id": 59,
+        "type": "multiple_choice",
+        "question": "Si se sobrecarga de tareas a una persona de forma sistemática para desgastarla, eso puede ser:",
+        "options": [
+          { "key": "A", "text": "Productividad normal" },
+          { "key": "B", "text": "Una táctica de violencia laboral" },
+          { "key": "C", "text": "Un premio por buen desempeño" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. La sobrecarga dirigida puede ser hostigamiento. Se enfrenta con registros, testigos y acompañamiento sindical.",
+        "feedbackIncorrect": "No todo esfuerzo es abuso, pero si es sistemático y con intención de dañar, es violencia laboral."
+      },
+{
+  "id": 60,
+  "type": "multiple_choice",
+  "question": "Incorporar perspectiva de género en la actividad aeroportuaria implica:",
+  "options": [
+    { "key": "A", "text": "Revisar condiciones laborales, protocolos y políticas para garantizar igualdad real" },
+    { "key": "B", "text": "Aplicar normas solo en casos excepcionales" },
+    { "key": "C", "text": "Considerarlo un tema ajeno a la regulación" }
+  ],
+  "correct": ["A"],
+  "feedbackCorrect": "Correcto. La igualdad de género es parte de la calidad institucional y de las condiciones laborales dignas.",
+  "feedbackIncorrect": "La perspectiva de género no es opcional ni secundaria: es parte del enfoque de derechos."
+}
+,
+  
+      {
+        "id": 61,
+        "type": "multiple_choice",
+        "question": "Si recortan presupuesto público, se debe entender que eso impacta principalmente en:",
+        "options": [
+          { "key": "A", "text": "Derechos y políticas públicas" },
+          { "key": "B", "text": "Solo en papelería" },
+          { "key": "C", "text": "Nada relevante" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Correcto. Presupuesto es escuela, hospital, conectividad, regulación, cuidado. Ajuste suele significar menos derechos.",
+        "feedbackIncorrect": "El presupuesto sostiene derechos concretos. Minimizarlo invisibiliza el impacto social del ajuste."
+      },
+      {
+        "id": 62,
+        "type": "situational",
+        "question": "Si un compañero no quiere afiliarse porque “total no sirve”, se debe:",
+        "options": [
+          { "key": "A", "text": "Burlarse" },
+          { "key": "B", "text": "Dialogar, explicar beneficios y mostrar conquistas" },
+          { "key": "C", "text": "Excluirlo del colectivo" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. La afiliación crece con pedagogía y hechos: derechos conquistados, acompañamiento, negociación y solidaridad.",
+        "feedbackIncorrect": "Burlarse o excluir divide. El objetivo es sumar, construir confianza y fortalecer la organización."
+      },
+      {
+        "id": 63,
+        "type": "situational",
+        "question": "Si aparecen rumores para dividir al sector (“unos son mejores que otros”), se debe:",
+        "options": [
+          { "key": "A", "text": "Repetirlos" },
+          { "key": "B", "text": "Fortalecer unidad con información y asamblea" },
+          { "key": "C", "text": "Ignorarlos siempre" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. La división beneficia al empleador. La unidad se construye con información, debate y organización.",
+        "feedbackIncorrect": "Repetir o ignorar sin organizar deja terreno a la división. La respuesta es unidad y participación."
+      },
+      {
+        "id": 64,
+        "type": "multiple_choice",
+        "question": "Si se vulnera la estabilidad laboral, eso debe ser visto como:",
+        "options": [
+          { "key": "A", "text": "Algo normal" },
+          { "key": "B", "text": "Un derecho a defender colectivamente" },
+          { "key": "C", "text": "Un tema privado sin sindicato" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. La estabilidad protege el trabajo y el servicio público. Defenderla es defender a toda la sociedad.",
+        "feedbackIncorrect": "La estabilidad no es privada: es garantía institucional. Sin defensa colectiva, la arbitrariedad crece."
+      },
+      {
+        "id": 65,
+        "type": "situational",
+        "question": "Si una compañera necesita licencia por IVE/atención pre y post, se debe:",
+        "options": [
+          { "key": "A", "text": "Juzgarla" },
+          { "key": "B", "text": "Respetar su derecho, acompañar y cuidar confidencialidad" },
+          { "key": "C", "text": "Difundirlo en el sector para “alertar”" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. Los derechos se ejercen sin estigma. El acompañamiento y la confidencialidad protegen salud y dignidad.",
+        "feedbackIncorrect": "Juzgar o difundir es violencia. La perspectiva de género exige respeto, confidencialidad y cuidado."
+      },
+      {
+        "id": 66,
+        "type": "multiple_choice",
+        "question": "El sindicato existe para:",
+        "options": [
+          { "key": "A", "text": "Administrar papeles" },
+          { "key": "B", "text": "Organizar poder colectivo para defender derechos" },
+          { "key": "C", "text": "Hacer favores personales" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. Poder colectivo es la capacidad real de mejorar condiciones. La afiliación fortalece ese poder.",
+        "feedbackIncorrect": "Sin organización, el trabajador queda aislado. El sindicato no es “gestoría”: es defensa colectiva."
+      },
+      {
+        "id": 67,
+        "type": "multiple_choice",
+        "question": "Sin organización, una trabajadora o trabajador queda:",
+        "options": [
+          { "key": "A", "text": "Más protegido" },
+          { "key": "B", "text": "Individualmente expuesto" },
+          { "key": "C", "text": "Con más poder que el empleador" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. El empleador siempre tiene más poder individualmente. La organización equilibra la balanza.",
+        "feedbackIncorrect": "La fuerza individual es limitada. La organización es lo que transforma reclamo en derecho."
+      },
+      {
+        "id": 68,
+        "type": "multiple_choice",
+        "question": "La negociación colectiva es:",
+        "options": [
+          { "key": "A", "text": "Un favor que te hacen" },
+          { "key": "B", "text": "Un derecho conquistado por la lucha sindical" },
+          { "key": "C", "text": "Un capricho" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. Nada se regala: se conquista. Y se sostiene con organización, afiliación y participación.",
+        "feedbackIncorrect": "No es favor. Sin negociación colectiva, el empleador fija condiciones unilateralmente."
+      },
+      {
+        "id": 69,
+        "type": "multiple_choice",
+        "question": "Un salario digno es:",
+        "options": [
+          { "key": "A", "text": "Un premio si te portás bien" },
+          { "key": "B", "text": "Un derecho que sostiene vida digna" },
+          { "key": "C", "text": "Un lujo" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. El salario debe cubrir vida real. Sin salario digno no hay dignidad laboral ni servicio público de calidad.",
+        "feedbackIncorrect": "El salario no es premio ni lujo: es derecho. Defenderlo es defender a las familias trabajadoras."
+      },
+{
+  "id": 70,
+  "type": "multiple_choice",
+  "question": "En un organismo regulador como el ORSNA, la función pública debe orientarse principalmente a:",
+  "options": [
+    { "key": "A", "text": "Garantizar seguridad, equidad territorial y cumplimiento contractual en beneficio de la sociedad" },
+    { "key": "B", "text": "Reducir controles para agilizar negocios privados" },
+    { "key": "C", "text": "Actuar sin perspectiva federal" }
+  ],
+  "correct": ["A"],
+  "feedbackCorrect": "Correcto. La función pública en la actividad aeroportuaria tiene un rol estratégico en la defensa del interés público.",
+  "feedbackIncorrect": "La regulación existe para equilibrar intereses y garantizar desarrollo federal, no para debilitar controles."
+}
+,
+      {
+        "id": 71,
+        "type": "multiple_choice",
+        "question": "“La violencia laboral puede ser sutil y progresiva”. Esto es:",
+        "options": [
+          { "key": "A", "text": "Verdadero" },
+          { "key": "B", "text": "Falso" },
+          { "key": "C", "text": "Solo si hay insultos" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Correcto. Muchas veces empieza con aislamiento, ocultamiento de información o tareas humillantes. Reconocerlo a tiempo es clave.",
+        "feedbackIncorrect": "Es verdadero. Limitarla a lo evidente invisibiliza hostigamientos que dañan salud y dignidad."
+      },
+      {
+        "id": 72,
+        "type": "multiple_choice",
+        "question": "“El sindicato solo actúa cuando el conflicto explota”. Esto es:",
+        "options": [
+          { "key": "A", "text": "Verdadero" },
+          { "key": "B", "text": "Falso" },
+          { "key": "C", "text": "Depende del delegado" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. El sindicato también previene: forma, informa, organiza y actúa tempranamente para evitar daños mayores.",
+        "feedbackIncorrect": "Es falso. La acción preventiva y formativa es central: así se evita que la violencia o el abuso crezcan."
+      },
+      {
+        "id": 73,
+        "type": "multiple_choice",
+        "question": "“La formación sindical es clave para defender derechos”. Esto es:",
+        "options": [
+          { "key": "A", "text": "Verdadero" },
+          { "key": "B", "text": "Falso" },
+          { "key": "C", "text": "Solo para dirigentes" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Exacto. Conocer derechos y herramientas fortalece la defensa. Formación es poder.",
+        "feedbackIncorrect": "Es verdadero. La formación es para toda la base: afiliadas, afiliados, delegadas y delegados."
+      },
+      {
+        "id": 74,
+        "type": "multiple_choice",
+        "question": "“El individualismo fortalece derechos colectivos”. Esto es:",
+        "options": [
+          { "key": "A", "text": "Verdadero" },
+          { "key": "B", "text": "Falso" },
+          { "key": "C", "text": "A veces sí, a veces no" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. El individualismo fragmenta. La defensa real se construye con unidad, solidaridad y organización.",
+        "feedbackIncorrect": "Es falso. Cuando cada uno “se salva”, el empleador avanza. Lo colectivo es lo que protege."
+      },
+      {
+        "id": 75,
+        "type": "multiple_choice",
+        "question": "“Defender lo público es defender igualdad”. Esto es:",
+        "options": [
+          { "key": "A", "text": "Verdadero" },
+          { "key": "B", "text": "Falso" },
+          { "key": "C", "text": "Solo en teoría" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Correcto. Lo público es escuela, hospital, políticas sociales y regulación. Sin eso, crece la desigualdad.",
+        "feedbackIncorrect": "Es verdadero. Lo público es el piso de derechos para toda la población, especialmente en vulnerabilidad."
+      },
+      {
+        "id": 76,
+        "type": "multiple_choice",
+        "question": "Para fortalecer el sindicato en el lugar de trabajo, lo más importante es:",
+        "options": [
+          { "key": "A", "text": "Silencio y obediencia" },
+          { "key": "B", "text": "Participación y organización" },
+          { "key": "C", "text": "Competencia entre compañeros" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. Participar es construir poder colectivo. La organización se hace todos los días, no solo en crisis.",
+        "feedbackIncorrect": "El silencio debilita. La participación fortalece derechos y mejora condiciones para todas y todos."
+      },
+{
+  "id": 77,
+  "type": "multiple_choice",
+  "question": "Una asamblea sindical cumple la función de:",
+  "options": [
+    { "key": "A", "text": "Tomar decisiones colectivas y definir mandatos democráticos" },
+    { "key": "B", "text": "Escuchar informes sin posibilidad de debate" },
+    { "key": "C", "text": "Validar decisiones ya cerradas" }
+  ],
+  "correct": ["A"],
+  "feedbackCorrect": "Correcto. La asamblea es el espacio soberano donde se ejerce la democracia sindical.",
+  "feedbackIncorrect": "Sin debate ni mandato, no hay democracia sindical real."
+}
+,
+      {
+        "id": 78,
+        "type": "multiple_choice",
+        "question": "La violencia laboral es también un problema político porque:",
+        "options": [
+          { "key": "A", "text": "Siempre se resuelve con chistes" },
+          { "key": "B", "text": "Tiene que ver con poder, desigualdad y derechos" },
+          { "key": "C", "text": "No afecta a la organización" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. Habla de cómo circula el poder en el trabajo. La respuesta debe ser colectiva e institucional.",
+        "feedbackIncorrect": "Sí es político: implica abuso de poder y vulneración de derechos. Ignorarlo deja a la gente sola."
+      },
+      {
+        "id": 79,
+        "type": "multiple_choice",
+        "question": "La ampliación de derechos laborales es, en general:",
+        "options": [
+          { "key": "A", "text": "Un retroceso" },
+          { "key": "B", "text": "Un avance de justicia social" },
+          { "key": "C", "text": "Un capricho" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. La ampliación de derechos adapta el trabajo a la vida real y reduce desigualdades.",
+        "feedbackIncorrect": "Los derechos no sobran. Se amplían para responder a realidades sociales y proteger dignidad."
+      },
+      {
+        "id": 80,
+        "type": "multiple_choice",
+        "question": "La unidad sindical es importante porque:",
+        "options": [
+          { "key": "A", "text": "Es una formalidad" },
+          { "key": "B", "text": "Es una herramienta para defender derechos y mejorar condiciones" },
+          { "key": "C", "text": "Evita pensar" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. Unidad no es uniformidad: es acuerdos colectivos para defender salario, licencias y dignidad laboral.",
+        "feedbackIncorrect": "La unidad sirve para equilibrar poder y defender derechos. Sin unidad, crece la vulnerabilidad."
+      },
+  
+      {
+        "id": 81,
+        "type": "multiple_choice",
+        "question": "Ante un conflicto laboral, el camino sindical más sólido suele ser:",
+        "options": [
+          { "key": "A", "text": "Resignación individual" },
+          { "key": "B", "text": "Organización colectiva" },
+          { "key": "C", "text": "Sálvese quien pueda" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. La organización transforma problemas en reclamos y reclamos en derechos. Eso es sindicalismo.",
+        "feedbackIncorrect": "Resignación o sálvese quien pueda debilitan. Lo colectivo protege y construye soluciones duraderas."
+      },
+      {
+        "id": 82,
+        "type": "multiple_choice",
+        "question": "Para enfrentar el abuso de poder en el trabajo, lo más efectivo es:",
+        "options": [
+          { "key": "A", "text": "Competir entre compañeros" },
+          { "key": "B", "text": "Solidaridad y unidad" },
+          { "key": "C", "text": "Aislarse" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. La solidaridad rompe el aislamiento, reduce miedo y permite defensa real con el sindicato.",
+        "feedbackIncorrect": "Competir o aislarse facilita el abuso. La unidad es el antídoto histórico de la clase trabajadora."
+      },
+      {
+        "id": 83,
+        "type": "multiple_choice",
+        "question": "En términos de derechos, es preferible:",
+        "options": [
+          { "key": "A", "text": "Estado presente" },
+          { "key": "B", "text": "Mercado sin regulación" },
+          { "key": "C", "text": "Que cada uno se arregle" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Correcto. El Estado presente garantiza pisos de derechos. Sin regulación, la desigualdad se profundiza.",
+        "feedbackIncorrect": "Sin Estado y sin regulación, gana el más fuerte. Los derechos necesitan instituciones que los hagan efectivos."
+      },
+      {
+        "id": 84,
+        "type": "multiple_choice",
+        "question": "Para construir igualdad real, las tareas de cuidado deben ser:",
+        "options": [
+          { "key": "A", "text": "Solo de las mujeres" },
+          { "key": "B", "text": "Compartidas y reconocidas como derecho" },
+          { "key": "C", "text": "Invisibles" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. Reconocer cuidados reduce brechas y permite vida digna. Perspectiva de género en acción.",
+        "feedbackIncorrect": "Cargar cuidados en una sola persona reproduce desigualdad. Lo justo es compartir y reconocer como derecho."
+      },
+      {
+        "id": 85,
+        "type": "multiple_choice",
+        "question": "Para sostener confianza en la representación sindical, un delegado debe priorizar:",
+        "options": [
+          { "key": "A", "text": "Transparencia" },
+          { "key": "B", "text": "Acuerdos secretos" },
+          { "key": "C", "text": "Favoritismos" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Correcto. Transparencia fortalece democracia sindical y evita maniobras de división del empleador.",
+        "feedbackIncorrect": "Los secretos y favoritismos rompen unidad. La representación justa es para todas y todos."
+      },
+      {
+        "id": 86,
+        "type": "multiple_choice",
+        "question": "Los derechos laborales son, en esencia:",
+        "options": [
+          { "key": "A", "text": "Favores del empleador" },
+          { "key": "B", "text": "Conquistas colectivas" },
+          { "key": "C", "text": "Premios individuales" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. Por eso se defienden colectivamente. Lo conquistado se cuida con organización.",
+        "feedbackIncorrect": "No son favores: son conquistas. Si se tratan como favores, se vuelven frágiles."
+      },
+      {
+        "id": 87,
+        "type": "multiple_choice",
+        "question": "La afiliación sindical, en general, es:",
+        "options": [
+          { "key": "A", "text": "Voluntaria y solidaria" },
+          { "key": "B", "text": "Obligatoria por ley para todos" },
+          { "key": "C", "text": "Inútil" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Correcto. Afiliarse es sumar fuerza y sostener una organización que te defiende a vos y al conjunto.",
+        "feedbackIncorrect": "No es obligatorio, pero sí importante. Sin afiliación, el sindicato pierde fuerza para defender derechos."
+      },
+      {
+        "id": 88,
+        "type": "multiple_choice",
+        "question": "Para evitar abusos laborales, lo más útil es:",
+        "options": [
+          { "key": "A", "text": "Improvisación" },
+          { "key": "B", "text": "Capacitación, información y organización" },
+          { "key": "C", "text": "Silencio" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. Conocer derechos y procedimientos, y actuar colectivamente, reduce impunidad y protege a las personas.",
+        "feedbackIncorrect": "Improvisar o callar deja a la persona sola. La formación sindical es una herramienta de protección."
+      },
+      {
+        "id": 89,
+        "type": "multiple_choice",
+        "question": "Ante una práctica de violencia laboral, lo correcto es:",
+        "options": [
+          { "key": "A", "text": "Naturalizarla" },
+          { "key": "B", "text": "Denunciarla y buscar acompañamiento sindical" },
+          { "key": "C", "text": "Reírse para que no duela" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. Nombrar, registrar y acompañar es el camino para frenar la violencia y cuidar la salud.",
+        "feedbackIncorrect": "Naturalizarla la fortalece. La intervención sindical y el acompañamiento son claves para cortar el abuso."
+      },
+      {
+        "id": 90,
+        "type": "multiple_choice",
+        "question": "Cuando hay intentos de dividir al sector, la respuesta sindical más efectiva es:",
+        "options": [
+          { "key": "A", "text": "Fragmentación" },
+          { "key": "B", "text": "Unidad con debate y participación" },
+          { "key": "C", "text": "Sálvese quien pueda" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. Unidad no significa callar: significa debatir y decidir colectivamente para defender derechos.",
+        "feedbackIncorrect": "La división beneficia al empleador. La unidad organizada protege y fortalece."
+      },
+      {
+        "id": 91,
+        "type": "multiple_choice",
+        "question": "Cuando se discute salario, lo que se discute en realidad es:",
+        "options": [
+          { "key": "A", "text": "Consumo y vida digna" },
+          { "key": "B", "text": "Un número sin importancia" },
+          { "key": "C", "text": "Un lujo" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Correcto. Salario es comida, alquiler, salud, educación. Defenderlo es defender vida real.",
+        "feedbackIncorrect": "No es un número abstracto. Es calidad de vida y dignidad laboral para familias trabajadoras."
+      },
+      {
+        "id": 92,
+        "type": "multiple_choice",
+        "question": "Recortar licencias, en general, produce:",
+        "options": [
+          { "key": "A", "text": "Más igualdad" },
+          { "key": "B", "text": "Retroceso de derechos y más carga sobre familias" },
+          { "key": "C", "text": "Mejor salud laboral" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. Menos licencias suele significar más desigualdad y más presión sobre quienes cuidan o atraviesan situaciones de salud.",
+        "feedbackIncorrect": "Recortar licencias no mejora salud laboral: la empeora. El cuidado y la salud requieren derechos."
+      },
+      {
+        "id": 93,
+        "type": "multiple_choice",
+        "question": "La perspectiva de género en el trabajo busca principalmente:",
+        "options": [
+          { "key": "A", "text": "Aumentar desigualdades" },
+          { "key": "B", "text": "Reducir violencias y desigualdades estructurales" },
+          { "key": "C", "text": "Prohibir debates" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. Perspectiva de género es igualdad real: menos violencia, más derechos, más justicia.",
+        "feedbackIncorrect": "La perspectiva de género no prohíbe debates: los mejora, porque obliga a mirar desigualdades históricas."
+      },
+      {
+        "id": 94,
+        "type": "multiple_choice",
+        "question": "Para fortalecer el sindicato en ORSNA (y en la actividad aeroportuaria), lo mejor es:",
+        "options": [
+          { "key": "A", "text": "Apatía y desinterés" },
+          { "key": "B", "text": "Participación, afiliación y formación" },
+          { "key": "C", "text": "Competencia interna" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. Afiliación y participación aumentan poder de negociación y mejoran defensa colectiva y del interés público.",
+        "feedbackIncorrect": "La apatía debilita derechos. La participación construye fuerza y mejora condiciones laborales."
+      },
+      {
+        "id": 95,
+        "type": "multiple_choice",
+        "question": "La democracia sindical se parece más a:",
+        "options": [
+          { "key": "A", "text": "Conducción cerrada sin consulta" },
+          { "key": "B", "text": "Debate, asamblea y decisiones colectivas" },
+          { "key": "C", "text": "Decisiones individuales" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Correcto. La democracia sindical es participación: discutir, decidir y sostener colectivamente lo acordado.",
+        "feedbackIncorrect": "Sin participación, la representación se vacía. El sindicato fuerte es democrático y abierto."
+      },
+      {
+        "id": 96,
+        "type": "multiple_choice",
+        "question": "Entender la función pública como servicio significa que:",
+        "options": [
+          { "key": "A", "text": "El Estado debe estar al servicio de la sociedad" },
+          { "key": "B", "text": "El Estado es un negocio" },
+          { "key": "C", "text": "Da lo mismo quién decide" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Exacto. La función pública tiene sentido social: garantiza derechos y políticas para toda la población.",
+        "feedbackIncorrect": "Si el Estado se vuelve negocio, crece desigualdad. El Estado debe servir al pueblo, no a intereses concentrados."
+      },
+      {
+        "id": 97,
+        "type": "multiple_choice",
+        "question": "La conectividad federal en la actividad aeronáutica y aeroportuaria se fortalece cuando:",
+        "options": [
+          { "key": "A", "text": "El Estado regula con perspectiva territorial" },
+          { "key": "B", "text": "Se decide solo por rentabilidad privada" },
+          { "key": "C", "text": "No hay planificación" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Correcto. Federalismo real requiere planificación y regulación estatal para que el país esté conectado con equidad.",
+        "feedbackIncorrect": "Si se decide solo por rentabilidad, quedan regiones afuera. El Estado debe garantizar integración territorial."
+      },
+      {
+        "id": 98,
+        "type": "multiple_choice",
+        "question": "Trabajo digno significa, entre otras cosas:",
+        "options": [
+          { "key": "A", "text": "Precarización y miedo" },
+          { "key": "B", "text": "Respeto, derechos, salario digno y ambiente sin violencia" },
+          { "key": "C", "text": "Silencio frente al abuso" }
+        ],
+        "correct": ["B"],
+        "feedbackCorrect": "Exacto. Trabajo digno es dignidad humana: sin violencia, con derechos y con salario que alcance.",
+        "feedbackIncorrect": "La precarización no es destino: se combate con organización, regulación estatal y sindicato fuerte."
+      },
+      {
+        "id": 99,
+        "type": "multiple_choice",
+        "question": "Un Estado al servicio del pueblo se diferencia porque:",
+        "options": [
+          { "key": "A", "text": "Prioriza derechos por encima de negocios" },
+          { "key": "B", "text": "Se retira y deja todo al mercado" },
+          { "key": "C", "text": "No regula nada" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Correcto. Donde hay derechos garantizados, hay Estado presente. Eso es justicia social concreta.",
+        "feedbackIncorrect": "Retirarse y no regular aumenta desigualdad. El Estado presente es garantía de derechos."
+      },
+      {
+        "id": 100,
+        "type": "multiple_choice",
+        "question": "En el trabajo, la opción que más protege a todas y todos es:",
+        "options": [
+          { "key": "A", "text": "Organización colectiva" },
+          { "key": "B", "text": "Sálvese quien pueda" },
+          { "key": "C", "text": "Aislarse" }
+        ],
+        "correct": ["A"],
+        "feedbackCorrect": "Exacto. Organización colectiva: sindicato fuerte, base participativa y unidad. Así se defienden derechos y se amplían conquistas.",
+        "feedbackIncorrect": "El “sálvese quien pueda” deja a la gente sola. La historia del movimiento obrero muestra que lo colectivo es lo que gana derechos."
+      }
+    ]
+  }
+  
