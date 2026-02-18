@@ -266,3 +266,18 @@
 #btnModeCampaign:active{
   transform: translateY(0);
 }
+.nav-link--calculator{
+  background: #0d6efd;
+  color: #fff;
+  font-weight: 700;
+}
+
+.nav-link--calculator:hover{
+  filter: brightness(1.05);
+}
+
+.nav-link--primary{
+  background: #ff7a00;
+  color: #1b1b1b;
+  font-weight: 800;
+}
