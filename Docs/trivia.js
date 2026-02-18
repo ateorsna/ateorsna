@@ -1,29 +1,38 @@
 (() => {
   const $ = (id) => document.getElementById(id);
 
-  const elMeta = $("triviaMeta");
-  const elStart = $("triviaStart");
-  const elGame = $("triviaGame");
-  const btnStart = $("btnStartTrivia");
+  const btnModeGeneral = $("btnModeGeneral");
+  const btnModeCampaign = $("btnModeCampaign");
   const btnNext = $("btnNext");
   const btnRestart = $("btnRestart");
+  const btnNextRound = $("btnNextRound");
+
+  const elMeta = $("triviaMeta");
+  const elGame = $("triviaGame");
   const elProgress = $("triviaProgress");
   const elScore = $("triviaScore");
   const elQ = $("triviaQuestion");
   const elOpts = $("triviaOptions");
   const elFb = $("triviaFeedback");
 
-  let questions = [];
+  let allQuestions = [];
+  let activeQuestions = [];
+
+  let mode = "general"; // "general" | "campaign"
+  const GENERAL_ROUND_SIZE = 10;
+
   let idx = 0;
   let score = 0;
   let locked = false;
+
   let profileCounter = {
     transformador: 0,
     administrativo: 0,
     individualista: 0
   };
 
-  // Fisher-Yates shuffle
+  const optionsCache = new Map();
+
   function shuffle(arr) {
     const a = arr.slice();
     for (let i = a.length - 1; i > 0; i--) {
@@ -33,12 +42,7 @@
     return a;
   }
 
-  // Para que el orden de opciones quede fijo dentro de la misma pregunta,
-  // guardamos un "shuffledOptions" por id.
-  const optionsCache = new Map();
-
   function normalizeCorrect(correct) {
-    // correct puede venir como string ("B") o como array (["A","C"])
     if (Array.isArray(correct)) return correct;
     if (typeof correct === "string") return [correct];
     return [];
@@ -53,33 +57,57 @@
       throw new Error("Formato inválido: falta questions[]");
     }
 
-    // Validación mínima + normalización
-    questions = data.questions.map((q) => ({
+    allQuestions = data.questions.map((q) => ({
       ...q,
       correct: normalizeCorrect(q.correct),
     }));
 
-    elMeta.textContent = `Banco cargado: ${questions.length} preguntas.`;
+    const total = allQuestions.length;
+    const campaignCount = allQuestions.filter(q => Number(q.id) >= 201).length;
+    elMeta.textContent = `Banco cargado: ${total} preguntas. Modo elecciones: ${campaignCount}.`;
   }
 
-  function startGame() {
+  function resetRun() {
     idx = 0;
     score = 0;
     locked = false;
-    profileCounter = {
-      transformador: 0,
-      administrativo: 0,
-      individualista: 0
-    };
-
-    // opcional: mezclar el orden de preguntas para que no sea siempre el mismo
-    questions = shuffle(questions);
-
     optionsCache.clear();
+    profileCounter = { transformador: 0, administrativo: 0, individualista: 0 };
 
-    elStart.style.display = "none";
+    btnNext.disabled = true;
+    btnRestart.style.display = "inline-block";
+    btnNextRound.style.display = "none";
+
+    elFb.style.display = "none";
+    elFb.className = "trivia-feedback";
+    elFb.textContent = "";
+  }
+
+  function buildActiveQuestions() {
+    const generalPool = allQuestions.filter(q => Number(q.id) < 201);
+    const campaignPool = allQuestions.filter(q => Number(q.id) >= 201);
+
+    if (mode === "campaign") {
+      // Campaña: usar todo el bloque (en orden mezclado o fijo)
+      activeQuestions = shuffle(campaignPool);
+    } else {
+      // General: micro-ronda de 10
+      activeQuestions = shuffle(generalPool).slice(0, GENERAL_ROUND_SIZE);
+    }
+  }
+
+  function startMode(newMode) {
+    mode = newMode;
+    resetRun();
+    buildActiveQuestions();
+
     elGame.style.display = "block";
-    btnRestart.style.display = "none";
+
+    if (mode === "campaign") {
+      elMeta.textContent = `Modo elecciones: ${activeQuestions.length} preguntas. (No guardamos respuestas).`;
+    } else {
+      elMeta.textContent = `Modo formación: ${activeQuestions.length} preguntas. (No guardamos respuestas).`;
+    }
 
     renderQuestion();
   }
@@ -87,22 +115,18 @@
   function renderQuestion() {
     locked = false;
     btnNext.disabled = true;
+
     elFb.style.display = "none";
     elFb.className = "trivia-feedback";
     elFb.textContent = "";
 
-    const q = questions[idx];
+    const q = activeQuestions[idx];
 
-    elProgress.textContent = `Pregunta ${idx + 1} de ${questions.length}`;
-    elScore.textContent = `Puntos: ${score}`;
-const modeLabel = (PROFILE_MODE === "campaign_only")
-  ? " | Perfil: solo campaña"
-  : " | Perfil: toda la trivia";
-elScore.textContent = `Puntos: ${score}${modeLabel}`;
+    elProgress.textContent = `Pregunta ${idx + 1} de ${activeQuestions.length}`;
+    elScore.textContent = `Puntos: ${score}${mode === "campaign" ? " | Perfil activo" : ""}`;
 
     elQ.textContent = q.question;
 
-    // cache de opciones mezcladas por pregunta
     let opts = optionsCache.get(q.id);
     if (!opts) {
       opts = shuffle(q.options);
@@ -125,20 +149,18 @@ elScore.textContent = `Puntos: ${score}${modeLabel}`;
     if (locked) return;
     locked = true;
 
-    const q = questions[idx];
-    const correctKeys = q.correct; // array
+    const q = activeQuestions[idx];
+    const correctKeys = q.correct;
     const isCorrect = correctKeys.includes(selectedKey);
-// sumar perfil (si la opción trae profile)
-// - si PROFILE_MODE = campaign_only: solo cuenta preguntas id >= 201
-if (PROFILE_MODE === "all" || (PROFILE_MODE === "campaign_only" && q.id >= 201)) {
-  const shownOptions = optionsCache.get(q.id) || q.options;
-  const selectedOption = shownOptions.find(o => o.key === selectedKey);
 
-  if (selectedOption && selectedOption.profile && profileCounter[selectedOption.profile] != null) {
-    profileCounter[selectedOption.profile] += 1;
-  }
-}
-
+    // sumar perfil SOLO en campaña (si existe profile)
+    if (mode === "campaign") {
+      const shownOptions = optionsCache.get(q.id) || q.options;
+      const selectedOption = shownOptions.find(o => o.key === selectedKey);
+      if (selectedOption && selectedOption.profile && profileCounter[selectedOption.profile] != null) {
+        profileCounter[selectedOption.profile] += 1;
+      }
+    }
 
     // marcar botones
     const buttons = Array.from(elOpts.querySelectorAll("button.trivia-option"));
@@ -149,27 +171,20 @@ if (PROFILE_MODE === "all" || (PROFILE_MODE === "campaign_only" && q.id >= 201))
       if (k === selectedKey && !isCorrect) b.classList.add("wrong");
     });
 
-    // puntaje (si querés solo 1 punto por pregunta)
     if (isCorrect) score += 1;
 
-    // feedback
     elFb.style.display = "block";
     elFb.classList.add(isCorrect ? "good" : "bad");
     elFb.textContent = isCorrect ? q.feedbackCorrect : q.feedbackIncorrect;
 
-    elScore.textContent = `Puntos: ${score}`;
+    elScore.textContent = `Puntos: ${score}${mode === "campaign" ? " | Perfil activo" : ""}`;
     btnNext.disabled = false;
 
-    // último
-    if (idx === questions.length - 1) {
-      btnNext.textContent = "Finalizar";
-    } else {
-      btnNext.textContent = "Siguiente";
-    }
+    btnNext.textContent = (idx === activeQuestions.length - 1) ? "Finalizar" : "Siguiente";
   }
 
   function next() {
-    if (idx === questions.length - 1) {
+    if (idx === activeQuestions.length - 1) {
       finish();
       return;
     }
@@ -177,63 +192,86 @@ if (PROFILE_MODE === "all" || (PROFILE_MODE === "campaign_only" && q.id >= 201))
     renderQuestion();
   }
 
-function finish() {
-  elOpts.innerHTML = "";
-  btnNext.disabled = true;
+  function finish() {
+    elOpts.innerHTML = "";
+    btnNext.disabled = true;
 
-  // Determinar perfil dominante
-const entries = Object.entries(profileCounter);
-const totalProfileAnswers = entries.reduce((acc, [,v]) => acc + v, 0);
+    if (mode === "campaign") {
+      // Perfil sindical
+      const entries = Object.entries(profileCounter);
+      const totalProfileAnswers = entries.reduce((acc, [,v]) => acc + v, 0);
+      entries.sort((a, b) => b[1] - a[1]);
+      const perfil = totalProfileAnswers > 0 ? entries[0][0] : null;
 
-entries.sort((a, b) => b[1] - a[1]);
-const perfil = totalProfileAnswers > 0 ? entries[0][0] : null;
+      let titulo = "";
+      let mensaje = "";
 
+      if (!perfil) {
+        titulo = "Resultado: modo elecciones";
+        mensaje = "Terminaste el bloque de elecciones. Si querés ver tu perfil, asegurate de que estas preguntas tengan opciones con etiqueta de perfil (transformador/administrativo/individualista).";
+      } else if (perfil === "transformador") {
+        titulo = "Perfil: Sindicalismo participativo y transformador";
+        mensaje = "Tus respuestas reflejan un sindicato con base, mandato y participación: más afiliación, más transparencia, más organización y defensa del rol del Estado en la actividad aeroportuaria. Ese es el camino para recuperar salario y ampliar derechos.";
+      } else if (perfil === "administrativo") {
+        titulo = "Perfil: Sindicalismo administrativo";
+        mensaje = "Priorizás estabilidad y gestión. Eso suma, pero hoy la realidad pide un plus: organización, participación y plan colectivo para recuperar derechos y fortalecer la función pública.";
+      } else {
+        titulo = "Perfil: Sindicalismo individualista";
+        mensaje = "Se nota una mirada más individual. En el Estado, cuando aprieta el ajuste, la experiencia muestra que la defensa real se logra con organización colectiva y solidaridad.";
+      }
 
-  let titulo = "";
-  let mensaje = "";
+      elQ.innerHTML = `<strong>${titulo}</strong>`;
+      elFb.style.display = "block";
+      elFb.className = "trivia-feedback good";
+      elFb.innerHTML = `
+        <p>${mensaje}</p>
+        <p style="margin-top:10px; font-weight:600;">
+          Si querés un ORSNA fuerte y un salario digno: participá, sumate a los espacios, y ayudá a ampliar la afiliación.
+        </p>
+      `;
 
-if (!perfil) {
-  titulo = "Resultado final";
-  mensaje = "¡Terminaste la trivia! Para ver tu “perfil sindical”, jugá el bloque de campaña interna (modo elecciones), donde las respuestas suman puntos por estilo de organización.";
-} else if (perfil === "transformador") {
-  titulo = "Perfil: Sindicalismo Participativo y Transformador";
-  mensaje = "Tus respuestas muestran una visión de sindicato activo, democrático y comprometido con ampliar derechos, fortalecer el rol del Estado y construir poder colectivo en el ORSNA. Este modelo apuesta a más afiliación, más participación y más organización.";
-} else if (perfil === "administrativo") {
-  titulo = "Perfil: Sindicalismo Administrativo";
-  mensaje = "Tu visión prioriza estabilidad y gestión institucional. Aun así, en contextos de pérdida salarial y ajuste, la organización y la participación son claves para recuperar derechos y fortalecer la función pública.";
-} else {
-  titulo = "Perfil: Sindicalismo Individualista";
-  mensaje = "Tus respuestas muestran una mirada más individual. Pero la experiencia sindical demuestra que, especialmente en el Estado, la defensa de derechos y salarios se logra con organización colectiva y solidaridad entre compañeras y compañeros.";
-}
+      btnNextRound.style.display = "none";
+    } else {
+      // Formación: cierre corto + invitar a modo elecciones
+      elQ.innerHTML = `<strong>¡Listo! Terminaste la ronda de formación.</strong>`;
+      elFb.style.display = "block";
+      elFb.className = "trivia-feedback good";
+      elFb.innerHTML = `
+        <p><b>Puntaje:</b> ${score} / ${activeQuestions.length}.</p>
+        <p style="margin-top:8px;">
+          Lo importante no es “sacar 10”: es llevarte ideas claras para defenderte y defender al resto.
+          Si querés, podés hacer otra ronda o probar el <b>modo elecciones</b> (perfil sindical).
+        </p>
+      `;
 
+      btnNextRound.style.display = "inline-block";
+    }
 
-  elQ.innerHTML = `<strong>${titulo}</strong>`;
-  elFb.style.display = "block";
-  elFb.className = "trivia-feedback good";
-  elFb.innerHTML = `
-    <p>${mensaje}</p>
-    <p style="margin-top:10px; font-weight:600;">
-      La renovación de la Junta Interna es una oportunidad para fortalecer el sindicato que necesitamos.
-    </p>
-  `;
-
-  btnRestart.style.display = "inline-block";
-}
-
+    btnRestart.style.display = "inline-block";
+  }
 
   // events
-  btnStart.addEventListener("click", startGame);
+  btnModeGeneral.addEventListener("click", () => startMode("general"));
+  btnModeCampaign.addEventListener("click", () => startMode("campaign"));
+
   btnNext.addEventListener("click", next);
+
   btnRestart.addEventListener("click", () => {
     elGame.style.display = "none";
-    elStart.style.display = "block";
-    elMeta.textContent = `Banco cargado: ${questions.length} preguntas.`;
+    elMeta.textContent = `Elegí un modo para comenzar. (No guardamos respuestas).`;
+  });
+
+  btnNextRound.addEventListener("click", () => {
+    startMode("general");
   });
 
   // init
-  loadTrivia().catch((err) => {
+  loadTrivia().then(() => {
+    elMeta.textContent = `Elegí un modo para comenzar. (No guardamos respuestas).`;
+  }).catch((err) => {
     console.error(err);
     elMeta.textContent = "Error cargando trivia. Revisá que exista Docs/trivia.json y que GitHub Pages lo sirva.";
   });
 })();
+
 
