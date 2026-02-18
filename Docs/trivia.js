@@ -148,7 +148,15 @@ function confettiBurst() {
     const q = activeQuestions[idx];
 
     elProgress.textContent = `Pregunta ${idx + 1} de ${activeQuestions.length}`;
-    elScore.textContent = `Puntos: ${score}${mode === "campaign" ? " | Perfil activo" : ""}`;
+const aciertosTxt = `Aciertos: ${score}/${idx}`; // idx preguntas ya respondidas (antes de contestar esta)
+const perfilTxt = (mode === "campaign")
+  ? `<span class="trivia-badge trivia-badge--campaign">🗳️ Perfil en construcción</span>`
+  : `<span class="trivia-badge">📚 Formación activa</span>`;
+
+elScore.innerHTML = `
+  ${perfilTxt}
+  <span class="trivia-badge">✅ ${score} aciertos</span>
+`;
 
     elQ.textContent = q.question;
 
@@ -198,8 +206,17 @@ function confettiBurst() {
 
 if (isCorrect) {
   score += 1;
-  confettiBurst();
+
+  // 🎉 CONFETTI
+  if (typeof confetti === "function") {
+    confetti({
+      particleCount: 80,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+  }
 }
+
 
     elFb.style.display = "block";
     elFb.classList.add(isCorrect ? "good" : "bad");
