@@ -41,6 +41,31 @@
     }
     return a;
   }
+function confettiBurst() {
+  const container = document.createElement("div");
+  container.className = "confetti-container";
+  document.body.appendChild(container);
+
+  const colors = ["#22c55e", "#00923f", "#ff7a00", "#a3e635", "#16a34a"];
+  const pieces = 50;
+
+  for (let i = 0; i < pieces; i++) {
+    const el = document.createElement("div");
+    el.className = "confetti-piece";
+
+    el.style.left = Math.random() * 100 + "vw";
+    el.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    el.style.animationDelay = Math.random() * 200 + "ms";
+    el.style.width = (8 + Math.random() * 6) + "px";
+    el.style.height = (10 + Math.random() * 10) + "px";
+
+    container.appendChild(el);
+  }
+
+  setTimeout(() => {
+    container.remove();
+  }, 1200);
+}
 
   function normalizeCorrect(correct) {
     if (Array.isArray(correct)) return correct;
@@ -171,7 +196,10 @@
       if (k === selectedKey && !isCorrect) b.classList.add("wrong");
     });
 
-    if (isCorrect) score += 1;
+if (isCorrect) {
+  score += 1;
+  confettiBurst();
+}
 
     elFb.style.display = "block";
     elFb.classList.add(isCorrect ? "good" : "bad");
