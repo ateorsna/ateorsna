@@ -822,11 +822,11 @@
       {
         "id": 63,
         "type": "situational",
-        "question": "Si aparecen rumores para dividir al sector (“unos son mejores que otros”), se debe:",
+        "question": "Si aparecen rumores para dividir, se debe:",
         "options": [
-          { "key": "A", "text": "Repetirlos" },
-          { "key": "B", "text": "Fortalecer unidad con información y asamblea" },
-          { "key": "C", "text": "Ignorarlos siempre" }
+          { "key": "A", "text": "Ignorarlos" },
+          { "key": "B", "text": "Fortalecer la unidad con información fehaciente" },
+          { "key": "C", "text": "Responderlos" }
         ],
         "correct": ["B"],
         "feedbackCorrect": "Correcto. La división beneficia al empleador. La unidad se construye con información, debate y organización.",
