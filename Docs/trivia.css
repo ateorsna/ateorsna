@@ -305,3 +305,30 @@
     opacity: 1;
   }
 }
+:root{
+  /* Panel oscuro (reemplazo del “negro”) */
+  --panel-bg: #0f2a1c;        /* verde oscuro elegante */
+  --panel-bg-2: #123322;      /* variante */
+  --panel-border: rgba(34,197,94,.25);
+  --panel-text: #e7f6ea;
+  --panel-muted: rgba(231,246,234,.78);
+}
+
+/* Reemplazo directo de “cajas negras” */
+.trivia-banner{
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  color: var(--panel-text);
+}
+
+.trivia-banner-title{ color:#22c55e; }
+.trivia-banner-sub{ color: var(--panel-muted); }
+.trivia-banner-foot{ color: rgba(231,246,234,.65); }
+
+/* Inputs oscuros del gadget (hoy están en #0b1720) */
+.salario-col input,
+.input-y-boton input{
+  background: var(--panel-bg-2);
+  color: var(--panel-text);
+  border: 1px solid rgba(231,246,234,.25);
+}
