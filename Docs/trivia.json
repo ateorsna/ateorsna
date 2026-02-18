@@ -1315,7 +1315,269 @@
         "correct": ["A"],
         "feedbackCorrect": "Exacto. Organización colectiva: sindicato fuerte, base participativa y unidad. Así se defienden derechos y se amplían conquistas.",
         "feedbackIncorrect": "El “sálvese quien pueda” deja a la gente sola. La historia del movimiento obrero muestra que lo colectivo es lo que gana derechos."
-      }
-    ]
+      },
+
+
+ {
+    "id": 201,
+    "type": "multiple_choice",
+    "question": "En una etapa de renovación de Junta Interna, el principal desafío es:",
+    "options": [
+      { "key": "A", "text": "Mantener todo igual para evitar conflictos", "profile": "administrativo" },
+      { "key": "B", "text": "Profundizar la organización, ampliar derechos y fortalecer la afiliación", "profile": "transformador" },
+      { "key": "C", "text": "Reducir la participación para agilizar decisiones", "profile": "individualista" }
+    ],
+    "correct": ["B"],
+    "feedbackCorrect": "Correcto. Renovar no es cambiar nombres: es ampliar participación, fortalecer la afiliación y conquistar derechos.",
+    "feedbackIncorrect": "La renovación sirve si fortalece organización, participación y un proyecto colectivo que mejore la vida laboral."
+  },
+  {
+    "id": 202,
+    "type": "multiple_choice",
+    "question": "Una Junta Interna sólida en un organismo regulador como ORSNA debe:",
+    "options": [
+      { "key": "A", "text": "Limitarse a resolver reclamos individuales", "profile": "individualista" },
+      { "key": "B", "text": "Defender salario y condiciones laborales, y también el rol estratégico del Estado", "profile": "transformador" },
+      { "key": "C", "text": "Evitar pronunciarse sobre políticas públicas", "profile": "administrativo" }
+    ],
+    "correct": ["B"],
+    "feedbackCorrect": "Correcto. Defender derechos laborales y defender un Estado regulador fuerte van de la mano en la actividad aeroportuaria.",
+    "feedbackIncorrect": "El sindicato no es solo gestor de casos: construye fuerza colectiva y defiende la función pública."
+  },
+  {
+    "id": 203,
+    "type": "multiple_choice",
+    "question": "Si hay pérdida salarial sostenida, la Junta Interna debería impulsar:",
+    "options": [
+      { "key": "A", "text": "Un plan de recuperación salarial con participación y seguimiento", "profile": "transformador" },
+      { "key": "B", "text": "Esperar que se resuelva solo en la próxima paritaria", "profile": "administrativo" },
+      { "key": "C", "text": "Negociar beneficios por sector aunque el colectivo pierda", "profile": "individualista" }
+    ],
+    "correct": ["A"],
+    "feedbackCorrect": "Correcto. Recuperar salario requiere organización, diagnóstico, objetivos claros y sostener el reclamo colectivamente.",
+    "feedbackIncorrect": "Sin organización y metas colectivas, la recuperación salarial queda librada a decisiones ajenas."
+  },
+  {
+    "id": 204,
+    "type": "multiple_choice",
+    "question": "Aumentar la afiliación sindical en el ORSNA fortalece:",
+    "options": [
+      { "key": "A", "text": "La legitimidad, la capacidad de negociación y la defensa colectiva", "profile": "transformador" },
+      { "key": "B", "text": "La burocracia interna y nada más", "profile": "individualista" },
+      { "key": "C", "text": "La competencia entre sectores", "profile": "individualista" }
+    ],
+    "correct": ["A"],
+    "feedbackCorrect": "Correcto. La afiliación es poder colectivo: más respaldo, más participación y más fuerza para negociar.",
+    "feedbackIncorrect": "La afiliación no es un trámite: es construir organización para defender derechos."
+  },
+  {
+    "id": 205,
+    "type": "multiple_choice",
+    "question": "Una Junta Interna con perspectiva de género se nota cuando:",
+    "options": [
+      { "key": "A", "text": "Hay protocolos, licencias, prevención y representación real en la agenda", "profile": "transformador" },
+      { "key": "B", "text": "Solo se menciona el tema en fechas conmemorativas", "profile": "administrativo" },
+      { "key": "C", "text": "Se considera un tema “privado” y ajeno al trabajo", "profile": "individualista" }
+    ],
+    "correct": ["A"],
+    "feedbackCorrect": "Correcto. La igualdad real necesita medidas concretas: prevención, licencias, cuidados y respeto en el ámbito laboral.",
+    "feedbackIncorrect": "La perspectiva de género es parte del enfoque de derechos: mejora condiciones de trabajo para todo el colectivo."
+  },
+  {
+    "id": 206,
+    "type": "multiple_choice",
+    "question": "La transparencia sindical se fortalece cuando la Junta Interna:",
+    "options": [
+      { "key": "A", "text": "Comunica avances, acuerdos, actas y decisiones con claridad", "profile": "transformador" },
+      { "key": "B", "text": "Informa solo si hay conflicto grande", "profile": "administrativo" },
+      { "key": "C", "text": "Evita informar para que “no haya debate”", "profile": "individualista" }
+    ],
+    "correct": ["A"],
+    "feedbackCorrect": "Correcto. Transparencia construye confianza, unidad y participación informada.",
+    "feedbackIncorrect": "Sin información no hay control democrático. La transparencia protege al colectivo y a la representación."
+  },
+  {
+    "id": 207,
+    "type": "multiple_choice",
+    "question": "La formación sindical útil para ORSNA debería incluir:",
+    "options": [
+      { "key": "A", "text": "Convenio, estatuto, derechos, negociación y realidad de la actividad aeroportuaria", "profile": "transformador" },
+      { "key": "B", "text": "Solo historia general sin vínculo con el trabajo cotidiano", "profile": "administrativo" },
+      { "key": "C", "text": "Nada: “se aprende sobre la marcha”", "profile": "individualista" }
+    ],
+    "correct": ["A"],
+    "feedbackCorrect": "Correcto. Formación es poder: mejora defensa de derechos y fortalece la capacidad técnica y política del sindicato.",
+    "feedbackIncorrect": "Sin formación, se pierde capacidad de argumentar, negociar y proteger derechos en el trabajo."
+  },
+  {
+    "id": 208,
+    "type": "multiple_choice",
+    "question": "Un proyecto sindical para ORSNA debería combinar:",
+    "options": [
+      { "key": "A", "text": "Salario, condiciones laborales y defensa del rol regulador del Estado", "profile": "transformador" },
+      { "key": "B", "text": "Solo reclamos puntuales sin plan", "profile": "administrativo" },
+      { "key": "C", "text": "Cada sector por su cuenta", "profile": "individualista" }
+    ],
+    "correct": ["A"],
+    "feedbackCorrect": "Correcto. Salario, condiciones de trabajo y Estado presente son partes de un mismo proyecto de derechos.",
+    "feedbackIncorrect": "Sin plan colectivo, se fragmenta la fuerza y se vuelve más fácil que avance el ajuste."
+  },
+  {
+    "id": 209,
+    "type": "multiple_choice",
+    "question": "Una forma sana de fortalecer unidad entre sectores es:",
+    "options": [
+      { "key": "A", "text": "Construir reclamos comunes y espacios de debate respetuosos", "profile": "transformador" },
+      { "key": "B", "text": "Competir por quién consigue más", "profile": "individualista" },
+      { "key": "C", "text": "Evitar hablar de diferencias y “que cada uno se arregle”", "profile": "administrativo" }
+    ],
+    "correct": ["A"],
+    "feedbackCorrect": "Correcto. La unidad se construye con diálogo, objetivos compartidos y solidaridad entre compañeras y compañeros.",
+    "feedbackIncorrect": "La división debilita. La unidad requiere espacios de debate y acuerdos colectivos."
+  },
+  {
+    "id": 210,
+    "type": "multiple_choice",
+    "question": "En una elección de Junta Interna, lo más democrático es:",
+    "options": [
+      { "key": "A", "text": "Debatir propuestas y elegir con información", "profile": "transformador" },
+      { "key": "B", "text": "Elegir por simpatía personal sin discutir programa", "profile": "individualista" },
+      { "key": "C", "text": "No debatir para “no complicar”", "profile": "administrativo" }
+    ],
+    "correct": ["A"],
+    "feedbackCorrect": "Correcto. La democracia sindical se fortalece con debate de propuestas, rendición de cuentas y participación.",
+    "feedbackIncorrect": "Sin debate programático, se pierde la oportunidad de construir un sindicato con rumbo y control democrático."
+  },
+  {
+    "id": 211,
+    "type": "situational",
+    "question": "Si un compañero o compañera no está afiliado/a y dice “para qué afiliarme”, la mejor respuesta es:",
+    "options": [
+      { "key": "A", "text": "“Afiliarse es sumar fuerza para negociar salario y derechos: nadie se salva solo”", "profile": "transformador" },
+      { "key": "B", "text": "“No te metas, total a vos no te cambia”", "profile": "administrativo" },
+      { "key": "C", "text": "“Afiliate solo si te conviene a vos”", "profile": "individualista" }
+    ],
+    "correct": ["A"],
+    "feedbackCorrect": "Correcto. La afiliación fortalece el poder colectivo: más respaldo, más representación y más capacidad de conquista.",
+    "feedbackIncorrect": "La afiliación no es consumo individual: es organización colectiva para defender derechos."
+  },
+  {
+    "id": 212,
+    "type": "multiple_choice",
+    "question": "Una Junta Interna que “rinde cuentas” demuestra:",
+    "options": [
+      { "key": "A", "text": "Respeto por la base y práctica de democracia sindical", "profile": "transformador" },
+      { "key": "B", "text": "Debilidad y falta de autoridad", "profile": "individualista" },
+      { "key": "C", "text": "Que hay que evitar informar para no discutir", "profile": "administrativo" }
+    ],
+    "correct": ["A"],
+    "feedbackCorrect": "Correcto. Rendición de cuentas es fortaleza: mejora confianza, control democrático y unidad.",
+    "feedbackIncorrect": "Rendir cuentas no debilita: fortalece. Sin devolución a la base, la representación se erosiona."
+  },
+  {
+    "id": 213,
+    "type": "multiple_choice",
+    "question": "En conflictos laborales, lo que más protege al colectivo es:",
+    "options": [
+      { "key": "A", "text": "La organización, la unidad y el respaldo sindical", "profile": "transformador" },
+      { "key": "B", "text": "Resolverlo solo por vías individuales", "profile": "individualista" },
+      { "key": "C", "text": "No involucrarse para evitar problemas", "profile": "administrativo" }
+    ],
+    "correct": ["A"],
+    "feedbackCorrect": "Correcto. La defensa colectiva es la herramienta más efectiva frente a presiones o arbitrariedades.",
+    "feedbackIncorrect": "Cuando cada uno enfrenta solo, se debilita el conjunto. La salida es colectiva y organizada."
+  },
+  {
+    "id": 214,
+    "type": "true_false",
+    "question": "“En ORSNA, defender la función pública también es defender el derecho social a un sistema aeroportuario federal y regulado”.",
+    "options": [
+      { "key": "A", "text": "Verdadero", "profile": "transformador" },
+      { "key": "B", "text": "Falso", "profile": "individualista" },
+      { "key": "C", "text": "Depende de cada aeropuerto", "profile": "administrativo" }
+    ],
+    "correct": ["A"],
+    "feedbackCorrect": "Correcto. Estado presente significa regulación, control, equidad territorial y protección del interés público.",
+    "feedbackIncorrect": "El interés público requiere regulación y Estado presente. En lo aeroportuario, eso impacta en seguridad, conectividad y derechos."
+  },
+  {
+    "id": 215,
+    "type": "multiple_choice",
+    "question": "Si la conducción sindical se aleja de la base, el riesgo principal es:",
+    "options": [
+      { "key": "A", "text": "Perder participación, legitimidad y capacidad de lucha colectiva", "profile": "transformador" },
+      { "key": "B", "text": "Ganar rapidez en decisiones sin debate", "profile": "individualista" },
+      { "key": "C", "text": "Que nada cambie", "profile": "administrativo" }
+    ],
+    "correct": ["A"],
+    "feedbackCorrect": "Correcto. Un sindicato fuerte se apoya en la base: mandatos, asambleas, información y participación.",
+    "feedbackIncorrect": "Sin base organizada, la representación pierde fuerza. La democracia sindical no es un detalle: es el corazón."
+  },
+  {
+    "id": 216,
+    "type": "situational",
+    "question": "Si te proponen “arreglar por afuera” un problema laboral, lo más conveniente para el colectivo es:",
+    "options": [
+      { "key": "A", "text": "Plantearlo por los canales sindicales y buscar solución colectiva y transparente", "profile": "transformador" },
+      { "key": "B", "text": "Aceptar si te conviene a vos", "profile": "individualista" },
+      { "key": "C", "text": "No hacer nada para evitar lío", "profile": "administrativo" }
+    ],
+    "correct": ["A"],
+    "feedbackCorrect": "Correcto. Lo colectivo y transparente protege a todos y evita arbitrariedades o presiones.",
+    "feedbackIncorrect": "Los arreglos individuales suelen debilitar el reclamo colectivo y dejan a otros expuestos."
+  },
+  {
+    "id": 217,
+    "type": "multiple_choice",
+    "question": "Una campaña sindical sana se enfoca principalmente en:",
+    "options": [
+      { "key": "A", "text": "Propuestas, programa y participación democrática", "profile": "transformador" },
+      { "key": "B", "text": "Rumores y chicanas personales", "profile": "individualista" },
+      { "key": "C", "text": "Evitar discutir proyectos", "profile": "administrativo" }
+    ],
+    "correct": ["A"],
+    "feedbackCorrect": "Correcto. La política sindical se fortalece con debate de propuestas, no con ataques personales.",
+    "feedbackIncorrect": "La discusión personalista divide. Lo que fortalece es programa, participación y respeto."
+  },
+  {
+    "id": 218,
+    "type": "multiple_choice",
+    "question": "Una Junta Interna fuerte se construye mejor cuando:",
+    "options": [
+      { "key": "A", "text": "Hay equipos, comisiones y responsabilidades compartidas", "profile": "transformador" },
+      { "key": "B", "text": "Todo depende de una sola persona", "profile": "individualista" },
+      { "key": "C", "text": "Se evita distribuir tareas para no discutir", "profile": "administrativo" }
+    ],
+    "correct": ["A"],
+    "feedbackCorrect": "Correcto. Construir equipos evita personalismos, mejora continuidad y amplía participación real.",
+    "feedbackIncorrect": "Cuando todo depende de una persona, el sindicato se vuelve frágil. La organización es colectiva."
+  },
+  {
+    "id": 219,
+    "type": "multiple_choice",
+    "question": "En el ORSNA, una agenda sindical estratégica debería incluir también:",
+    "options": [
+      { "key": "A", "text": "Condiciones de trabajo, capacitación y defensa del rol regulador estatal", "profile": "transformador" },
+      { "key": "B", "text": "Solo beneficios individuales", "profile": "individualista" },
+      { "key": "C", "text": "No opinar de la actividad aeroportuaria", "profile": "administrativo" }
+    ],
+    "correct": ["A"],
+    "feedbackCorrect": "Correcto. Defender la función pública y la regulación fortalece derechos laborales y el interés público.",
+    "feedbackIncorrect": "La agenda sindical en el Estado también incluye defender la función pública y el rol regulador."
+  },
+  {
+    "id": 220,
+    "type": "multiple_choice",
+    "question": "La renovación de Junta Interna debería servir para:",
+    "options": [
+      { "key": "A", "text": "Fortalecer unidad, participación y ampliar derechos para todas y todos", "profile": "transformador" },
+      { "key": "B", "text": "Reducir actividad sindical para “no molestar”", "profile": "administrativo" },
+      { "key": "C", "text": "Que cada uno negocie por su cuenta", "profile": "individualista" }
+    ],
+    "correct": ["A"],
+    "feedbackCorrect": "Correcto. Renovar es una oportunidad para fortalecer la organización y conquistar avances colectivos.",
+    "feedbackIncorrect": "La renovación tiene sentido si suma unidad, participación y proyecto colectivo. Eso es lo que mejora condiciones reales."
   }
-  
+]
+
+
