@@ -95,6 +95,10 @@
 
     elProgress.textContent = `Pregunta ${idx + 1} de ${questions.length}`;
     elScore.textContent = `Puntos: ${score}`;
+const modeLabel = (PROFILE_MODE === "campaign_only")
+  ? " | Perfil: solo campaña"
+  : " | Perfil: toda la trivia";
+elScore.textContent = `Puntos: ${score}${modeLabel}`;
 
     elQ.textContent = q.question;
 
@@ -125,10 +129,16 @@
     const correctKeys = q.correct; // array
     const isCorrect = correctKeys.includes(selectedKey);
 // sumar perfil (si la opción trae profile)
-const selectedOption = q.options.find(o => o.key === selectedKey);
-if (selectedOption && selectedOption.profile && profileCounter[selectedOption.profile] != null) {
-  profileCounter[selectedOption.profile] += 1;
+// - si PROFILE_MODE = campaign_only: solo cuenta preguntas id >= 201
+if (PROFILE_MODE === "all" || (PROFILE_MODE === "campaign_only" && q.id >= 201)) {
+  const shownOptions = optionsCache.get(q.id) || q.options;
+  const selectedOption = shownOptions.find(o => o.key === selectedKey);
+
+  if (selectedOption && selectedOption.profile && profileCounter[selectedOption.profile] != null) {
+    profileCounter[selectedOption.profile] += 1;
+  }
 }
+
 
     // marcar botones
     const buttons = Array.from(elOpts.querySelectorAll("button.trivia-option"));
@@ -172,23 +182,30 @@ function finish() {
   btnNext.disabled = true;
 
   // Determinar perfil dominante
-  const entries = Object.entries(profileCounter);
-  entries.sort((a, b) => b[1] - a[1]);
-  const perfil = entries[0][0];
+const entries = Object.entries(profileCounter);
+const totalProfileAnswers = entries.reduce((acc, [,v]) => acc + v, 0);
+
+entries.sort((a, b) => b[1] - a[1]);
+const perfil = totalProfileAnswers > 0 ? entries[0][0] : null;
+
 
   let titulo = "";
   let mensaje = "";
 
-  if (perfil === "transformador") {
-    titulo = "Perfil: Sindicalismo Participativo y Transformador";
-    mensaje = "Tus respuestas muestran una visión de sindicato activo, democrático y comprometido con ampliar derechos, fortalecer el rol del Estado y construir poder colectivo en el ORSNA. Este modelo apuesta a más afiliación, más participación y más organización.";
-  } else if (perfil === "administrativo") {
-    titulo = "Perfil: Sindicalismo Administrativo";
-    mensaje = "Tu visión prioriza estabilidad y gestión institucional. Aun así, en contextos de pérdida salarial y ajuste, la organización y la participación son claves para recuperar derechos y fortalecer la función pública.";
-  } else {
-    titulo = "Perfil: Sindicalismo Individualista";
-    mensaje = "Tus respuestas muestran una mirada más individual. Pero la experiencia sindical demuestra que, especialmente en el Estado, la defensa de derechos y salarios se logra con organización colectiva y solidaridad entre compañeras y compañeros.";
-  }
+if (!perfil) {
+  titulo = "Resultado final";
+  mensaje = "¡Terminaste la trivia! Para ver tu “perfil sindical”, jugá el bloque de campaña interna (modo elecciones), donde las respuestas suman puntos por estilo de organización.";
+} else if (perfil === "transformador") {
+  titulo = "Perfil: Sindicalismo Participativo y Transformador";
+  mensaje = "Tus respuestas muestran una visión de sindicato activo, democrático y comprometido con ampliar derechos, fortalecer el rol del Estado y construir poder colectivo en el ORSNA. Este modelo apuesta a más afiliación, más participación y más organización.";
+} else if (perfil === "administrativo") {
+  titulo = "Perfil: Sindicalismo Administrativo";
+  mensaje = "Tu visión prioriza estabilidad y gestión institucional. Aun así, en contextos de pérdida salarial y ajuste, la organización y la participación son claves para recuperar derechos y fortalecer la función pública.";
+} else {
+  titulo = "Perfil: Sindicalismo Individualista";
+  mensaje = "Tus respuestas muestran una mirada más individual. Pero la experiencia sindical demuestra que, especialmente en el Estado, la defensa de derechos y salarios se logra con organización colectiva y solidaridad entre compañeras y compañeros.";
+}
+
 
   elQ.innerHTML = `<strong>${titulo}</strong>`;
   elFb.style.display = "block";
