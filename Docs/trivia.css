@@ -282,7 +282,7 @@
   font-weight: 800;
 }
 /* Texto "Elegí un modo..." más discreto y elegante */
-.trivia-meta{
+.triviaMeta{
   font-size: 0.8rem;        /* más chico */
   color: #64748b;           /* gris azulado suave */
   margin-top: 6px;
