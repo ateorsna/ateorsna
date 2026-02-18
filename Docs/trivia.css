@@ -235,3 +235,34 @@
 .trivia-btn.ghost{ background:transparent; border:1px solid #d1d5db; }
 .trivia-btn:disabled{ opacity:0.55; cursor:not-allowed; }
 
+/* Botón Siguiente */
+#btnNext{
+  background: #198754;          /* verde */
+  color: #fff;
+  border: 0;
+  font-weight: 700;
+}
+
+#btnNext:hover{ filter: brightness(1.05); }
+#btnNext:disabled{
+  opacity: .45;
+  cursor: not-allowed;
+  filter: none;
+}
+/* Botón Modo elecciones */
+#btnModeCampaign{
+  background: #ff7a00;          /* naranja fuerte */
+  color: #1b1b1b;               /* buena legibilidad */
+  border: 0;
+  font-weight: 800;
+  box-shadow: 0 6px 18px rgba(255, 122, 0, .28);
+}
+
+#btnModeCampaign:hover{
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+#btnModeCampaign:active{
+  transform: translateY(0);
+}
