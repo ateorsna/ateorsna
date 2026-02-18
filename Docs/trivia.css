@@ -332,3 +332,38 @@
   color: var(--panel-text);
   border: 1px solid rgba(231,246,234,.25);
 }
+#trivia{
+  margin-top: 18px;   /* separa la trivia del bloque de texto/título */
+}
+.hero h1{ margin-bottom: 10px; }
+.hero p{ margin-bottom: 14px; }
+.kpi-wrap{
+  background:#fff;
+  border-radius:14px;
+  padding:14px 16px;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);
+  border:1px solid rgba(15,42,28,.10);
+  margin-top: 14px;
+}
+
+.kpi-head{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:10px;
+}
+
+.kpi-title{
+  font-family:"Roboto Condensed",sans-serif;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-weight:800;
+  font-size:.95rem;
+  color:#0f2a1c;
+}
+
+.kpi-sub{
+  font-size:.88rem;
+  color:#64748b;
+}
