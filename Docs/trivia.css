@@ -305,65 +305,123 @@
     opacity: 1;
   }
 }
+/* =========================
+   PALETA (sin negros)
+   ========================= */
 :root{
-  /* Panel oscuro (reemplazo del “negro”) */
-  --panel-bg: #0f2a1c;        /* verde oscuro elegante */
-  --panel-bg-2: #123322;      /* variante */
-  --panel-border: rgba(34,197,94,.25);
-  --panel-text: #e7f6ea;
-  --panel-muted: rgba(231,246,234,.78);
+  --ate-dark: #0f2a1f;        /* verde oscuro (panel) */
+  --ate-dark-2: #123526;      /* hover / variantes */
+  --ate-border: rgba(34,197,94,.25);
+  --ate-text-on-dark: #e7f6ee;
+  --ate-muted-on-dark: rgba(231,246,238,.78);
 }
 
-/* Reemplazo directo de “cajas negras” */
-.trivia-banner{
-  background: var(--panel-bg);
-  border: 1px solid var(--panel-border);
-  color: var(--panel-text);
-}
-
-.trivia-banner-title{ color:#22c55e; }
-.trivia-banner-sub{ color: var(--panel-muted); }
-.trivia-banner-foot{ color: rgba(231,246,234,.65); }
-
-/* Inputs oscuros del gadget (hoy están en #0b1720) */
-.salario-col input,
-.input-y-boton input{
-  background: var(--panel-bg-2);
-  color: var(--panel-text);
-  border: 1px solid rgba(231,246,234,.25);
-}
+/* =========================
+   Separación de la trivia del título de página
+   ========================= */
 #trivia{
-  margin-top: 18px;   /* separa la trivia del bloque de texto/título */
-}
-.hero h1{ margin-bottom: 10px; }
-.hero p{ margin-bottom: 14px; }
-.kpi-wrap{
-  background:#fff;
-  border-radius:14px;
-  padding:14px 16px;
-  box-shadow:0 2px 10px rgba(0,0,0,.06);
-  border:1px solid rgba(15,42,28,.10);
-  margin-top: 14px;
+  margin-top: 18px;          /* separa del H1/intro */
+  margin-bottom: 28px;       /* tu margen inferior */
 }
 
-.kpi-head{
+/* =========================
+   KPI wrapper (envolver trivia)
+   ========================= */
+.trivia-kpi{
+  background: #ffffff;
+  border: 1px solid rgba(15,42,31,.10);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 6px 18px rgba(15,42,31,.08);
+}
+
+.trivia-kpi__head{
   display:flex;
   align-items:baseline;
   justify-content:space-between;
   gap:12px;
-  margin-bottom:10px;
+  margin-bottom: 12px;
 }
 
-.kpi-title{
+.trivia-kpi__title{
   font-family:"Roboto Condensed",sans-serif;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  font-weight:800;
-  font-size:.95rem;
-  color:#0f2a1c;
+  font-weight: 800;
+  letter-spacing:.06em;
+  text-transform: uppercase;
+  color: var(--ate-dark);
+  font-size: 1.05rem;
 }
 
-.kpi-sub{
-  font-size:.88rem;
-  color:#64748b;
+.trivia-kpi__hint{
+  color: rgba(16,33,47,.70);
+  font-size: .9rem;
+}
+
+/* =========================
+   Banner: reemplazar negro por verde oscuro
+   ========================= */
+.trivia-banner{
+  background: var(--ate-dark);
+  color: var(--ate-text-on-dark);
+  border: 1px solid var(--ate-border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+
+.trivia-banner-title{
+  color: #86efac; /* verde claro */
+}
+
+.trivia-banner-sub{
+  color: var(--ate-muted-on-dark);
+}
+
+.trivia-banner-foot{
+  color: rgba(231,246,238,.65);
+}
+
+/* =========================
+   El texto "Elegí un modo..." más chico y elegante
+   ========================= */
+#triviaMeta{
+  font-size: .85rem;
+  color: rgba(16,33,47,.65);
+  margin: 6px 0 0;
+}
+
+/* =========================
+   Score/perfil más "badge" (sin negro)
+   ========================= */
+.trivia-score{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.trivia-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: .85rem;
+  font-weight: 700;
+  border: 1px solid rgba(15,42,31,.18);
+  background: rgba(15,42,31,.04);
+  color: rgba(16,33,47,.85);
+}
+
+.trivia-badge--campaign{
+  border-color: rgba(255,122,0,.35);
+  background: rgba(255,122,0,.10);
+}
+
+/* Opcional: suavizar contenedores internos */
+#triviaApp.trivia-card{
+  border-radius: 14px;
+  border: 1px solid rgba(15,42,31,.10);
+  box-shadow: 0 4px 14px rgba(15,42,31,.06);
 }
