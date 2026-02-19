@@ -1,146 +1,3 @@
-.trivia-card{
-  background:#fff;
-  border-radius:10px;
-  padding:16px 18px;
-  box-shadow:0 2px 6px rgba(0,0,0,0.06);
-  margin-top:12px;
-}
-
-.trivia-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  margin-bottom:10px;
-  font-size:0.92rem;
-  color:#444;
-}
-
-.trivia-question{
-  font-family:"Roboto Condensed",sans-serif;
-  font-size:1.1rem;
-  letter-spacing:0.02em;
-  margin:10px 0 12px;
-  color:#10212f;
-}
-
-.trivia-options{
-  display:grid;
-  gap:10px;
-}
-
-.trivia-option{
-  border:1px solid #e5e7eb;
-  border-radius:10px;
-  padding:12px 12px;
-  text-align:left;
-  cursor:pointer;
-  background:#fff;
-  transition:transform .05s, border-color .15s, background .15s;
-}
-
-.trivia-option:hover{
-  border-color:#00923f;
-  background:rgba(0,146,63,0.06);
-  transform:translateY(-1px);
-}
-
-.trivia-option[disabled]{
-  opacity:0.75;
-  cursor:not-allowed;
-  transform:none;
-}
-
-.trivia-option.correct{
-  border-color:#00923f;
-  background:rgba(0,146,63,0.12);
-}
-
-.trivia-option.wrong{
-  border-color:#ef4444;
-  background:rgba(239,68,68,0.10);
-}
-
-.trivia-feedback{
-  margin-top:12px;
-  border-radius:10px;
-  padding:12px;
-  line-height:1.45;
-  font-size:0.95rem;
-}
-
-.trivia-feedback.good{
-  border:1px solid rgba(0,146,63,0.35);
-  background:rgba(0,146,63,0.08);
-}
-
-.trivia-feedback.bad{
-  border:1px solid rgba(239,68,68,0.35);
-  background:rgba(239,68,68,0.06);
-}
-
-.trivia-actions{
-  display:flex;
-  gap:10px;
-  margin-top:12px;
-}
-
-.trivia-btn{
-  border:none;
-  border-radius:999px;
-  padding:10px 14px;
-  font-weight:600;
-  cursor:pointer;
-  background:#e5e7eb;
-  color:#111827;
-}
-
-.trivia-btn.primary{
-  background:#00923f;
-  color:#fff;
-}
-
-.trivia-btn.ghost{
-  background:transparent;
-  border:1px solid #d1d5db;
-}
-
-.trivia-btn:disabled{
-  opacity:0.55;
-  cursor:not-allowed;
-}
-
-
-.trivia-banner{
-  background:#00923f;
-  color:#e5e7eb;
-  border:1px solid rgba(148,163,184,0.35);
-  border-radius:12px;
-  padding:14px 16px;
-}
-
-.trivia-banner-title{
-  font-family:"Roboto Condensed",sans-serif;
-  letter-spacing:0.08em;
-  text-transform:uppercase;
-  font-size:1.05rem;
-  margin-bottom:6px;
-  color:#22c55e;
-}
-
-.trivia-banner-sub{
-  font-size:0.75rem;
-  line-height:1.5;
-  color:#1b1b1b;
-}
-
-.trivia-banner-foot{
-  margin-top:8px;
-  font-size:0.7rem;
-  opacity:0.9;
-  color:#94a3b8;
-}
-
 /* Card */
 .trivia-card{
   background:#fff;
@@ -307,32 +164,28 @@
 }
 /* ===== ATE ORSNA – paleta sin negros (solo texto) ===== */
 :root{
-  --ate-ink: #10212f;         /* texto principal */
-  --ate-muted: #475569;       /* texto secundario */
-  --ate-green-950: #0f2a1f;   /* fondo oscuro verdoso */
-  --ate-green-900: #123426;   /* hover/variación */
+  --ate-ink: #10212f;
+  --ate-muted: #475569;
+  --ate-green-950: #0f2a1f;
+  --ate-green-900: #123426;
   --ate-border: rgba(148,163,184,.28);
-  --ate-accent: #22c55e;      /* verde vivo */
-  --ate-accent-2: #a7f3d0;    /* verde suave */
+  --ate-accent: #22c55e;
+  --ate-accent-2: #a7f3d0;
 }
 
-/* =========================
-   Separación de la trivia del título de página
-   ========================= */
+/* Separación del título */
 #trivia{
-  margin-top: 18px;          /* separa del H1/intro */
-  margin-bottom: 28px;       /* tu margen inferior */
+  margin-top: 18px;
+  margin-bottom: 28px;
 }
 
-/* =========================
-   KPI wrapper (envolver trivia)
-   ========================= */
+/* KPI wrapper */
 .trivia-kpi{
-  background: #ffffff;
-  border: 1px solid rgba(15,42,31,.10);
-  border-radius: 16px;
-  padding: 16px;
-  box-shadow: 0 6px 18px rgba(15,42,31,.08);
+  background:#fff;
+  border:1px solid rgba(15,42,31,.10);
+  border-radius:16px;
+  padding:16px;
+  box-shadow:0 6px 18px rgba(15,42,31,.08);
 }
 
 .trivia-kpi__head{
@@ -340,35 +193,36 @@
   align-items:baseline;
   justify-content:space-between;
   gap:12px;
-  margin-bottom: 12px;
+  margin-bottom:12px;
 }
 
 .trivia-kpi__title{
   font-family:"Roboto Condensed",sans-serif;
-  font-weight: 800;
+  font-weight:800;
   letter-spacing:.06em;
-  text-transform: uppercase;
-  color: var(--ate-dark);
-  font-size: 1.05rem;
+  text-transform:uppercase;
+  color: var(--ate-ink);
+  font-size:1.05rem;
 }
 
 .trivia-kpi__hint{
   color: rgba(16,33,47,.70);
-  font-size: .9rem;
+  font-size:.9rem;
 }
 
-/* ===== ESTE ES EL “RECTÁNGULO NEGRO” ===== */
+/* Banner (antes negro) */
 .trivia-banner{
-  background: var(--ate-green-950) !important;
-  color: #e5e7eb;
-  border: 1px solid var(--ate-border) !important;
-  border-radius: 14px;
-  padding: 14px 16px;
+  background: var(--ate-green-950);
+  color:#e5e7eb;
+  border:1px solid var(--ate-border);
+  border-radius:14px;
+  padding:14px 16px;
 }
 
-/* Título del banner */
+.trivia-banner:hover{ background: var(--ate-green-900); }
+
 .trivia-banner-title{
-  color: var(--ate-accent-2) !important;
+  color: var(--ate-accent-2);
   font-family:"Roboto Condensed",sans-serif;
   letter-spacing:.08em;
   text-transform:uppercase;
@@ -376,64 +230,22 @@
   margin-bottom:6px;
 }
 
-/* Texto del banner */
 .trivia-banner-sub{
-  color: #d1fae5 !important;
-  font-size: .95rem;
-  line-height: 1.5;
+  color:#d1fae5;
+  font-size:.95rem;
+  line-height:1.5;
 }
 
-/* Pie del banner */
 .trivia-banner-foot{
-  color: rgba(226,232,240,.85) !important;
-  font-size: .86rem;
-  margin-top: 8px;
+  color: rgba(226,232,240,.85);
+  font-size:.86rem;
+  margin-top:8px;
 }
-/* Opcional: un hover sutil para que se sienta “vivo” */
-.trivia-banner:hover{
-  background: var(--ate-green-900) !important;
-}
-/* =========================
-   El texto "Elegí un modo..." más chico y elegante
-   ========================= */
+
+/* Texto “Elegí un modo...” */
 #triviaMeta{
-  font-size: .85rem;
-  color: rgba(16,33,47,.65);
+  font-size: .75rem;
+  color: rgba(16,33,47,.60);
   margin: 6px 0 0;
-}
-
-/* =========================
-   Score/perfil más "badge" (sin negro)
-   ========================= */
-.trivia-score{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  flex-wrap:wrap;
-  justify-content:flex-end;
-}
-
-.trivia-badge{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: .85rem;
-  font-weight: 700;
-  border: 1px solid rgba(15,42,31,.18);
-  background: rgba(15,42,31,.04);
-  color: rgba(16,33,47,.85);
-}
-
-.trivia-badge--campaign{
-  border-color: rgba(255,122,0,.35);
-  background: rgba(255,122,0,.10);
-}
-
-/* Opcional: suavizar contenedores internos */
-#triviaApp.trivia-card{
-  border-radius: 14px;
-  border: 1px solid rgba(15,42,31,.10);
-  box-shadow: 0 4px 14px rgba(15,42,31,.06);
+  letter-spacing: .02em;
 }
