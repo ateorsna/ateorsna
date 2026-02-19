@@ -209,11 +209,12 @@ if (isCorrect) {
 
   // 🎉 CONFETTI
   if (typeof confetti === "function") {
-    confetti({
-      particleCount: 80,
-      spread: 70,
-      origin: { y: 0.6 }
-    });
+confetti({
+  particleCount: 60,
+  spread: 55,
+  colors: ['#198754', '#ff7a00'],
+  origin: { y: 0.65 }
+});
   }
 }
 
