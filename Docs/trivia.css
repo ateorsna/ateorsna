@@ -305,15 +305,15 @@
     opacity: 1;
   }
 }
-/* =========================
-   PALETA (sin negros)
-   ========================= */
+/* ===== ATE ORSNA – paleta sin negros (solo texto) ===== */
 :root{
-  --ate-dark: #0f2a1f;        /* verde oscuro (panel) */
-  --ate-dark-2: #123526;      /* hover / variantes */
-  --ate-border: rgba(34,197,94,.25);
-  --ate-text-on-dark: #e7f6ee;
-  --ate-muted-on-dark: rgba(231,246,238,.78);
+  --ate-ink: #10212f;         /* texto principal */
+  --ate-muted: #475569;       /* texto secundario */
+  --ate-green-950: #0f2a1f;   /* fondo oscuro verdoso */
+  --ate-green-900: #123426;   /* hover/variación */
+  --ate-border: rgba(148,163,184,.28);
+  --ate-accent: #22c55e;      /* verde vivo */
+  --ate-accent-2: #a7f3d0;    /* verde suave */
 }
 
 /* =========================
@@ -357,30 +357,42 @@
   font-size: .9rem;
 }
 
-/* =========================
-   Banner: reemplazar negro por verde oscuro
-   ========================= */
+/* ===== ESTE ES EL “RECTÁNGULO NEGRO” ===== */
 .trivia-banner{
-  background: var(--ate-dark);
-  color: var(--ate-text-on-dark);
-  border: 1px solid var(--ate-border);
+  background: var(--ate-green-950) !important;
+  color: #e5e7eb;
+  border: 1px solid var(--ate-border) !important;
   border-radius: 14px;
   padding: 14px 16px;
-  margin-bottom: 14px;
 }
 
+/* Título del banner */
 .trivia-banner-title{
-  color: #86efac; /* verde claro */
+  color: var(--ate-accent-2) !important;
+  font-family:"Roboto Condensed",sans-serif;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-size:1.02rem;
+  margin-bottom:6px;
 }
 
+/* Texto del banner */
 .trivia-banner-sub{
-  color: var(--ate-muted-on-dark);
+  color: #d1fae5 !important;
+  font-size: .95rem;
+  line-height: 1.5;
 }
 
+/* Pie del banner */
 .trivia-banner-foot{
-  color: rgba(231,246,238,.65);
+  color: rgba(226,232,240,.85) !important;
+  font-size: .86rem;
+  margin-top: 8px;
 }
-
+/* Opcional: un hover sutil para que se sienta “vivo” */
+.trivia-banner:hover{
+  background: var(--ate-green-900) !important;
+}
 /* =========================
    El texto "Elegí un modo..." más chico y elegante
    ========================= */
