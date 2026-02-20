@@ -26,17 +26,44 @@
   color:#64748b;
 }
 
+/* Pregunta con más protagonismo (mantiene tu estilo) */
 .trivia-question{
   font-family:"Roboto Condensed",sans-serif;
-  font-size:1.45rem;            /* más grande */
+  font-size:1.45rem;
   line-height:1.4;
   letter-spacing:0.02em;
-  margin:18px 0 22px;
+  margin:18px 0 18px;
   color:#10212f;
   font-weight:600;
+
+  /* tu sello */
   padding-left:16px;
-  border-left:5px solid #1f8f3e; /* verde lateral institucional */
+  border-left:5px solid #1f8f3e;
+
+  /* EXTRA: “tarjeta” suave */
+  padding-top:14px;
+  padding-bottom:14px;
+  padding-right:16px;
+  background: rgba(31,143,62,0.06);          /* verde muy suave */
+  border: 1px solid rgba(31,143,62,0.18);    /* borde sutil */
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(15,42,31,0.06);
 }
+
+/* EXTRA: separar un poco más las opciones para que no “se coman” la pregunta */
+.trivia-options{
+  margin-top: 14px;
+}
+
+/* EXTRA opcional: en pantallas chicas baja apenas el tamaño */
+@media (max-width: 520px){
+  .trivia-question{
+    font-size:1.2rem;
+    padding-left:14px;
+    border-left-width:4px;
+  }
+}
+
 
 .trivia-game{
   padding-top:10px;
