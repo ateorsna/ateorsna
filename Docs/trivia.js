@@ -257,13 +257,13 @@ confetti({
         mensaje = "Terminaste el bloque de elecciones. Si querés ver tu perfil, asegurate de que estas preguntas tengan opciones con etiqueta de perfil (transformador/administrativo/individualista).";
       } else if (perfil === "transformador") {
         titulo = "Perfil: Sindicalismo participativo y transformador";
-        mensaje = "Tus respuestas reflejan un sindicato con base, mandato y participación: más afiliación, más transparencia, más organización y defensa del rol del Estado en la actividad aeroportuaria. Ese es el camino para recuperar salario y ampliar derechos.";
+        mensaje = "Tus respuestas reflejan que querés pertenecer a un sindicato con base, mandato y participación: más afiliación, más transparencia, más organización y defensa del rol del Estado en la actividad aeroportuaria. Ese es el camino para recuperar salario y ampliar derechos.";
       } else if (perfil === "administrativo") {
         titulo = "Perfil: Sindicalismo administrativo";
-        mensaje = "Priorizás estabilidad y gestión. Eso suma, pero hoy la realidad pide un plus: organización, participación y plan colectivo para recuperar derechos y fortalecer la función pública.";
+        mensaje = "Tus respuestas reflejan que priorizás estabilidad y gestión. Eso suma, pero hoy la realidad pide un plus: organización, participación y plan colectivo para recuperar derechos y fortalecer la función pública.";
       } else {
         titulo = "Perfil: Sindicalismo individualista";
-        mensaje = "Se nota una mirada más individual. En el Estado, cuando aprieta el ajuste, la experiencia muestra que la defensa real se logra con organización colectiva y solidaridad.";
+        mensaje = "Tus respuestas reflejan que tenes una mirada más individual. En el Estado, cuando aprieta el ajuste, la experiencia muestra que la defensa real se logra con organización colectiva y solidaridad.";
       }
 
       elQ.innerHTML = `<strong>${titulo}</strong>`;
