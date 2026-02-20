@@ -1425,7 +1425,7 @@
   {
     "id": 209,
     "type": "multiple_choice",
-    "question": "Una forma sana de fortalecer unidad entre sectores es:",
+    "question": "Una forma de fortalecer la unidad entre sectores es:",
     "options": [
       { "key": "A", "text": "Construir reclamos comunes y espacios de debate respetuosos", "profile": "transformador" },
       { "key": "B", "text": "Competir por quién consigue más", "profile": "individualista" },
@@ -1464,11 +1464,11 @@
   {
     "id": 212,
     "type": "multiple_choice",
-    "question": "Una Junta Interna que “rinde cuentas” demuestra:",
+    "question": "Una Junta Interna que informa a través de reuniones y asambleas demuestra:",
     "options": [
       { "key": "A", "text": "Respeto por la base y práctica de democracia sindical", "profile": "transformador" },
       { "key": "B", "text": "Debilidad y falta de autoridad", "profile": "individualista" },
-      { "key": "C", "text": "Que hay que evitar informar para no discutir", "profile": "administrativo" }
+      { "key": "C", "text": "Que hay que evitar discutir", "profile": "administrativo" }
     ],
     "correct": ["A"],
     "feedbackCorrect": "Correcto. Rendición de cuentas es fortaleza: mejora confianza, control democrático y unidad.",
@@ -1529,7 +1529,7 @@
   {
     "id": 217,
     "type": "multiple_choice",
-    "question": "Una campaña sindical sana se enfoca principalmente en:",
+    "question": "Una campaña sindical eficaz se enfoca principalmente en:",
     "options": [
       { "key": "A", "text": "Propuestas, programa y participación democrática", "profile": "transformador" },
       { "key": "B", "text": "Rumores y chicanas personales", "profile": "individualista" },
