@@ -400,7 +400,7 @@
       {
         "id": 31,
         "type": "situational",
-        "question": "Si una compañera atraviesa violencia laboral, el primer paso sindical debería ser:",
+        "question": "Si una compañera atraviesa violencia laboral, el primer paso sindical debe ser:",
         "options": [
           { "key": "A", "text": "Decirle que lo resuelva sola" },
           { "key": "B", "text": "Escuchar, contener y encuadrar la situación con confidencialidad" },
@@ -1347,7 +1347,7 @@
   {
     "id": 203,
     "type": "multiple_choice",
-    "question": "Si hay pérdida salarial sostenida, la Junta Interna debería impulsar:",
+    "question": "Si hay pérdida salarial sostenida, la Junta Interna debe impulsar...:",
     "options": [
       { "key": "A", "text": "Un plan de recuperación salarial con participación y seguimiento", "profile": "transformador" },
       { "key": "B", "text": "Esperar que se resuelva solo en la próxima paritaria", "profile": "administrativo" },
@@ -1412,7 +1412,7 @@
   {
     "id": 208,
     "type": "multiple_choice",
-    "question": "Un proyecto sindical para ORSNA debería combinar:",
+    "question": "Un proyecto sindical para el ORSNA debe combinar:",
     "options": [
       { "key": "A", "text": "Salario, condiciones laborales y defensa del rol regulador del Estado", "profile": "transformador" },
       { "key": "B", "text": "Solo reclamos puntuales sin plan", "profile": "administrativo" },
@@ -1555,7 +1555,7 @@
   {
     "id": 219,
     "type": "multiple_choice",
-    "question": "En el ORSNA, una agenda sindical estratégica debería incluir también:",
+    "question": "En el ORSNA, una agenda sindical estratégica debe incluir también:",
     "options": [
       { "key": "A", "text": "Condiciones de trabajo, capacitación y defensa del rol regulador estatal", "profile": "transformador" },
       { "key": "B", "text": "Solo beneficios individuales", "profile": "individualista" },
