@@ -19,8 +19,9 @@
   let activeQuestions = [];
 
   let mode = "general"; // "general" | "campaign"
-  const GENERAL_ROUND_SIZE = 10;
-
+  const GENERAL_ROUND_SIZE = 15;
+  const CAMPAIGN_ROUND_SIZE = 15;
+  
   let idx = 0;
   let score = 0;
   let locked = false;
@@ -108,18 +109,18 @@ function confettiBurst() {
     elFb.textContent = "";
   }
 
-  function buildActiveQuestions() {
-    const generalPool = allQuestions.filter(q => Number(q.id) < 201);
-    const campaignPool = allQuestions.filter(q => Number(q.id) >= 201);
+function buildActiveQuestions() {
+  const generalPool = allQuestions.filter(q => Number(q.id) < 201);
+  const campaignPool = allQuestions.filter(q => Number(q.id) >= 201);
 
-    if (mode === "campaign") {
-      // Campaña: usar todo el bloque (en orden mezclado o fijo)
-      activeQuestions = shuffle(campaignPool);
-    } else {
-      // General: micro-ronda de 10
-      activeQuestions = shuffle(generalPool).slice(0, GENERAL_ROUND_SIZE);
-    }
+  if (mode === "campaign") {
+    // Elecciones: 15 aleatorias del banco
+    activeQuestions = shuffle(campaignPool).slice(0, CAMPAIGN_ROUND_SIZE);
+  } else {
+    // Formación: 15 aleatorias del banco formativo
+    activeQuestions = shuffle(generalPool).slice(0, GENERAL_ROUND_SIZE);
   }
+}
 
   function startMode(newMode) {
     mode = newMode;
