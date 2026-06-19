@@ -459,33 +459,77 @@ body {
 
 .hero-subtitle {
   max-width: 780px;
-  font-size: 0.65rem;
+  margin-bottom: 18px;
+  font-size: 0.98rem;
+  line-height: 1.6;
   color: #334155;
 }
 
-.hero-actions {
+.hero-credential-card {
+  width: 100%;
+  max-width: 780px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin: 16px 0 18px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 18px 0 22px;
+  padding: 18px 20px;
+  border: 1px solid rgba(0, 146, 63, 0.22);
+  border-left: 5px solid var(--verde-ate);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(0,146,63,0.10), rgba(255,255,255,0.96) 58%),
+    #ffffff;
+  box-shadow: 0 14px 30px rgba(15,23,42,0.08);
+}
+
+.hero-credential-copy {
+  display: grid;
+  gap: 4px;
+  color: #163526;
+}
+
+.hero-credential-eyebrow {
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--verde-oscuro);
+}
+
+.hero-credential-copy strong {
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 1.18rem;
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--verde-profundo);
+}
+
+.hero-credential-copy span:last-child {
+  max-width: 520px;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: #4b6358;
 }
 
 .hero-credential-link {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  width: fit-content;
+  justify-content: center;
+  min-width: 185px;
   padding: 12px 18px;
   border-radius: 999px;
   background: var(--verde-ate);
   color: #fff;
   font-family: "Roboto Condensed", sans-serif;
-  font-size: 1.02rem;
+  font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 0.07em;
   text-transform: uppercase;
   text-decoration: none;
-  box-shadow: 0 10px 22px rgba(0,146,63,0.24);
+  box-shadow: 0 10px 22px rgba(0,146,63,0.22);
   transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
 }
 
@@ -494,6 +538,7 @@ body {
   background: var(--verde-oscuro);
   transform: translateY(-2px);
   box-shadow: 0 14px 28px rgba(0,107,45,0.28);
+  outline: none;
 }
 
 .hero-video {
@@ -535,6 +580,22 @@ body {
 
   .hero-title {
     font-size: 2.2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.94rem;
+  }
+
+  .hero-credential-card {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .hero-credential-link {
+    width: 100%;
+    min-width: 0;
   }
 
   .brand-logo {
@@ -939,7 +1000,18 @@ body {
     <header class="hero">
      <!--  <div class="hero-label">Sitio en construcción por el conjunto</div>  -->
       <h1 class="hero-title">ATE ORSNA</h1>
-      <div class="hero-actions">
+      <p class="hero-subtitle">
+        Esta es la página de la Junta Interna de ATE en el ORSNA.                        
+        Un espacio para organizar, informar y defender nuestros derechos como trabajadoras y trabajadores del Organismo.
+      </p>
+
+      <div class="hero-credential-card">
+        <div class="hero-credential-copy">
+          <span class="hero-credential-eyebrow">Credencial sindical</span>
+          <strong>Obtené tu credencial digital ATE ORSNA</strong>
+          <span>Accedé a tu identificación digital de manera rápida desde cualquier dispositivo.</span>
+        </div>
+
         <a class="hero-credential-link"
            href="https://credencialateorsna.netlify.app/"
            target="_blank"
@@ -947,10 +1019,6 @@ body {
           Credencial Digital
         </a>
       </div>
-      <p class="hero-subtitle">
-        Esta es la página de la Junta Interna de ATE en el ORSNA.                        
-        Un espacio para organizar, informar y defender nuestros derechos como trabajadoras y trabajadores del Organismo.
-      </p>
       
 <!-- ====== TRIVIA (ARRIBA DE TODO) ====== -->
 <section id="trivia" hidden aria-hidden="true">
