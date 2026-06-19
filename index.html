@@ -545,149 +545,341 @@ body {
     align-items: flex-start;
   }
 }
-    /* === CORRECCIÓN PANEL LATERAL COMPACTO === */
+    /* === PANEL LATERAL ATE ORSNA · VERSIÓN PROFESIONAL === */
 
 .sidebar {
-  width: 260px !important;
-  min-width: 260px !important;
-  height: 100vh !important;
-  padding: 22px 18px !important;
-  background: linear-gradient(180deg, #008f3b 0%, #006b2d 100%) !important;
-  box-shadow: 8px 0 22px rgba(0,0,0,0.12) !important;
-  overflow: hidden !important;
+  width: 248px;
+  min-width: 248px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 18px 18px;
+  color: #fff;
+  background:
+    linear-gradient(180deg, rgba(0, 87, 38, 0.98) 0%, rgba(0, 67, 30, 1) 100%);
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 8px 0 24px rgba(15, 23, 42, 0.10);
+  overflow: hidden;
+}
+
+.sidebar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 35% 0%, rgba(255,255,255,0.10), transparent 34%),
+    linear-gradient(90deg, rgba(255,255,255,0.035), transparent 42%);
+  pointer-events: none;
 }
 
 .sidebar::after {
-  display: none !important;
+  display: none;
 }
 
 .brand {
-  margin-bottom: 28px !important;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 0;
+  align-items: center;
+  margin: 0 0 26px;
 }
 
 .brand--vertical {
-  align-items: center !important;
-  text-align: center !important;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: center;
 }
 
 .brand-logo-box {
-  width: 100% !important;
-  min-height: auto !important;
-  padding: 8px !important;
-  border-radius: 10px !important;
-  border: 1px solid rgba(255,255,255,0.18) !important;
-  background: rgba(255,255,255,0.08) !important;
-  box-shadow: none !important;
+  width: 100%;
+  padding: 0 0 20px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  border-bottom: 1px solid rgba(255,255,255,0.16);
 }
 
 .brand-logo {
-  width: 100% !important;
-  max-width: 210px !important;
-  height: auto !important;
-  display: block !important;
-  margin: 0 auto !important;
+  width: 100%;
+  max-width: 188px;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  margin: 0 auto;
+  filter: none;
 }
 
 .brand-text-wrapper {
-  margin-top: 20px !important;
-  padding-bottom: 22px !important;
-  border-bottom: 1px solid rgba(255,255,255,0.22) !important;
+  margin-top: 18px;
+  padding: 0;
+  border: 0;
 }
 
 .brand-kicker {
-  display: none !important;
+  display: inline-flex;
+  width: fit-content;
+  margin: 0 auto 10px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.24);
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.88);
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 0.61rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
 .brand-text-main {
-  font-size: 1.65rem !important;
-  letter-spacing: 0.12em !important;
-  margin-bottom: 10px !important;
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: none;
 }
 
 .brand-text-sub {
-  max-width: 210px !important;
-  margin: 0 auto !important;
-  font-size: 0.92rem !important;
-  line-height: 1.45 !important;
-  opacity: 0.9 !important;
+  max-width: 185px;
+  margin: 9px auto 0;
+  color: rgba(255,255,255,0.78);
+  font-size: 0.78rem;
+  font-weight: 400;
+  line-height: 1.42;
+}
+
+.sidebar nav {
+  position: relative;
+  z-index: 1;
+  margin-top: 0;
 }
 
 .sidebar nav h2 {
-  font-size: 0.78rem !important;
-  letter-spacing: 0.22em !important;
-  margin-bottom: 12px !important;
-  color: rgba(255,255,255,0.85) !important;
+  margin: 0 0 9px;
+  color: rgba(255,255,255,0.58);
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
 .nav-list {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 8px !important;
+  list-style: none;
+  display: grid;
+  gap: 7px;
+}
+
+.nav-list li {
+  margin: 0;
 }
 
 .nav-link {
-  min-height: 46px !important;
-  padding: 10px 12px !important;
-  border-radius: 9px !important;
-  font-size: 0.95rem !important;
-  font-weight: 700 !important;
-  background: rgba(0,0,0,0.14) !important;
-  border: 1px solid rgba(255,255,255,0.08) !important;
-  box-shadow: none !important;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  padding: 9px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.055);
+  color: rgba(255,255,255,0.92);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.15;
+  text-decoration: none;
+  box-shadow: none;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease;
 }
 
-.nav-link:hover {
-  background: rgba(255,255,255,0.14) !important;
-  transform: translateX(2px) !important;
+.nav-link::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  margin-left: auto;
+  border-top: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+  opacity: 0.35;
+  transform: rotate(45deg);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.nav-link:hover,
+.nav-link:focus-visible {
+  background: rgba(255,255,255,0.11);
+  border-color: rgba(255,255,255,0.22);
+  color: #fff;
+  transform: translateX(2px);
+  outline: none;
+}
+
+.nav-link:hover::after,
+.nav-link:focus-visible::after {
+  opacity: 0.75;
+  transform: rotate(45deg) translate(1px, -1px);
 }
 
 .nav-link--credential {
-  background: rgba(255,255,255,0.14) !important;
-  border-color: rgba(255,255,255,0.22) !important;
+  background: #fff;
+  border-color: #fff;
+  color: #005a29;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+}
+
+.nav-link--credential:hover,
+.nav-link--credential:focus-visible {
+  background: #f4fff8;
+  border-color: #f4fff8;
+  color: #00451f;
 }
 
 .nav-link--calculator {
-  background: rgba(0,83,35,0.65) !important;
+  background: rgba(0,0,0,0.13);
 }
 
 .nav-icon {
-  width: 26px !important;
-  height: 26px !important;
-  flex: 0 0 26px !important;
-  border-radius: 7px !important;
-  font-size: 0.7rem !important;
-  background: rgba(255,255,255,0.16) !important;
+  width: 23px;
+  height: 23px;
+  flex: 0 0 23px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.08);
+  color: currentColor;
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  box-shadow: none;
+}
+
+.nav-link--credential .nav-icon {
+  border-color: rgba(0,90,41,0.18);
+  background: rgba(0,146,63,0.10);
 }
 
 .sidebar-footer {
-  margin-top: auto !important;
-  padding: 0 !important;
-  background: transparent !important;
-  border: none !important;
-  border-top: 1px solid rgba(255,255,255,0.18) !important;
-  padding-top: 14px !important;
-  border-radius: 0 !important;
-  font-size: 0.78rem !important;
-  line-height: 1.4 !important;
-  color: rgba(255,255,255,0.78) !important;
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.16);
+  background: transparent;
+  border-radius: 0;
+  color: rgba(255,255,255,0.70);
+  font-size: 0.72rem;
+  font-weight: 400;
+  line-height: 1.42;
 }
 
 .sidebar-footer strong {
-  font-size: 0.85rem !important;
-  margin-bottom: 4px !important;
+  display: block;
+  margin-bottom: 5px;
+  color: rgba(255,255,255,0.94);
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
-/* Para que el contenido principal no quede cortado */
+/* Ajuste de contenido para convivir con un panel fino */
 .content {
-  max-width: calc(100vw - 260px) !important;
-  margin: 0 !important;
-  padding: 32px 42px !important;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 32px clamp(24px, 4vw, 52px);
 }
 
 .hero-title {
-  font-size: clamp(2rem, 5vw, 4.2rem) !important;
-  letter-spacing: 0.08em !important;
-  white-space: normal !important;
+  font-size: clamp(2.2rem, 4.3vw, 3.55rem);
+  letter-spacing: 0.08em;
+  white-space: normal;
+}
+
+/* Responsive del panel */
+@media (max-width: 860px) {
+  body {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    padding: 14px 16px;
+    box-shadow: 0 8px 22px rgba(15,23,42,0.10);
+  }
+
+  .brand {
+    margin-bottom: 14px;
+  }
+
+  .brand-logo-box {
+    padding-bottom: 12px;
+  }
+
+  .brand-logo {
+    max-width: 156px;
+  }
+
+  .brand-text-wrapper {
+    margin-top: 12px;
+  }
+
+  .brand-kicker {
+    display: none;
+  }
+
+  .brand-text-main {
+    font-size: 1.12rem;
+  }
+
+  .brand-text-sub {
+    max-width: none;
+    font-size: 0.76rem;
+  }
+
+  .sidebar nav h2 {
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .nav-list {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .nav-link {
+    min-height: 38px;
+    font-size: 0.8rem;
+  }
+
+  .sidebar-footer {
+    display: none;
+  }
+
+  .content {
+    max-width: none;
+    padding: 18px;
+  }
 }
 </style>
 </head>
@@ -713,21 +905,21 @@ body {
     <ul class="nav-list">
       <li>
         <a class="nav-link nav-link--credential" href="https://credencialateorsna.netlify.app/" target="_blank" rel="noopener noreferrer">
-          <span class="nav-icon">ID</span>
+          <span class="nav-icon">01</span>
           <span>Credencial Digital</span>
         </a>
       </li>
 
       <li>
         <a class="nav-link nav-link--calculator" href="#gadget-salario-2016">
-          <span class="nav-icon">$</span>
+          <span class="nav-icon">02</span>
           <span>Calculadora salarial</span>
         </a>
       </li>
 
       <li>
         <a class="nav-link" href="#contacto">
-          <span class="nav-icon">@</span>
+          <span class="nav-icon">03</span>
           <span>Contacto</span>
         </a>
       </li>
@@ -736,7 +928,7 @@ body {
 
   <div class="sidebar-footer">
     <strong>ATE ORSNA</strong>
-    Junta Interna del ORSNA. Más organización para defender derechos, salario y condiciones dignas de trabajo.
+    Información gremial, herramientas y contacto para las trabajadoras y trabajadores del ORSNA.
   </div>
 </aside>
 
@@ -1198,275 +1390,6 @@ body {
   font-size: 0.7rem;
   color: #bbf7d0;        /* verdecito suave para diferenciar de inflación */
   margin-top: 0.05rem;
-}
-/* === PANEL LATERAL MEJORADO ATE ORSNA === */
-
-.sidebar {
-  width: 300px;
-  min-width: 300px;
-  height: 100vh;
-  position: sticky;
-  top: 0;
-  display: flex;
-  flex-direction: column;
-  color: #fff;
-  padding: 26px 22px;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 18% 8%, rgba(255,255,255,0.18), transparent 30%),
-    linear-gradient(180deg, #008f3b 0%, #006b2d 48%, #004f22 100%);
-  box-shadow: 14px 0 32px rgba(0,0,0,0.16);
-  isolation: isolate;
-}
-
-.sidebar::after {
-  content: "";
-  position: absolute;
-  right: -40px;
-  bottom: -80px;
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.08);
-  z-index: -1;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 30px;
-}
-
-.brand--vertical {
-  flex-direction: column;
-  align-items: stretch;
-  text-align: center;
-}
-
-.brand-logo-box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 96px;
-  padding: 14px;
-  border: 1px solid rgba(255,255,255,0.24);
-  border-radius: 18px;
-  background: rgba(255,255,255,0.10);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.18),
-    0 12px 24px rgba(0,0,0,0.12);
-  backdrop-filter: blur(3px);
-}
-
-.brand-logo {
-  width: 100%;
-  max-width: 220px;
-  height: auto;
-  display: block;
-  object-fit: contain;
-}
-
-.brand-text-wrapper {
-  margin-top: 18px;
-  padding-bottom: 22px;
-  border-bottom: 1px solid rgba(255,255,255,0.20);
-}
-
-.brand-kicker {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.18);
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.brand-text-main {
-  font-family: "Roboto Condensed", sans-serif;
-  font-size: 2rem;
-  font-weight: 800;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-  line-height: 1;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.18);
-}
-
-.brand-text-sub {
-  max-width: 220px;
-  margin: 12px auto 0;
-  font-size: 0.96rem;
-  font-weight: 500;
-  line-height: 1.45;
-  opacity: 0.92;
-}
-
-.sidebar nav {
-  margin-top: 2px;
-}
-
-.sidebar nav h2 {
-  font-family: "Roboto Condensed", sans-serif;
-  font-size: 0.78rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.24em;
-  color: rgba(255,255,255,0.78);
-  margin-bottom: 12px;
-}
-
-.nav-list {
-  list-style: none;
-  display: grid;
-  gap: 10px;
-}
-
-.nav-list li {
-  margin: 0;
-}
-
-.nav-link {
-  min-height: 54px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 13px;
-  border-radius: 13px;
-  text-decoration: none;
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 800;
-  border: 1px solid transparent;
-  background: rgba(0,0,0,0.12);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.10);
-  transition:
-    transform 0.16s ease,
-    background 0.16s ease,
-    border-color 0.16s ease,
-    box-shadow 0.16s ease;
-}
-
-.nav-link:hover,
-.nav-link:focus-visible {
-  background: rgba(255,255,255,0.14);
-  border-color: rgba(255,255,255,0.32);
-  transform: translateX(4px);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.16);
-  outline: none;
-}
-
-.nav-link--credential {
-  background: rgba(255,255,255,0.18);
-  border-color: rgba(255,255,255,0.28);
-}
-
-.nav-link--calculator {
-  background: rgba(0,76,32,0.55);
-}
-
-.nav-icon {
-  width: 32px;
-  height: 32px;
-  flex: 0 0 32px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  background: rgba(255,255,255,0.18);
-  color: #fff;
-  font-family: "Roboto Condensed", sans-serif;
-  font-size: 0.82rem;
-  font-weight: 900;
-  letter-spacing: 0.04em;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.18);
-}
-
-.sidebar-footer {
-  margin-top: auto;
-  padding: 16px 14px;
-  border-radius: 16px;
-  background: rgba(0,0,0,0.13);
-  border: 1px solid rgba(255,255,255,0.14);
-  font-size: 0.82rem;
-  line-height: 1.45;
-  color: rgba(255,255,255,0.86);
-}
-
-.sidebar-footer strong {
-  display: block;
-  margin-bottom: 4px;
-  color: #fff;
-  font-family: "Roboto Condensed", sans-serif;
-  font-size: 0.98rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-/* Responsive del panel lateral */
-@media (max-width: 860px) {
-  .sidebar {
-    position: relative;
-    width: 100%;
-    min-width: 0;
-    height: auto;
-    padding: 16px;
-    flex-direction: column;
-    align-items: stretch;
-    box-shadow: 0 12px 24px rgba(0,0,0,0.12);
-  }
-
-  .brand {
-    margin-bottom: 16px;
-  }
-
-  .brand-logo-box {
-    min-height: 72px;
-    padding: 10px;
-  }
-
-  .brand-logo {
-    max-width: 190px;
-  }
-
-  .brand-text-wrapper {
-    margin-top: 12px;
-    padding-bottom: 14px;
-  }
-
-  .brand-text-main {
-    font-size: 1.65rem;
-  }
-
-  .brand-text-sub {
-    font-size: 0.9rem;
-  }
-
-  .sidebar nav h2 {
-    display: block;
-    margin-top: 4px;
-  }
-
-  .nav-list {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  .nav-link {
-    min-height: 48px;
-    padding: 10px 12px;
-    font-size: 0.95rem;
-  }
-
-  .sidebar-footer {
-    display: none;
-  }
 }
 </style>
 
