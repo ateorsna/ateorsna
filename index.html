@@ -389,7 +389,160 @@
 }
 
 
-  </style>
+  
+/* === Mejoras visuales generales: home ATE ORSNA === */
+:root {
+  --verde-profundo: #00451f;
+  --verde-claro: #e7f6ee;
+  --gris-borde: #dbe4df;
+  --blanco: #ffffff;
+  --sombra-suave: 0 18px 45px rgba(15, 23, 42, 0.10);
+}
+
+body {
+  line-height: 1.5;
+  background:
+    radial-gradient(circle at top right, rgba(0,146,63,0.12), transparent 34rem),
+    linear-gradient(180deg, #f7faf8 0%, var(--gris-fondo) 100%);
+}
+
+.sidebar {
+  background: linear-gradient(180deg, var(--verde-ate) 0%, var(--verde-profundo) 100%);
+  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.10);
+}
+
+.brand-logo {
+  width: min(220px, 100%);
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,0.18));
+}
+
+.brand-text-sub {
+  color: rgba(255,255,255,0.92);
+}
+
+.nav-link {
+  border: 1px solid transparent;
+}
+
+.nav-link--credential {
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.22);
+}
+
+.nav-link--calculator {
+  background: rgba(0,0,0,0.13);
+}
+
+.content {
+  width: 100%;
+  max-width: 1180px;
+  padding: 32px 40px;
+}
+
+.hero {
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(219,228,223,0.95);
+  border-radius: 22px;
+  padding: 30px;
+  box-shadow: var(--sombra-suave);
+}
+
+.hero-title {
+  font-size: clamp(2.4rem, 4vw, 3.5rem);
+  line-height: 0.95;
+  color: var(--verde-profundo);
+  margin-bottom: 12px;
+}
+
+.hero-subtitle {
+  max-width: 780px;
+  font-size: 1.05rem;
+  color: #334155;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 16px 0 18px;
+}
+
+.hero-credential-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: var(--verde-ate);
+  color: #fff;
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 10px 22px rgba(0,146,63,0.24);
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+.hero-credential-link:hover,
+.hero-credential-link:focus-visible {
+  background: var(--verde-oscuro);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(0,107,45,0.28);
+}
+
+.hero-video {
+  border-radius: 18px;
+  box-shadow: 0 16px 36px rgba(15,23,42,0.18);
+}
+
+.card,
+.informe-mate {
+  box-shadow: 0 12px 28px rgba(15,23,42,0.08);
+}
+
+.layout-calculadora-informe {
+  align-items: stretch;
+}
+
+.informe-mate {
+  background: #fff;
+  border: 1px solid var(--gris-borde);
+  border-top: 4px solid var(--verde-ate);
+  border-left: 0;
+  border-radius: 16px;
+  margin-top: 2rem;
+}
+
+.informe-mate-link {
+  background: #f8fafc;
+}
+
+@media (max-width: 860px) {
+  .content {
+    padding: 18px;
+  }
+
+  .hero {
+    padding: 22px 18px;
+    border-radius: 18px;
+  }
+
+  .hero-title {
+    font-size: 2.2rem;
+  }
+
+  .brand-logo {
+    width: 150px;
+  }
+
+  .sidebar {
+    align-items: flex-start;
+  }
+}
+</style>
 </head>
 <body>
 
@@ -407,10 +560,13 @@
     <h2>Herramientas</h2>
     <ul class="nav-list">
       <li>
-        <a class="nav-link nav-link--primary" href="#trivia">🎯 Trivia sindical</a>
+        <a class="nav-link nav-link--credential" href="https://credencialateorsna.netlify.app/" target="_blank" rel="noopener noreferrer">🪪 Credencial Digital</a>
       </li>
       <li>
         <a class="nav-link nav-link--calculator" href="#gadget-salario-2016">💰 Calculadora salarial</a>
+      </li>
+      <li>
+        <a class="nav-link" href="#contacto">✉️ Contacto</a>
       </li>
     </ul>
   </nav>
@@ -428,13 +584,21 @@
     <header class="hero">
      <!--  <div class="hero-label">Sitio en construcción por el conjunto</div>  -->
       <h1 class="hero-title">ATE ORSNA</h1>
+      <div class="hero-actions">
+        <a class="hero-credential-link"
+           href="https://credencialateorsna.netlify.app/"
+           target="_blank"
+           rel="noopener noreferrer">
+          🪪 Credencial Digital
+        </a>
+      </div>
       <p class="hero-subtitle">
         Esta es la página de la Junta Interna de ATE en el ORSNA.                        
         Un espacio para organizar, informar y defender nuestros derechos como trabajadoras y trabajadores del Organismo.
       </p>
       
 <!-- ====== TRIVIA (ARRIBA DE TODO) ====== -->
-<section id="trivia">
+<section id="trivia" hidden aria-hidden="true">
   <div class="trivia-kpi">
     <div class="trivia-kpi__head">
       <div class="trivia-kpi__title">Trivia ATE ORSNA</div>
@@ -478,9 +642,11 @@
   </div>
 </section>
 
+<!-- Trivia oculta: se desactivan sus recursos para que no carguen mientras no se muestre.
 <link rel="stylesheet" href="Docs/trivia.css">
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script defer src="Docs/trivia.js"></script>
+-->
 
 
       <!-- Contenedor: calculadora + tarjeta informe MATE -->
