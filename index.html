@@ -545,6 +545,150 @@ body {
     align-items: flex-start;
   }
 }
+    /* === CORRECCIÓN PANEL LATERAL COMPACTO === */
+
+.sidebar {
+  width: 260px !important;
+  min-width: 260px !important;
+  height: 100vh !important;
+  padding: 22px 18px !important;
+  background: linear-gradient(180deg, #008f3b 0%, #006b2d 100%) !important;
+  box-shadow: 8px 0 22px rgba(0,0,0,0.12) !important;
+  overflow: hidden !important;
+}
+
+.sidebar::after {
+  display: none !important;
+}
+
+.brand {
+  margin-bottom: 28px !important;
+}
+
+.brand--vertical {
+  align-items: center !important;
+  text-align: center !important;
+}
+
+.brand-logo-box {
+  width: 100% !important;
+  min-height: auto !important;
+  padding: 8px !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(255,255,255,0.18) !important;
+  background: rgba(255,255,255,0.08) !important;
+  box-shadow: none !important;
+}
+
+.brand-logo {
+  width: 100% !important;
+  max-width: 210px !important;
+  height: auto !important;
+  display: block !important;
+  margin: 0 auto !important;
+}
+
+.brand-text-wrapper {
+  margin-top: 20px !important;
+  padding-bottom: 22px !important;
+  border-bottom: 1px solid rgba(255,255,255,0.22) !important;
+}
+
+.brand-kicker {
+  display: none !important;
+}
+
+.brand-text-main {
+  font-size: 1.65rem !important;
+  letter-spacing: 0.12em !important;
+  margin-bottom: 10px !important;
+}
+
+.brand-text-sub {
+  max-width: 210px !important;
+  margin: 0 auto !important;
+  font-size: 0.92rem !important;
+  line-height: 1.45 !important;
+  opacity: 0.9 !important;
+}
+
+.sidebar nav h2 {
+  font-size: 0.78rem !important;
+  letter-spacing: 0.22em !important;
+  margin-bottom: 12px !important;
+  color: rgba(255,255,255,0.85) !important;
+}
+
+.nav-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+
+.nav-link {
+  min-height: 46px !important;
+  padding: 10px 12px !important;
+  border-radius: 9px !important;
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  background: rgba(0,0,0,0.14) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  box-shadow: none !important;
+}
+
+.nav-link:hover {
+  background: rgba(255,255,255,0.14) !important;
+  transform: translateX(2px) !important;
+}
+
+.nav-link--credential {
+  background: rgba(255,255,255,0.14) !important;
+  border-color: rgba(255,255,255,0.22) !important;
+}
+
+.nav-link--calculator {
+  background: rgba(0,83,35,0.65) !important;
+}
+
+.nav-icon {
+  width: 26px !important;
+  height: 26px !important;
+  flex: 0 0 26px !important;
+  border-radius: 7px !important;
+  font-size: 0.7rem !important;
+  background: rgba(255,255,255,0.16) !important;
+}
+
+.sidebar-footer {
+  margin-top: auto !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  border-top: 1px solid rgba(255,255,255,0.18) !important;
+  padding-top: 14px !important;
+  border-radius: 0 !important;
+  font-size: 0.78rem !important;
+  line-height: 1.4 !important;
+  color: rgba(255,255,255,0.78) !important;
+}
+
+.sidebar-footer strong {
+  font-size: 0.85rem !important;
+  margin-bottom: 4px !important;
+}
+
+/* Para que el contenido principal no quede cortado */
+.content {
+  max-width: calc(100vw - 260px) !important;
+  margin: 0 !important;
+  padding: 32px 42px !important;
+}
+
+.hero-title {
+  font-size: clamp(2rem, 5vw, 4.2rem) !important;
+  letter-spacing: 0.08em !important;
+  white-space: normal !important;
+}
 </style>
 </head>
 <body>
