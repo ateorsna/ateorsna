@@ -943,6 +943,9 @@ body {
   }
 }
 </style>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>  
 </head>
 <body>
 
@@ -1142,13 +1145,21 @@ body {
 </div>
 
 
-    <!-- PÉRDIDA POR AÑO -->
-    <div class="year-loss-container" id="yearLossContainer" style="display:none;">
-      <div class="year-loss-title">Pérdida acumulada por año</div>
-      <div class="year-loss-grid" id="yearLossGrid">
-        <!-- acá se llenan dinámicamente los contadores por año -->
-      </div>
-    </div>
+<!-- EVOLUCIÓN ANUAL -->
+
+<div class="year-loss-container" id="yearLossContainer" style="display:none;">
+  <div class="year-loss-title">
+    Evolución anual de la pérdida salarial
+  </div>
+
+  <div class="year-loss-chart-wrapper">
+    <canvas
+      id="yearLossChart"
+      role="img"
+      aria-label="Gráfico anual de pérdida salarial, inflación y paritarias">
+    </canvas>
+  </div>
+</div>
   </div>
 </section>
 
@@ -1333,12 +1344,12 @@ body {
 
   /* Un poquito más chico solo en los 3 contadores grandes para que entren cómodos */
   #gadget-salario-2016 .loss-grid .counter {
-    font-size: 1.8rem;
+    font-size: 1.3rem;
   }
 
   @media (max-width: 700px) {
     #gadget-salario-2016 .loss-grid .counter {
-      font-size: 1.5rem;
+      font-size: 1rem;
     }
   }
 
@@ -1370,56 +1381,32 @@ body {
     transform: translateX(0);
   }
 
-  /* Pérdida por año */
-  .year-loss-container {
-    margin-top: 0.6rem;
-    padding-top: 0.5rem;
-    border-top: 1px dashed rgba(148,163,184,0.5);
-  }
+/* === GRÁFICO ANUAL: pérdida, inflación y paritarias === */
 
-  .year-loss-title {
-    font-size: 0.85rem;
-    color: #cbd5f5;
-    margin-bottom: 0.35rem;
-    text-align: center;
-  }
-
-/* Contenedor de la tabla de pérdidas por año */
-.year-loss-grid {
-  overflow-x: auto; /* si hay muchos años, que se pueda scrollear horizontal */
+.year-loss-container {
+  margin-top: 0.8rem;
+  padding-top: 0.8rem;
+  border-top: 1px dashed rgba(148, 163, 184, 0.45);
 }
 
-/* Tabla: columnas = años, filas = pérdida / inflación / paritarias */
-.year-loss-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.78rem;
-  color: #e5e7eb;
-  margin-top: 0.3rem;
-}
-
-.year-loss-table th,
-.year-loss-table td {
-  padding: 0.25rem 0.4rem;
-  text-align: center;
-  border-bottom: 1px solid rgba(148,163,184,0.25);
-}
-
-.year-loss-table th:first-child,
-.year-loss-table td:first-child {
-  text-align: left;
-  white-space: nowrap;
+.year-loss-title {
+  margin-bottom: 0.55rem;
+  color: #e2e8f0;
+  font-size: 0.85rem;
   font-weight: 600;
-  color: #cbd5f5;
+  text-align: center;
 }
 
-.year-loss-row-label {
-  white-space: nowrap;
+.year-loss-chart-wrapper {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  padding-top: 0.35rem;
 }
 
-@media (max-width: 600px) {
-  .year-loss-table {
-    font-size: 0.7rem;
+@media (max-width: 700px) {
+  .year-loss-chart-wrapper {
+    height: 410px;
   }
 }
 
@@ -1484,7 +1471,10 @@ let salaryYears = [];            // año (number) para cada fila de Varsueldo
   // NUEVO: suma de Varsueldo (%) por año
 let salaryVariationByYear = {};  // { 2016: 45.3, 2017: 34.2, ... }
 const CURRENT_YEAR = new Date().getFullYear();
-
+  
+// Guarda el gráfico activo para poder destruirlo antes de recalcular
+let yearLossChartInstance = null;
+  
 // Formato para mostrar el salario ingresado con puntos de miles
 const formatoEntero = new Intl.NumberFormat("es-AR", {
   maximumFractionDigits: 0
@@ -1787,7 +1777,7 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
 
   const bloquePerdidas = document.getElementById("bloquePerdidas");
   const yearLossContainer = document.getElementById("yearLossContainer");
-  const yearLossGrid = document.getElementById("yearLossGrid");
+  const yearLossCanvas = document.getElementById("yearLossChart");
 
 
   const contadorDeberia = document.getElementById("contadorDeberia");
@@ -1801,7 +1791,10 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
   // Ocultamos resultados si algo está mal
   bloquePerdidas.style.display = "none";
   yearLossContainer.style.display = "none";
-  yearLossGrid.innerHTML = "";
+  if (yearLossChartInstance) {
+  yearLossChartInstance.destroy();
+  yearLossChartInstance = null;
+}
   porcentajePerdidaWrapper.style.display = "none";
 
 
@@ -1914,115 +1907,304 @@ if (porcentajePerdida > 0) {
 }
 
 
-  
-  // 5) Pérdida por año en tabla: columnas = años, filas = pérdida / inflación / paritarias
-  const yearStart = 2016;  // si querés arrancar en 2017, cambiá esto
-  const yearsInData = Object.keys(perYearLoss).map(y => parseInt(y, 10));
-  const maxYearInData = yearsInData.length ? Math.max(...yearsInData) : CURRENT_YEAR;
-  const yearEnd = Math.min(CURRENT_YEAR, maxYearInData);
+ // 5) Gráfico combinado anual:
+// barras de pérdida + líneas de inflación y paritarias
 
-  if (yearEnd >= yearStart) {
-    const MILL = 1_000_000; // divisor para pasar a millones
+const yearStart = 2016;
 
-    // limpiamos el contenedor
-    yearLossGrid.innerHTML = "";
+const yearsInData = Object.keys(perYearLoss)
+  .map(y => parseInt(y, 10));
 
-    // creamos la tabla
-    const table = document.createElement("table");
-    table.className = "year-loss-table";
+const maxYearInData = yearsInData.length
+  ? Math.max(...yearsInData)
+  : CURRENT_YEAR;
 
-    // === THEAD: fila de años ===
-    const thead = document.createElement("thead");
-    const headRow = document.createElement("tr");
+const yearEnd = Math.min(CURRENT_YEAR, maxYearInData);
 
-    const emptyTh = document.createElement("th"); // celda vacía para las etiquetas de fila
-    emptyTh.textContent = "";
-    headRow.appendChild(emptyTh);
+if (
+  yearEnd >= yearStart &&
+  typeof Chart !== "undefined" &&
+  yearLossCanvas
+) {
+  const MILL = 1_000_000;
 
-    for (let y = yearStart; y <= yearEnd; y++) {
-      const th = document.createElement("th");
-      th.textContent = y;
-      headRow.appendChild(th);
-    }
+  const labels = [];
+  const lossData = [];
+  const inflationData = [];
+  const salaryData = [];
 
-    thead.appendChild(headRow);
-    table.appendChild(thead);
+  for (let y = yearStart; y <= yearEnd; y++) {
+    labels.push(String(y));
 
-    // === TBODY ===
-    const tbody = document.createElement("tbody");
+    // La pérdida se presenta como valor negativo.
+    const lossMillions = (perYearLoss[y] || 0) / MILL;
 
-    // Fila 1: Pérdida (Mill)
-    const rowLoss = document.createElement("tr");
-    const labelLoss = document.createElement("td");
-    labelLoss.className = "year-loss-row-label";
-    labelLoss.textContent = "Pérdida (Mill)";
-    rowLoss.appendChild(labelLoss);
+    lossData.push(
+      -Number(lossMillions.toFixed(2))
+    );
 
-    const countersLoss = []; // para animar después
+    inflationData.push(
+      typeof inflationByYear[y] === "number"
+        ? Number(inflationByYear[y].toFixed(1))
+        : null
+    );
 
-    for (let y = yearStart; y <= yearEnd; y++) {
-      const lossYear = perYearLoss[y] || 0;
-      const lossYearEnMillones = lossYear / MILL;
-
-      const td = document.createElement("td");
-      const counter = document.createElement("div");
-      counter.className = "counter counter-neg";
-      counter.setAttribute("data-suffix", "");
-      counter.textContent = "- 0,0 Mill";
-      td.appendChild(counter);
-      rowLoss.appendChild(td);
-
-      countersLoss.push({ counter, value: lossYearEnMillones });
-    }
-
-    tbody.appendChild(rowLoss);
-
-    // Fila 2: Inflación (%)
-    const rowInfl = document.createElement("tr");
-    const labelInfl = document.createElement("td");
-    labelInfl.className = "year-loss-row-label";
-    labelInfl.textContent = "Inflación (%)";
-    rowInfl.appendChild(labelInfl);
-
-    for (let y = yearStart; y <= yearEnd; y++) {
-      const td = document.createElement("td");
-      const infl = inflationByYear[y];
-      td.textContent = (typeof infl === "number")
-        ? formatoPorcentaje.format(infl) + " %"
-        : "–";
-      rowInfl.appendChild(td);
-    }
-
-    tbody.appendChild(rowInfl);
-
-    // Fila 3: Paritarias (%)
-    const rowSal = document.createElement("tr");
-    const labelSal = document.createElement("td");
-    labelSal.className = "year-loss-row-label";
-    labelSal.textContent = "Paritarias (%)";
-    rowSal.appendChild(labelSal);
-
-    for (let y = yearStart; y <= yearEnd; y++) {
-      const td = document.createElement("td");
-      const varSal = salaryVariationByYear[y];
-      td.textContent = (typeof varSal === "number")
-        ? formatoPorcentaje.format(varSal) + " %"
-        : "–";
-      rowSal.appendChild(td);
-    }
-
-    tbody.appendChild(rowSal);
-
-    table.appendChild(tbody);
-    yearLossGrid.appendChild(table);
-
-    // Animamos solo la fila de pérdidas (en millones)
-    for (const item of countersLoss) {
-      animateMillionsCounter(item.counter, item.value, { negative: true });
-    }
-
-    yearLossContainer.style.display = "block";
+    salaryData.push(
+      typeof salaryVariationByYear[y] === "number"
+        ? Number(salaryVariationByYear[y].toFixed(1))
+        : null
+    );
   }
+
+  yearLossContainer.style.display = "block";
+
+  yearLossChartInstance = new Chart(yearLossCanvas, {
+    type: "bar",
+
+    data: {
+      labels: labels,
+
+      datasets: [
+        {
+          type: "bar",
+          label: "Pérdida acumulada",
+          data: lossData,
+          yAxisID: "yLoss",
+
+          backgroundColor: "rgba(248, 113, 113, 0.68)",
+          borderColor: "#f87171",
+          borderWidth: 1,
+
+          borderRadius: 5,
+          borderSkipped: false,
+          maxBarThickness: 34,
+
+          order: 2
+        },
+
+        {
+          type: "line",
+          label: "Inflación",
+          data: inflationData,
+          yAxisID: "yPercent",
+
+          borderColor: "#fbbf24",
+          backgroundColor: "#fbbf24",
+
+          pointBackgroundColor: "#fbbf24",
+          pointBorderColor: "#10212f",
+          pointBorderWidth: 2,
+          pointRadius: 3.5,
+          pointHoverRadius: 5,
+
+          borderWidth: 2.2,
+          tension: 0.25,
+          spanGaps: true,
+
+          order: 1
+        },
+
+        {
+          type: "line",
+          label: "Paritarias",
+          data: salaryData,
+          yAxisID: "yPercent",
+
+          borderColor: "#34d399",
+          backgroundColor: "#34d399",
+
+          pointBackgroundColor: "#34d399",
+          pointBorderColor: "#10212f",
+          pointBorderWidth: 2,
+          pointRadius: 3.5,
+          pointHoverRadius: 5,
+
+          borderWidth: 2.2,
+          tension: 0.25,
+          spanGaps: true,
+
+          order: 1
+        }
+      ]
+    },
+
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+
+      animation: {
+        duration: 900,
+        easing: "easeOutQuart"
+      },
+
+      interaction: {
+        mode: "index",
+        intersect: false
+      },
+
+      plugins: {
+        legend: {
+          position: "bottom",
+
+          labels: {
+            color: "#e2e8f0",
+            usePointStyle: true,
+            pointStyle: "circle",
+            boxWidth: 8,
+            boxHeight: 8,
+            padding: 16,
+
+            font: {
+              size: 11
+            }
+          }
+        },
+
+        tooltip: {
+          backgroundColor: "rgba(2, 13, 22, 0.96)",
+          titleColor: "#ffffff",
+          bodyColor: "#e2e8f0",
+
+          borderColor: "rgba(148, 163, 184, 0.35)",
+          borderWidth: 1,
+          padding: 11,
+
+          callbacks: {
+            title(items) {
+              return items.length
+                ? `Año ${items[0].label}`
+                : "";
+            },
+
+            label(context) {
+              const value = context.parsed.y;
+
+              if (context.dataset.yAxisID === "yLoss") {
+                const amount = formatoMillones.format(
+                  Math.abs(value)
+                );
+
+                return `${context.dataset.label}: - ${amount} millones`;
+              }
+
+              if (value == null) {
+                return `${context.dataset.label}: sin dato`;
+              }
+
+              return `${context.dataset.label}: ${formatoPorcentaje.format(value)} %`;
+            }
+          }
+        }
+      },
+
+      scales: {
+        x: {
+          grid: {
+            display: false
+          },
+
+          ticks: {
+            color: "#cbd5e1",
+
+            font: {
+              size: 11,
+              weight: "600"
+            },
+
+            maxRotation: 0,
+            autoSkip: true
+          },
+
+          border: {
+            color: "rgba(148, 163, 184, 0.32)"
+          }
+        },
+
+        yLoss: {
+          type: "linear",
+          position: "left",
+          beginAtZero: true,
+
+          title: {
+            display: true,
+            text: "Pérdida (millones de $)",
+            color: "#fca5a5",
+
+            font: {
+              size: 11,
+              weight: "600"
+            }
+          },
+
+          ticks: {
+            color: "#fca5a5",
+
+            font: {
+              size: 10
+            },
+
+            callback(value) {
+              if (Number(value) === 0) {
+                return "$ 0";
+              }
+
+              return `- $ ${Math.abs(Number(value)).toLocaleString(
+                "es-AR",
+                { maximumFractionDigits: 1 }
+              )} M`;
+            }
+          },
+
+          grid: {
+            color: "rgba(148, 163, 184, 0.16)"
+          },
+
+          border: {
+            color: "rgba(248, 113, 113, 0.35)"
+          }
+        },
+
+        yPercent: {
+          type: "linear",
+          position: "right",
+          beginAtZero: true,
+
+          title: {
+            display: true,
+            text: "Variación anual (%)",
+            color: "#cbd5e1",
+
+            font: {
+              size: 11,
+              weight: "600"
+            }
+          },
+
+          ticks: {
+            color: "#cbd5e1",
+
+            font: {
+              size: 10
+            },
+
+            callback(value) {
+              return `${value} %`;
+            }
+          },
+
+          grid: {
+            drawOnChartArea: false
+          },
+
+          border: {
+            color: "rgba(148, 163, 184, 0.32)"
+          }
+        }
+      }
+    }
+  });
+} 
+
 
 });
 </script>
