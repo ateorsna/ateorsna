@@ -1895,7 +1895,7 @@ const isPartialYear =
   yearEnd === CURRENT_YEAR && lastAvailableMonth < 12;
 
 const partialYearText = isPartialYear
-  ? `* ${yearEnd}: dato parcial enero-${MONTH_NAMES_ES[lastAvailableMonth - 1]}`
+  ? `* ${yearEnd}: observado enero-${MONTH_NAMES_ES[lastAvailableMonth - 1]}. Barra clara: proyección lineal a 12 meses.`
   : "";
 if (
   yearEnd >= yearStart &&
@@ -1906,6 +1906,7 @@ if (
 
   const labels = [];
   const lossData = [];
+  const projectedLossData = [];
   const inflationData = [];
   const salaryData = [];
 
@@ -1917,11 +1918,28 @@ if (
 );
 
     // La pérdida se presenta como valor negativo.
-    const lossMillions = (perYearLoss[y] || 0) / MILL;
+const lossMillions = (perYearLoss[y] || 0) / MILL;
+const observedLoss = Number(lossMillions.toFixed(2));
 
-    lossData.push(
-      Number(lossMillions.toFixed(2))
-    );
+// Dato efectivamente observado
+lossData.push(observedLoss);
+
+// Proyección lineal únicamente para el año parcial
+if (
+  isPartialYear &&
+  y === yearEnd &&
+  lastAvailableMonth > 0
+) {
+  const projectionFactor = 12 / lastAvailableMonth;
+
+  const projectedLoss = Number(
+    (observedLoss * projectionFactor).toFixed(2)
+  );
+
+  projectedLossData.push(projectedLoss);
+} else {
+  projectedLossData.push(null);
+}
 
     inflationData.push(
       typeof inflationByYear[y] === "number"
@@ -1947,10 +1965,11 @@ if (
       datasets: [
         {
           type: "bar",
-          label: "Pérdida acumulada",
+          label: "Pérdida observada",
           data: lossData,
           yAxisID: "yLoss",
-
+          skipNull: true,
+          
           backgroundColor: labels.map((label, idx) =>
   isPartialYear && idx === labels.length - 1
     ? "rgba(248, 113, 113, 0.38)"
@@ -1969,7 +1988,32 @@ if (
 
           order: 2
         },
+{
+  type: "bar",
+  label: `Pérdida ${yearEnd} estimada`,
+  data: projectedLossData,
+  yAxisID: "yLoss",
+  skipNull: true,
 
+  // Identificador propio para personalizar el tooltip
+  isProjection: true,
+
+  // Se oculta automáticamente cuando el año está completo
+  hidden: !isPartialYear,
+
+  backgroundColor: "rgba(248, 113, 113, 0.16)",
+  borderColor: "rgba(252, 165, 165, 0.95)",
+  borderWidth: 2,
+
+  hoverBackgroundColor: "rgba(248, 113, 113, 0.28)",
+  hoverBorderColor: "#fecaca",
+
+  borderRadius: 5,
+  borderSkipped: false,
+  maxBarThickness: 30,
+
+  order: 2
+},
         {
           type: "line",
           label: "Inflación",
@@ -2085,13 +2129,17 @@ title(items) {
             label(context) {
               const value = context.parsed.y;
 
-              if (context.dataset.yAxisID === "yLoss") {
-                const amount = formatoMillones.format(
-                  Math.abs(value)
-                );
+if (context.dataset.yAxisID === "yLoss") {
+  const amount = formatoMillones.format(
+    Math.abs(value)
+  );
 
-                return `${context.dataset.label}: - ${amount} millones`;
-              }
+  if (context.dataset.isProjection) {
+    return `${context.dataset.label}: - ${amount} millones · proyección lineal`;
+  }
+
+  return `${context.dataset.label}: - ${amount} millones`;
+}
 
               if (value == null) {
                 return `${context.dataset.label}: sin dato`;
