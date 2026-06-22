@@ -1134,7 +1134,7 @@ body {
 
 <div class="year-loss-container" id="yearLossContainer" style="display:none;">
   <div class="year-loss-title">
-    Evolución anual de la pérdida salarial
+    Pérdida salarial, inflación y paritarias por año
   </div>
 
   <div class="year-loss-chart-wrapper">
@@ -1528,38 +1528,6 @@ const formatoMillones = new Intl.NumberFormat("es-AR", {
 });
 
 
-// Animación para valores en millones de pesos (sin texto "Mill")
-function animateMillionsCounter(el, targetEnMillones, options = {}) {
-  const { negative = false } = options;
-  const start = performance.now();
-  const initial = 0;
-  el.classList.remove("animate");
-
-  function tick(now) {
-    const t = Math.min(1, (now - start) / DURATION_MS);
-    const eased = 1 - Math.pow(1 - t, 3);
-    const value = initial + (targetEnMillones - initial) * eased;
-
-    const texto = formatoMillones.format(Math.abs(value)); // ej: $0,50
-    el.textContent = (negative && value > 0)
-      ? "- " + texto
-      : texto;
-
-    if (t < 1) {
-      requestAnimationFrame(tick);
-    } else {
-      const finalTexto = formatoMillones.format(Math.abs(targetEnMillones));
-      el.textContent = (negative && targetEnMillones > 0)
-        ? "- " + finalTexto
-        : finalTexto;
-      el.classList.add("animate");
-    }
-  }
-
-  requestAnimationFrame(tick);
-}
-
-
 // Leer Docs/ipc.csv y calcular:
 // - IPC_FACTOR = IPC_último / IPC_base
 // - normalizedIndices = IPC_t / IPC_base para cada fila
@@ -1917,7 +1885,7 @@ if (
     const lossMillions = (perYearLoss[y] || 0) / MILL;
 
     lossData.push(
-      -Number(lossMillions.toFixed(2))
+      Number(lossMillions.toFixed(2))
     );
 
     inflationData.push(
@@ -2125,10 +2093,10 @@ if (
                 return "$ 0";
               }
 
-              return `- $ ${Math.abs(Number(value)).toLocaleString(
-                "es-AR",
-                { maximumFractionDigits: 1 }
-              )} M`;
+return `$ ${Number(value).toLocaleString(
+  "es-AR",
+  { maximumFractionDigits: 1 }
+)} M`;
             }
           },
 
