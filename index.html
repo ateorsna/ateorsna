@@ -1448,7 +1448,25 @@ let salaryYears = [];            // año (number) para cada fila de Varsueldo
   // NUEVO: suma de Varsueldo (%) por año
 let salaryVariationByYear = {};  // { 2016: 45.3, 2017: 34.2, ... }
 const CURRENT_YEAR = new Date().getFullYear();
-  
+const MONTH_NAMES_ES = [
+  "enero", "febrero", "marzo", "abril", "mayo", "junio",
+  "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+];
+
+function getLastMonthForYear(year, ymArray) {
+  let lastMonth = null;
+
+  for (const ym of ymArray) {
+    const [y, m] = ym.split("-").map(Number);
+    if (y === year) {
+      if (lastMonth === null || m > lastMonth) {
+        lastMonth = m;
+      }
+    }
+  }
+
+  return lastMonth;
+}  
 // Guarda el gráfico activo para poder destruirlo antes de recalcular
 let yearLossChartInstance = null;
   
@@ -1865,7 +1883,20 @@ const maxYearInData = yearsInData.length
   : CURRENT_YEAR;
 
 const yearEnd = Math.min(CURRENT_YEAR, maxYearInData);
+const lastIpcMonth = getLastMonthForYear(yearEnd, ipcYearMonth);
+const lastSalaryMonth = getLastMonthForYear(yearEnd, salaryYearMonth);
 
+const lastAvailableMonth = Math.min(
+  lastIpcMonth || 12,
+  lastSalaryMonth || 12
+);
+
+const isPartialYear =
+  yearEnd === CURRENT_YEAR && lastAvailableMonth < 12;
+
+const partialYearText = isPartialYear
+  ? `* ${yearEnd}: dato parcial enero-${MONTH_NAMES_ES[lastAvailableMonth - 1]}`
+  : "";
 if (
   yearEnd >= yearStart &&
   typeof Chart !== "undefined" &&
@@ -1879,7 +1910,11 @@ if (
   const salaryData = [];
 
   for (let y = yearStart; y <= yearEnd; y++) {
-    labels.push(String(y));
+    labels.push(
+  isPartialYear && y === yearEnd
+    ? `${y}*`
+    : String(y)
+);
 
     // La pérdida se presenta como valor negativo.
     const lossMillions = (perYearLoss[y] || 0) / MILL;
@@ -1916,8 +1951,16 @@ if (
           data: lossData,
           yAxisID: "yLoss",
 
-          backgroundColor: "rgba(248, 113, 113, 0.68)",
-          borderColor: "#f87171",
+          backgroundColor: labels.map((label, idx) =>
+  isPartialYear && idx === labels.length - 1
+    ? "rgba(248, 113, 113, 0.38)"
+    : "rgba(248, 113, 113, 0.68)"
+),
+          borderColor: labels.map((label, idx) =>
+  isPartialYear && idx === labels.length - 1
+    ? "rgba(248, 113, 113, 0.70)"
+    : "#f87171"
+),
           borderWidth: 1,
 
           borderRadius: 5,
@@ -1988,6 +2031,18 @@ if (
       },
 
       plugins: {
+        subtitle: {
+  display: isPartialYear,
+  text: partialYearText,
+  color: "#94a3b8",
+  padding: {
+    bottom: 10
+  },
+  font: {
+    size: 11,
+    style: "italic"
+  }
+},
         legend: {
           position: "bottom",
 
@@ -2015,11 +2070,17 @@ if (
           padding: 11,
 
           callbacks: {
-            title(items) {
-              return items.length
-                ? `Año ${items[0].label}`
-                : "";
-            },
+title(items) {
+  if (!items.length) return "";
+
+  const idx = items[0].dataIndex;
+
+  if (isPartialYear && idx === labels.length - 1) {
+    return `Año ${yearEnd} (dato parcial enero-${MONTH_NAMES_ES[lastAvailableMonth - 1]})`;
+  }
+
+  return `Año ${String(items[0].label).replace("*", "")}`;
+},
 
             label(context) {
               const value = context.parsed.y;
