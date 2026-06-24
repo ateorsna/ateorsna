@@ -1092,38 +1092,38 @@ body {
 
   <!-- CONTADORES PRINCIPALES -->
   <div id="bloquePerdidas" class="salario-bloque resultados" style="display:none;">
-    <div class="perdidas-header">
-      <img src="dineroseva.png" alt="Pesos con alas" class="icono-dinero">
-      <img src="dineroseva.png" alt="Pesos con alas" class="icono-dinero">
-    <img src="dineroseva.png" alt="Pesos con alas" class="icono-dinero">
-    <img src="dineroseva.png" alt="Pesos con alas" class="icono-dinero">
-    <img src="dineroseva.png" alt="Pesos con alas" class="icono-dinero">
-    <img src="dineroseva.png" alt="Pesos con alas" class="icono-dinero">
+    <div class="perdidas-header" aria-hidden="true">
+      <img src="dineroseva.png" alt="" class="icono-dinero">
+      <img src="dineroseva.png" alt="" class="icono-dinero">
+      <img src="dineroseva.png" alt="" class="icono-dinero">
     </div>
 
     <div class="loss-grid">
       <!-- 1) SUELDO IDEAL HOY -->
       <div class="loss-item principal">
-        <div class="label-contador">Deberías estar ganando hoy</div>
+        <div class="label-contador">Salario que deberías cobrar</div>
         <div class="counter counter-main" id="contadorDeberia" data-suffix=""></div>
       </div>
 
       <!-- 2) PÉRDIDA MENSUAL -->
       <div class="loss-item">
-        <div class="label-contador">Perdés todos los meses</div>
+        <div class="label-contador">Pérdida mensual actual</div>
         <div class="counter counter-neg" id="contadorPerdidaMensual" data-suffix="/mes"></div>
       </div>
 
-      <!-- 3) PÉRDIDA ACUMULADA DEL PERÍODO DIC-2015 / NOV-2023 -->
-      <div class="loss-item">
-        <div class="label-contador">Perdiste desde dic-2015 hasta nov-2023</div>
-        <div class="counter counter-neg" id="contadorPerdida2015Nov2023" data-suffix=" acum."></div>
-      </div>
-
-      <!-- 4) PÉRDIDA ACUMULADA DESDE DICIEMBRE DE 2023 -->
-      <div class="loss-item">
-        <div class="label-contador">Perdiste desde dic-2023 hasta hoy</div>
-        <div class="counter counter-neg" id="contadorPerdidaDesdeDic2023" data-suffix=" acum."></div>
+      <!-- 3) PÉRDIDA ACUMULADA POR ETAPAS -->
+      <div class="loss-item loss-item-acumulada">
+        <div class="label-contador label-contador-grupo">Pérdida acumulada</div>
+        <div class="accum-grid">
+          <div class="accum-item">
+            <div class="periodo-contador">Dic. 2015 – nov. 2023</div>
+            <div class="counter counter-neg" id="contadorPerdida2015Nov2023" data-suffix=""></div>
+          </div>
+          <div class="accum-item">
+            <div class="periodo-contador">Dic. 2023 – hoy</div>
+            <div class="counter counter-neg" id="contadorPerdidaDesdeDic2023" data-suffix=""></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1249,11 +1249,14 @@ body {
   .perdidas-header {
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap: 0.2rem;
     margin-bottom: 0.4rem;
+    opacity: 0.82;
   }
 
   .icono-dinero {
-    max-width: 70px;
+    max-width: 78px;
     height: auto;
     opacity: 0.9;
   }
@@ -1290,48 +1293,99 @@ body {
   text-align: center;
   max-width: 280px;
 }
-  /* Layout de los 4 contadores, sin aumentar la altura del bloque */
+  /* Layout de KPIs con jerarquía visual: 2 bloques simples + 1 bloque acumulado */
   .loss-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2fr);
     gap: 0;
     margin-bottom: 0.6rem;
+    align-items: stretch;
   }
 
   .loss-item {
     min-width: 0;
     text-align: center;
-    padding: 0.3rem 0.45rem;
+    padding: 0.35rem 0.55rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .loss-item:not(:last-child) {
     border-right: 1px solid rgba(148,163,184,0.4);
   }
 
+  .loss-item-acumulada {
+    align-items: stretch;
+  }
+
+  .accum-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    margin-top: 0.12rem;
+  }
+
+  .accum-item {
+    padding: 0 0.2rem;
+    min-width: 0;
+  }
+
+  .accum-item:first-child {
+    border-right: 1px solid rgba(148,163,184,0.25);
+  }
+
   @media (max-width: 700px) {
     .loss-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: 1fr;
     }
 
     .loss-item:not(:last-child) {
       border-right: none;
-      border-bottom: none;
-    }
-
-    .loss-item:nth-child(odd) {
-      border-right: 1px solid rgba(148,163,184,0.4);
-    }
-
-    .loss-item:nth-child(-n+2) {
       border-bottom: 1px solid rgba(148,163,184,0.4);
+    }
+
+    .loss-item-acumulada {
+      padding-bottom: 0.2rem;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .accum-grid {
+      grid-template-columns: 1fr;
+      gap: 0.35rem;
+    }
+
+    .accum-item:first-child {
+      border-right: none;
+      border-bottom: 1px solid rgba(148,163,184,0.25);
+      padding-bottom: 0.35rem;
     }
   }
 
   .label-contador {
-    font-size: clamp(0.56rem, 0.78vw, 0.7rem);
+    font-size: clamp(0.64rem, 0.88vw, 0.8rem);
     color: #cbd5f5;
-    margin-bottom: 0.15rem;
-    white-space: nowrap;
+    margin-bottom: 0.28rem;
+    line-height: 1.15;
+  }
+
+  .label-contador-grupo {
+    font-family: "Roboto Condensed", sans-serif;
+    font-size: clamp(0.72rem, 0.95vw, 0.9rem);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #e2e8f0;
+    margin-bottom: 0.28rem;
+  }
+
+  .periodo-contador {
+    font-size: clamp(0.62rem, 0.8vw, 0.76rem);
+    font-weight: 600;
+    color: #cbd5f5;
+    line-height: 1.15;
+    margin-bottom: 0.14rem;
   }
 
   /* Estilo de contadores – más compactos */
@@ -1341,17 +1395,19 @@ body {
     position: relative;
     display: inline-block;
     transition: color .3s ease;
-    white-space: nowrap;  /* 👈 evita que se corte en 2 renglones */
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
   }
 
-  /* Tamaño compacto para que los 4 importes entren en una sola fila */
+  /* Tamaño compacto, con un poco más de presencia para mejorar lectura */
   #gadget-salario-2016 .loss-grid .counter {
-    font-size: clamp(0.88rem, 1.45vw, 1.08rem);
+    font-size: clamp(1rem, 1.6vw, 1.28rem);
   }
 
   @media (max-width: 700px) {
     #gadget-salario-2016 .loss-grid .counter {
-      font-size: 1rem;
+      font-size: 1.08rem;
     }
   }
 
@@ -1894,21 +1950,21 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
   // 1) Deberías estar ganando hoy (contador principal)
   animateMoneyCounter(contadorDeberia, Math.round(salarioNecesarioHoy), { negative: false });
 
-  // 2) Pérdida mensual (rojo, con "-")
-  animateMoneyCounter(contadorPerdidaMensual, Math.round(perdidaMensual), { negative: true });
+  // 2) Pérdida mensual actual
+  animateMoneyCounter(contadorPerdidaMensual, Math.round(perdidaMensual), { negative: false });
 
   // 3) Pérdida acumulada desde diciembre de 2015 hasta noviembre de 2023
   animateMoneyCounter(
     contadorPerdida2015Nov2023,
     Math.round(perdidaDic2015Nov2023),
-    { negative: true }
+    { negative: false }
   );
 
   // 4) Pérdida acumulada desde diciembre de 2023 hasta hoy
   animateMoneyCounter(
     contadorPerdidaDesdeDic2023,
     Math.round(perdidaDesdeDic2023),
-    { negative: true }
+    { negative: false }
   );
 
 // Mostrar el porcentaje de crecimiento TOTAL (100% + aumento necesario)
