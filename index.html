@@ -1114,16 +1114,16 @@ body {
         <div class="counter counter-neg" id="contadorPerdidaMensual" data-suffix="/mes"></div>
       </div>
 
-      <!-- 3) PÉRDIDA ACUMULADA DESDE NOVIEMBRE DE 2023 -->
+      <!-- 3) PÉRDIDA ACUMULADA DEL PERÍODO DIC-2015 / NOV-2023 -->
       <div class="loss-item">
-        <div class="label-contador">Perdiste desde nov-2023</div>
-        <div class="counter counter-neg" id="contadorPerdidaNov2023" data-suffix=" acum."></div>
+        <div class="label-contador">Perdiste desde dic-2015 hasta nov-2023</div>
+        <div class="counter counter-neg" id="contadorPerdida2015Nov2023" data-suffix=" acum."></div>
       </div>
 
-      <!-- 4) PÉRDIDA TOTAL ACUMULADA -->
+      <!-- 4) PÉRDIDA ACUMULADA DESDE DICIEMBRE DE 2023 -->
       <div class="loss-item">
-        <div class="label-contador">Perdiste desde dic-2015</div>
-        <div class="counter counter-neg" id="contadorPerdidaTotal" data-suffix=" acum."></div>
+        <div class="label-contador">Perdiste desde dic-2023 hasta hoy</div>
+        <div class="counter counter-neg" id="contadorPerdidaDesdeDic2023" data-suffix=" acum."></div>
       </div>
     </div>
 
@@ -1328,9 +1328,10 @@ body {
   }
 
   .label-contador {
-    font-size: 0.7rem;
+    font-size: clamp(0.56rem, 0.78vw, 0.7rem);
     color: #cbd5f5;
     margin-bottom: 0.15rem;
+    white-space: nowrap;
   }
 
   /* Estilo de contadores – más compactos */
@@ -1761,8 +1762,8 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
 
   const contadorDeberia = document.getElementById("contadorDeberia");
   const contadorPerdidaMensual = document.getElementById("contadorPerdidaMensual");
-  const contadorPerdidaNov2023 = document.getElementById("contadorPerdidaNov2023");
-  const contadorPerdidaTotal = document.getElementById("contadorPerdidaTotal");
+  const contadorPerdida2015Nov2023 = document.getElementById("contadorPerdida2015Nov2023");
+  const contadorPerdidaDesdeDic2023 = document.getElementById("contadorPerdidaDesdeDic2023");
 
   const porcentajePerdidaWrapper = document.getElementById("porcentajePerdidaWrapper");
   const porcentajePerdidaSpan = document.getElementById("porcentajePerdida");
@@ -1807,7 +1808,8 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
 
   // 4) Pérdida acumulada sumando mes a mes (usando IPC + Varsueldo si están disponibles)
   let perdidaTotal = 0;
-  let perdidaDesdeNov2023 = 0;
+  let perdidaDic2015Nov2023 = 0;
+  let perdidaDesdeDic2023 = 0;
   const perYearLoss = {};
 
   if (
@@ -1844,10 +1846,14 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
       if (diff > 0) {
         perdidaTotal += diff;
 
-        // Acumulado específico desde noviembre de 2023, inclusive.
+        // Separamos la pérdida en dos períodos sin superposición:
+        // 1) desde dic-2015 hasta nov-2023;
+        // 2) desde dic-2023 hasta el último mes disponible.
         // El formato YYYY-MM permite comparar los períodos como texto.
-        if (ym >= "2023-11") {
-          perdidaDesdeNov2023 += diff;
+        if (ym <= "2023-11") {
+          perdidaDic2015Nov2023 += diff;
+        } else if (ym >= "2023-12") {
+          perdidaDesdeDic2023 += diff;
         }
 
         const year = normalizedYears[idxIPC];
@@ -1860,13 +1866,18 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
     const mesesAprox = 96;
     perdidaTotal = perdidaMensual * mesesAprox;
 
-    // Aproximación dinámica desde noviembre de 2023 hasta el mes actual.
+    // Aproximación de los dos períodos cuando no están disponibles las series.
+    // Dic-2015 a nov-2023 son 96 meses inclusive.
+    const mesesDic2015Nov2023 = 96;
+    perdidaDic2015Nov2023 = perdidaMensual * mesesDic2015Nov2023;
+
+    // Cantidad de meses desde dic-2023 hasta el mes actual, ambos inclusive.
     const hoy = new Date();
-    const mesesDesdeNov2023 = Math.max(
+    const mesesDesdeDic2023 = Math.max(
       0,
-      (hoy.getFullYear() - 2023) * 12 + hoy.getMonth() - 10 + 1
+      (hoy.getFullYear() - 2023) * 12 + hoy.getMonth() - 11 + 1
     );
-    perdidaDesdeNov2023 = perdidaMensual * mesesDesdeNov2023;
+    perdidaDesdeDic2023 = perdidaMensual * mesesDesdeDic2023;
 
     const yearStartFallback = 2016;
     const yearEndFallback = CURRENT_YEAR;
@@ -1886,11 +1897,19 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
   // 2) Pérdida mensual (rojo, con "-")
   animateMoneyCounter(contadorPerdidaMensual, Math.round(perdidaMensual), { negative: true });
 
-  // 3) Pérdida acumulada desde noviembre de 2023
-  animateMoneyCounter(contadorPerdidaNov2023, Math.round(perdidaDesdeNov2023), { negative: true });
+  // 3) Pérdida acumulada desde diciembre de 2015 hasta noviembre de 2023
+  animateMoneyCounter(
+    contadorPerdida2015Nov2023,
+    Math.round(perdidaDic2015Nov2023),
+    { negative: true }
+  );
 
-  // 4) Pérdida total acumulada desde diciembre de 2015
-  animateMoneyCounter(contadorPerdidaTotal, Math.round(perdidaTotal), { negative: true });
+  // 4) Pérdida acumulada desde diciembre de 2023 hasta hoy
+  animateMoneyCounter(
+    contadorPerdidaDesdeDic2023,
+    Math.round(perdidaDesdeDic2023),
+    { negative: true }
+  );
 
 // Mostrar el porcentaje de crecimiento TOTAL (100% + aumento necesario)
 if (porcentajePerdida > 0) {
