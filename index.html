@@ -1066,7 +1066,7 @@ body {
         <!-- Caja de la CALCULADORA -->
         <div class="calculadora-contenedor">
 
-<!-- ==== GADGET PODER ADQUISITIVO – SALARIO ACTUAL + 3 CONTADORES + AÑO A AÑO ==== -->
+<!-- ==== GADGET PODER ADQUISITIVO – SALARIO ACTUAL + 4 CONTADORES + AÑO A AÑO ==== -->
 <section id="gadget-salario-2016" class="salario-card">
 
   <h2>¿Cuánto poder adquisitivo perdiste desde diciembre de 2015?</h2>
@@ -1114,7 +1114,13 @@ body {
         <div class="counter counter-neg" id="contadorPerdidaMensual" data-suffix="/mes"></div>
       </div>
 
-      <!-- 3) PÉRDIDA TOTAL ACUMULADA -->
+      <!-- 3) PÉRDIDA ACUMULADA DESDE NOVIEMBRE DE 2023 -->
+      <div class="loss-item">
+        <div class="label-contador">Perdiste desde nov-2023</div>
+        <div class="counter counter-neg" id="contadorPerdidaNov2023" data-suffix=" acum."></div>
+      </div>
+
+      <!-- 4) PÉRDIDA TOTAL ACUMULADA -->
       <div class="loss-item">
         <div class="label-contador">Perdiste desde dic-2015</div>
         <div class="counter counter-neg" id="contadorPerdidaTotal" data-suffix=" acum."></div>
@@ -1284,29 +1290,39 @@ body {
   text-align: center;
   max-width: 280px;
 }
-  /* Layout de los 3 contadores (caja más chica a lo alto) */
+  /* Layout de los 4 contadores, sin aumentar la altura del bloque */
   .loss-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0,1fr));
-    gap: 0.75rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
     margin-bottom: 0.6rem;
   }
 
   .loss-item {
+    min-width: 0;
     text-align: center;
-    padding: 0.3rem 0.25rem;
+    padding: 0.3rem 0.45rem;
   }
 
-  .loss-item.principal {
+  .loss-item:not(:last-child) {
     border-right: 1px solid rgba(148,163,184,0.4);
   }
 
   @media (max-width: 700px) {
     .loss-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    .loss-item.principal {
+
+    .loss-item:not(:last-child) {
       border-right: none;
+      border-bottom: none;
+    }
+
+    .loss-item:nth-child(odd) {
+      border-right: 1px solid rgba(148,163,184,0.4);
+    }
+
+    .loss-item:nth-child(-n+2) {
       border-bottom: 1px solid rgba(148,163,184,0.4);
     }
   }
@@ -1327,9 +1343,9 @@ body {
     white-space: nowrap;  /* 👈 evita que se corte en 2 renglones */
   }
 
-  /* Un poquito más chico solo en los 3 contadores grandes para que entren cómodos */
+  /* Tamaño compacto para que los 4 importes entren en una sola fila */
   #gadget-salario-2016 .loss-grid .counter {
-    font-size: 1.1rem;
+    font-size: clamp(0.88rem, 1.45vw, 1.08rem);
   }
 
   @media (max-width: 700px) {
@@ -1745,6 +1761,7 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
 
   const contadorDeberia = document.getElementById("contadorDeberia");
   const contadorPerdidaMensual = document.getElementById("contadorPerdidaMensual");
+  const contadorPerdidaNov2023 = document.getElementById("contadorPerdidaNov2023");
   const contadorPerdidaTotal = document.getElementById("contadorPerdidaTotal");
 
   const porcentajePerdidaWrapper = document.getElementById("porcentajePerdidaWrapper");
@@ -1790,6 +1807,7 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
 
   // 4) Pérdida acumulada sumando mes a mes (usando IPC + Varsueldo si están disponibles)
   let perdidaTotal = 0;
+  let perdidaDesdeNov2023 = 0;
   const perYearLoss = {};
 
   if (
@@ -1826,6 +1844,12 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
       if (diff > 0) {
         perdidaTotal += diff;
 
+        // Acumulado específico desde noviembre de 2023, inclusive.
+        // El formato YYYY-MM permite comparar los períodos como texto.
+        if (ym >= "2023-11") {
+          perdidaDesdeNov2023 += diff;
+        }
+
         const year = normalizedYears[idxIPC];
         if (!perYearLoss[year]) perYearLoss[year] = 0;
         perYearLoss[year] += diff;
@@ -1835,6 +1859,14 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
     // fallback simple si no tenemos series suficientes: aprox = pérdida mensual * 96 meses (~8 años)
     const mesesAprox = 96;
     perdidaTotal = perdidaMensual * mesesAprox;
+
+    // Aproximación dinámica desde noviembre de 2023 hasta el mes actual.
+    const hoy = new Date();
+    const mesesDesdeNov2023 = Math.max(
+      0,
+      (hoy.getFullYear() - 2023) * 12 + hoy.getMonth() - 10 + 1
+    );
+    perdidaDesdeNov2023 = perdidaMensual * mesesDesdeNov2023;
 
     const yearStartFallback = 2016;
     const yearEndFallback = CURRENT_YEAR;
@@ -1854,7 +1886,10 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
   // 2) Pérdida mensual (rojo, con "-")
   animateMoneyCounter(contadorPerdidaMensual, Math.round(perdidaMensual), { negative: true });
 
-  // 3) Pérdida total acumulada (rojo, con "-")
+  // 3) Pérdida acumulada desde noviembre de 2023
+  animateMoneyCounter(contadorPerdidaNov2023, Math.round(perdidaDesdeNov2023), { negative: true });
+
+  // 4) Pérdida total acumulada desde diciembre de 2015
   animateMoneyCounter(contadorPerdidaTotal, Math.round(perdidaTotal), { negative: true });
 
 // Mostrar el porcentaje de crecimiento TOTAL (100% + aumento necesario)
