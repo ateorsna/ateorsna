@@ -1127,6 +1127,10 @@ body {
       </div>
     </div>
 
+    <div class="sac-note" id="sacNote">
+      La pérdida acumulada incluye salarios mensuales y aguinaldo (SAC), estimado como el 50 % del mejor salario de cada semestre.
+    </div>
+
         <!-- PÉRDIDA EN PORCENTAJE HOY -->
 <div class="percentage-loss" id="porcentajePerdidaWrapper" style="display:none;">
   <div class="percentage-loss-text">
@@ -1168,7 +1172,7 @@ body {
   }
 
   #gadget-salario-2016 h2 {
-    font-size: 1.1rem;
+    font-size: 0.7rem;
     margin-bottom: 0.4rem;
     color: #22c55e;   /* MISMO VERDE QUE EL CONTADOR PRINCIPAL */
 
@@ -1386,6 +1390,16 @@ body {
     color: #cbd5f5;
     line-height: 1.15;
     margin-bottom: 0.14rem;
+  }
+
+  .sac-note {
+    margin: 0.1rem auto 0.55rem;
+    max-width: 880px;
+    text-align: center;
+    font-size: 0.72rem;
+    line-height: 1.35;
+    color: #cbd5f5;
+    opacity: 0.95;
   }
 
   /* Estilo de contadores – más compactos */
@@ -1608,6 +1622,23 @@ function animateMoneyCounter(el, target, options = {}) {
     }
   }
   requestAnimationFrame(tick);
+}
+
+function countSacPaymentsInRange(startYM, endYM) {
+  if (!startYM || !endYM || startYM > endYM) return 0;
+
+  const [startYear, startMonth] = startYM.split("-").map(Number);
+  const [endYear, endMonth] = endYM.split("-").map(Number);
+  if ([startYear, startMonth, endYear, endMonth].some(Number.isNaN)) return 0;
+
+  let count = 0;
+  for (let year = startYear; year <= endYear; year++) {
+    for (const month of [6, 12]) {
+      const ym = `${year}-${String(month).padStart(2, "0")}`;
+      if (ym >= startYM && ym <= endYM) count += 1;
+    }
+  }
+  return count;
 }
 
 // Formato para mostrar montos en millones de pesos (ej: - $0,50 ; - $3,25)
@@ -1886,6 +1917,9 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
       mapSAL.set(salaryYearMonth[i], i);
     }
 
+    const semesterData = new Map();
+    let ultimoMesComun = "";
+
     // Recorremos todos los meses donde tenemos IPC y salario a la vez
     for (const [ym, idxIPC] of mapIPC.entries()) {
       const idxSAL = mapSAL.get(ym);
@@ -1898,6 +1932,24 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
       const salarioIdealMes = salarioBaseEstimado * factorIPC;
       const salarioRealMes  = salarioBaseEstimado * factorSal;
       const diff = salarioIdealMes - salarioRealMes;
+
+      ultimoMesComun = ym;
+
+      const [yearStr, monthStr] = ym.split("-");
+      const year = Number(yearStr);
+      const month = Number(monthStr);
+      const semester = month <= 6 ? 1 : 2;
+      const semesterKey = `${year}-S${semester}`;
+      const payYM = `${year}-${semester === 1 ? "06" : "12"}`;
+      const semesterEntry = semesterData.get(semesterKey) || {
+        year,
+        payYM,
+        maxIdeal: 0,
+        maxReal: 0
+      };
+      semesterEntry.maxIdeal = Math.max(semesterEntry.maxIdeal, salarioIdealMes);
+      semesterEntry.maxReal = Math.max(semesterEntry.maxReal, salarioRealMes);
+      semesterData.set(semesterKey, semesterEntry);
 
       if (diff > 0) {
         perdidaTotal += diff;
@@ -1912,28 +1964,45 @@ document.getElementById("btnCalcularSalario").addEventListener("click", function
           perdidaDesdeDic2023 += diff;
         }
 
-        const year = normalizedYears[idxIPC];
         if (!perYearLoss[year]) perYearLoss[year] = 0;
         perYearLoss[year] += diff;
       }
     }
+
+    // Incorporamos el aguinaldo (SAC): medio mejor salario de cada semestre.
+    for (const semesterEntry of semesterData.values()) {
+      if (semesterEntry.payYM > ultimoMesComun) continue; // aún no corresponde pagar ese SAC
+
+      const sacDiff = Math.max(0, (semesterEntry.maxIdeal - semesterEntry.maxReal) / 2);
+      if (sacDiff <= 0) continue;
+
+      perdidaTotal += sacDiff;
+
+      if (semesterEntry.payYM <= "2023-11") {
+        perdidaDic2015Nov2023 += sacDiff;
+      } else if (semesterEntry.payYM >= "2023-12") {
+        perdidaDesdeDic2023 += sacDiff;
+      }
+
+      if (!perYearLoss[semesterEntry.year]) perYearLoss[semesterEntry.year] = 0;
+      perYearLoss[semesterEntry.year] += sacDiff;
+    }
   } else {
-    // fallback simple si no tenemos series suficientes: aprox = pérdida mensual * 96 meses (~8 años)
-    const mesesAprox = 96;
-    perdidaTotal = perdidaMensual * mesesAprox;
-
-    // Aproximación de los dos períodos cuando no están disponibles las series.
-    // Dic-2015 a nov-2023 son 96 meses inclusive.
+    // fallback simple si no tenemos series suficientes: aproximamos con salarios mensuales + SAC.
     const mesesDic2015Nov2023 = 96;
-    perdidaDic2015Nov2023 = perdidaMensual * mesesDic2015Nov2023;
+    const sacDic2015Nov2023 = countSacPaymentsInRange("2015-12", "2023-11");
+    perdidaDic2015Nov2023 = perdidaMensual * (mesesDic2015Nov2023 + sacDic2015Nov2023 * 0.5);
 
-    // Cantidad de meses desde dic-2023 hasta el mes actual, ambos inclusive.
     const hoy = new Date();
+    const currentYM = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, "0")}`;
     const mesesDesdeDic2023 = Math.max(
       0,
       (hoy.getFullYear() - 2023) * 12 + hoy.getMonth() - 11 + 1
     );
-    perdidaDesdeDic2023 = perdidaMensual * mesesDesdeDic2023;
+    const sacDesdeDic2023 = countSacPaymentsInRange("2023-12", currentYM);
+    perdidaDesdeDic2023 = perdidaMensual * (mesesDesdeDic2023 + sacDesdeDic2023 * 0.5);
+
+    perdidaTotal = perdidaDic2015Nov2023 + perdidaDesdeDic2023;
 
     const yearStartFallback = 2016;
     const yearEndFallback = CURRENT_YEAR;
